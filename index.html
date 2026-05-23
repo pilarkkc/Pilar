@@ -94,6 +94,8 @@ label.upick:hover{background:var(--g1)}
 .ci-B{border-left-color:#3A8A54;background:#FAFFF8}
 .ci-Lost{border-left-color:#B84A4A;background:#FFF8F8}
 .ci-Active{border-left-color:#3A7A8A}
+.ci-D{border-left-color:#888888;background:#F8F8F8}
+.ci-D:hover{background:#F0F0F0}
 .ci-C:hover{background:#F5EEFF}
 .ci-A:hover{background:#FFF8EC}
 .ci-B:hover{background:#EEFFEC}
@@ -105,11 +107,11 @@ label.upick:hover{background:var(--g1)}
 .crow{display:flex;gap:3px;align-items:center;flex-wrap:wrap;margin-bottom:2px}
 .tag{display:inline-flex;align-items:center;height:16px;padding:0 5px;font-size:8px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;border-radius:1px}
 .tC{background:#F0E8F8;color:#4A2A7A}.tA{background:#F8F0E0;color:#7A5A20}
-.tB{background:#E8F2EC;color:#2A6A40}.tL{background:#F8E8E8;color:#7A2A2A}
+.tB{background:#E8F2EC;color:#2A6A40}.tL{background:#F8E8E8;color:#7A2A2A}.tD{background:#EBEBEB;color:#6A6A6A}
 .tAc{background:#E8F0F4;color:#2A5A6A}.tTy{background:var(--of);color:var(--g4)}
 .tCr{background:var(--bk);color:var(--wh)}
 .tsc{background:#FFF3E0;color:#E65100}.tsr{background:#E8F2EC;color:#2A6A40}
-.tss{background:#D5F0D8;color:#1A5A24;font-weight:600}.tsn{background:#F8E8E8;color:#7A2A2A}
+.tss{background:#D5F0D8;color:#1A5A24;font-weight:600}.tsn{background:#F8E8E8;color:#7A2A2A}.tsu{background:#EBEBEB;color:#6A6A6A}
 .csub{font-size:9px;color:var(--g3)}
 /* MAIN */
 .main{overflow-y:auto;background:var(--wh)}
@@ -309,6 +311,7 @@ label.upick:hover{background:var(--g1)}
         <button class="fb fb-A" data-seg="A" id="fb-A">A</button>
         <button class="fb fb-B" data-seg="B" id="fb-B">B</button>
         <button class="fb fb-L" data-seg="Lost" id="fb-L">Lost</button>
+        <button class="fb" data-seg="D" id="fb-D" style="border-color:#888;color:#888">D</button>
         <button class="fb" data-seg="Active" id="fb-Ac">Active</button>
       </div>
       <div class="frow" id="stf">
@@ -317,6 +320,7 @@ label.upick:hover{background:var(--g1)}
         <button class="fb" data-st="contacted">รอตอบ</button>
         <button class="fb" data-st="replied">ตอบแล้ว</button>
         <button class="fb" data-st="sold">ซื้อแล้ว</button>
+        <button class="fb" data-st="unreachable">ติดต่อไม่ได้</button>
       </div>
     </div>
     <div class="sbar">
@@ -352,6 +356,7 @@ label.upick:hover{background:var(--g1)}
       <button class="dopt" data-res="contacted"><span style="font-size:18px">&#9203;</span><span><span class="do-l">ยังไม่ตอบ — ติดตามใน 7 วัน</span><span class="do-s">ระบบนัด follow-up อัตโนมัติ</span></span></button>
       <button class="dopt" data-res="sold"><span style="font-size:18px">&#127881;</span><span><span class="do-l">ซื้อแล้ว!</span><span class="do-s">ปิดการขายสำเร็จ</span></span></button>
       <button class="dopt" data-res="no"><span style="font-size:18px">&#10060;</span><span><span class="do-l">ไม่สนใจ</span><span class="do-s">บันทึกและไม่ต้องติดตาม</span></span></button>
+      <button class="dopt" data-res="unreachable"><span style="font-size:18px">&#128241;</span><span><span class="do-l">ติดต่อไม่ได้ — หาแชทไม่เจอ</span><span class="do-s">บันทึกไว้ ไม่นัด follow-up</span></span></button>
     </div>
     <button class="dcan" id="dcan">ยกเลิก</button>
   </div>
@@ -570,6 +575,7 @@ function getOffer(seg, types, pkgs, cr) {
   var p = pkgs.map(function(x){return x.pkg_name;}).join(" ").toLowerCase();
   var priv = types.indexOf("Private") >= 0;
   var sz = p.indexOf("30")>=0?30:p.indexOf("20")>=0?20:p.indexOf("10")>=0?10:p.indexOf("5")>=0?5:0;
+  if (seg === "D") return "Cold Lead — เคยซื้อน้อย ลองทักใหม่ช่วงโปรโมชัน";
   if (seg === "C") return "สง msg C — เครดิต " + cr + " ครั้งรอคุณอยู่";
   if (priv) {
     if (sz<=5) return "เสนอ Private 10 → แถม Private +1 ฟรี";
@@ -599,13 +605,18 @@ function buildData(rows, statusMap) {
     if (seen[k]) return; seen[k] = true;
     var ck = (em||nm).toLowerCase().trim();
     if (!cm[ck]) cm[ck] = {name:nm,email:em,pkgs:[]};
-    cm[ck].pkgs.push({pkg_name:r.membership_name,status:r.membership_status,expiry:pd(r.membership_expires_at),starts:pd(r.membership_starts_at),credits:parseInt(r.credits_balance)||0});
+    cm[ck].pkgs.push({pkg_name:r.membership_name,status:r.membership_status,expiry:pd(r.membership_expires_at),starts:pd(r.membership_starts_at),credits:parseInt(r.credits_balance)||0,credits_ever:parseInt(r.credits_balance)||0});
   });
   DATA = [];
   Object.keys(cm).map(function(k){return cm[k];}).forEach(function(c) {
     var ts = {}; c.pkgs.forEach(function(p){ts[isP(p.pkg_name)?"Private":"Group"]=1;});
     var types = Object.keys(ts);
     var sr = getSeg(c.pkgs);
+    // Group D: total credits ever bought across ALL packages <= 5 AND no active pkg
+    if (sr.seg === "Lost" || sr.seg === "B" || sr.seg === "A") {
+      var totalEver = c.pkgs.reduce(function(s,p){ return s + (parseInt(p.credits_ever)||0); }, 0);
+      if (totalEver <= 5) sr.seg = "D";
+    }
     var offer = getOffer(sr.seg,types,c.pkgs,sr.credits);
     var expStr = sr.expiry?sr.expiry.toLocaleDateString("th-TH",{day:"2-digit",month:"2-digit",year:"numeric"}):"—";
     var isNew = sr.expiry&&Math.floor((now()-sr.expiry)/864e5)>=0&&Math.floor((now()-sr.expiry)/864e5)<=7&&sr.seg!=="Active";
@@ -613,18 +624,19 @@ function buildData(rows, statusMap) {
     DATA.push({name:c.name,email:c.email,segment:sr.seg,class_types:types.join(" / "),total_credits:sr.credits,expiry:expStr,expiry_raw:sr.expiry,offer:offer,msg:getMsg(c.name,sr.seg,offer,sr.credits),packages:c.pkgs,total_pkgs:c.pkgs.length,is_new:isNew,_st:statusMap[c.email]||{status:"none",note:"",phone:"",followup:null,updated:null}});
   });
   applySort();
-  var cnt={C:0,A:0,B:0,Lost:0,Active:0};
+  var cnt={C:0,A:0,B:0,Lost:0,D:0,Active:0};
   DATA.forEach(function(c){cnt[c.segment]=(cnt[c.segment]||0)+1;});
   document.getElementById("fb-C").textContent="C "+cnt.C;
   document.getElementById("fb-A").textContent="A "+cnt.A;
   document.getElementById("fb-B").textContent="B "+cnt.B;
   document.getElementById("fb-L").textContent="Lost "+cnt.Lost;
+  document.getElementById("fb-D").textContent="D "+cnt.D;
   document.getElementById("fb-Ac").textContent="Active "+cnt.Active;
 }
 
 // ── SORT / FILTER ─────────────────────────────────────────
 function applySort() {
-  var ORD={C:0,A:1,B:2,Lost:3,Active:4};
+  var ORD={C:0,A:1,B:2,Lost:3,D:4,Active:5};
   DATA.sort(function(a,b) {
     if (sortMode==="name") return a.name.localeCompare(b.name);
     if (sortMode==="credits") return b.total_credits-a.total_credits;
@@ -651,9 +663,9 @@ function gf() {
 function fl() { sel=-1; rl(); }
 
 // ── RENDER LIST ───────────────────────────────────────────
-var SEGTAG={C:"tC",A:"tA",B:"tB",Lost:"tL",Active:"tAc"};
-var STTAG={contacted:"tsc",replied:"tsr",sold:"tss",no:"tsn"};
-var STLBL={contacted:"รอตอบ",replied:"ตอบแล้ว",sold:"ซื้อแล้ว",no:"ไม่สนใจ"};
+var SEGTAG={C:"tC",A:"tA",B:"tB",Lost:"tL",D:"tD",Active:"tAc"};
+var STTAG={contacted:"tsc",replied:"tsr",sold:"tss",no:"tsn",unreachable:"tsu"};
+var STLBL={contacted:"รอตอบ",replied:"ตอบแล้ว",sold:"ซื้อแล้ว",no:"ไม่สนใจ",unreachable:"ติดต่อไม่ได้"};
 
 function rl() {
   var d = gf();
@@ -667,6 +679,7 @@ function rl() {
   var cntRp   = allInSeg.filter(function(c){return c._st.status==="replied";}).length;
   var cntSd   = allInSeg.filter(function(c){return c._st.status==="sold";}).length;
   var stBtns  = document.querySelectorAll("#stf .fb");
+  var cntUr = allInSeg.filter(function(c){return c._st.status==="unreachable";}).length;
   var stLabels = ["ทุกสถานะ ("+allInSeg.length+")","ยังไม่ทัก ("+cntNone+")","รอตอบ ("+cntCt+")","ตอบแล้ว ("+cntRp+")","ซื้อแล้ว ("+cntSd+")"];
   stBtns.forEach(function(b,i){ if(stLabels[i]) b.textContent=stLabels[i]; });
 
@@ -751,6 +764,8 @@ function renderDet(c) {
   document.getElementById("sa-rp").addEventListener("click", function() { markDirect("replied"); });
   document.getElementById("sa-sd").addEventListener("click", function() { markDirect("sold"); });
   document.getElementById("sa-no").addEventListener("click", function() { markDirect("no"); });
+  document.getElementById("sa-ur").addEventListener("click", function() { markDirect("unreachable"); });
+  document.getElementById("sa-ur").addEventListener("click", function() { markDirect("unreachable"); });
   document.getElementById("sa-rs").addEventListener("click", function() { markDirect("none"); });
   document.getElementById("ph-save").addEventListener("click", function() { var v=document.getElementById("ph").value; saveToSheet(window._cEmail,{phone:v}); showToast("บันทึกเบอร์แล้ว"); });
   document.getElementById("note-save").addEventListener("click", function() { var v=document.getElementById("note").value; saveToSheet(window._cEmail,{note:v}); showToast("บันทึก note แล้ว"); });
