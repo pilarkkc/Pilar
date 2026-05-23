@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pilar — Member Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+:root{--bk:#0A0A0A;--wh:#FFFFFF;--of:#F5F5F3;--g1:#E8E8E6;--g2:#BEBEBA;--g3:#8A8A86;--g4:#4A4A48;--gn:#27AE60;--rd:#C0392B;--or:#E67E22;--r:2px;--fh:'Unbounded',sans-serif;--fb:'DM Sans',sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:var(--fb);background:var(--wh);color:var(--bk);font-size:13px;line-height:1.5}
+.hdr{height:52px;border-bottom:1px solid var(--g1);display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:var(--wh);flex-shrink:0;gap:8px}
+.brand{display:flex;align-items:baseline;gap:8px;flex-shrink:0}
+.brand h1{font-family:var(--fh);font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase}
+.bdiv{width:1px;height:13px;background:var(--g2)}
+.bsub{font-size:11px;color:var(--g3);white-space:nowrap}
+.sdot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--g2);margin-right:4px;vertical-align:middle;transition:background .3s}
+.sdot.sy{background:var(--or);animation:pu 1s infinite}
+.sdot.ok{background:var(--gn)}
+.sdot.er{background:var(--rd)}
+@keyframes pu{0%,100%{opacity:1}50%{opacity:.4}}
+.hdr-r{display:flex;gap:5px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.btn{height:28px;padding:0 11px;border-radius:var(--r);font-family:var(--fb);font-size:10px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;border:1px solid var(--g1);display:inline-flex;align-items:center;gap:4px;white-space:nowrap;background:var(--wh);color:var(--g4)}
+.btn:hover{background:var(--of);border-color:var(--g2)}
+.btn-bk{background:var(--bk);color:var(--wh);border-color:var(--bk)}
+.btn-bk:hover{background:var(--g4)}
+/* SCREENS */
+.scr{height:calc(100vh - 52px);display:flex;align-items:center;justify-content:center;background:var(--of)}
+.card{background:var(--wh);border:1px solid var(--g1);padding:40px;width:460px;display:flex;flex-direction:column;gap:16px}
+.eye{font-family:var(--fh);font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--g3)}
+.ttl{font-family:var(--fh);font-size:18px;font-weight:300;line-height:1.5}
+.lbl{font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--g4)}
+.inp{height:38px;padding:0 12px;border:1px solid var(--g1);border-radius:var(--r);font-family:var(--fb);font-size:13px;color:var(--bk);background:var(--wh);outline:none;width:100%}
+.inp:focus{border-color:var(--bk)}
+.sep{height:1px;background:var(--g1)}
+.btn-full{height:40px;border-radius:var(--r);font-family:var(--fh);font-size:9px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;width:100%;border:1px solid var(--g1);background:var(--of)}
+.btn-full-bk{background:var(--bk);color:var(--wh);border-color:var(--bk)}
+.btn-full:hover{background:var(--g1)}
+.btn-full-bk:hover{background:var(--g4)}
+.tr{font-size:12px;padding:10px;border-radius:var(--r);display:none}
+.tr-ok{background:#E8F4EC;color:#1A5A24}
+.tr-er{background:#FFF0F0;color:var(--rd)}
+/* UPLOAD ZONE */
+label.uz{width:100%;border:1px dashed var(--g2);padding:24px 20px;text-align:center;cursor:pointer;display:block;transition:all .2s}
+label.uz:hover{border-color:var(--bk);background:var(--of)}
+label.uz.done{border-style:solid;border-color:var(--gn);background:#F0FAF4}
+.u-icon{font-size:20px;margin-bottom:6px;display:block}
+.u-lbl{font-size:13px;font-weight:500;margin-bottom:3px}
+.u-sub{font-size:11px;color:var(--g3)}
+.u-done{font-size:11px;font-weight:500;color:var(--gn);margin-top:5px;display:none}
+label.uz.done .u-done{display:block}
+label.uz.done .u-sub{display:none}
+label.upick{width:100%;height:36px;background:var(--of);color:var(--bk);border:1px solid var(--g1);border-radius:var(--r);font-family:var(--fh);font-size:9px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;user-select:none}
+label.upick:hover{background:var(--g1)}
+/* LAYOUT */
+.layout{display:none;grid-template-columns:265px 1fr;height:calc(100vh - 52px)}
+.layout.show{display:grid}
+/* SIDEBAR */
+.side{border-right:1px solid var(--g1);display:flex;flex-direction:column;overflow:hidden;background:var(--wh)}
+.side-top{padding:10px;border-bottom:1px solid var(--g1);display:flex;flex-direction:column;gap:7px}
+.sw{position:relative}
+.sico{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--g3);pointer-events:none;font-size:13px}
+.sinp{width:100%;height:32px;padding:0 9px 0 30px;border:1px solid var(--g1);border-radius:var(--r);font-family:var(--fb);font-size:12px;color:var(--bk);background:var(--of);outline:none}
+.sinp:focus{background:var(--wh);border-color:var(--bk)}
+.frow{display:flex;gap:3px;flex-wrap:wrap}
+.fb{height:21px;padding:0 7px;border:1px solid var(--g1);border-radius:1px;font-family:var(--fb);font-size:9px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;background:var(--wh);color:var(--g3)}
+.fb:hover{border-color:var(--g2);color:var(--g4)}
+.fb.on{background:var(--bk);color:var(--wh);border-color:var(--bk)}
+.fb-C.on{background:#4A2A7A;border-color:#4A2A7A}
+.fb-A.on{background:#7A5A20;border-color:#7A5A20}
+.fb-B.on{background:#2A6A40;border-color:#2A6A40}
+.fb-L.on{background:#7A2A2A;border-color:#7A2A2A}
+.sbar{padding:5px 10px;border-bottom:1px solid var(--g1);display:flex;align-items:center;gap:5px}
+.slbl{font-size:9px;color:var(--g3);text-transform:uppercase}
+.sbtn{height:20px;padding:0 7px;border:1px solid var(--g1);border-radius:1px;font-family:var(--fb);font-size:9px;cursor:pointer;background:var(--wh);color:var(--g3)}
+.sbtn.on{background:var(--bk);color:var(--wh);border-color:var(--bk)}
+.smeta{padding:5px 10px;border-bottom:1px solid var(--g1);display:flex;justify-content:space-between;align-items:center}
+.smc{font-size:9px;color:var(--g3);text-transform:uppercase}
+.sms{font-size:9px;color:var(--gn);font-weight:500}
+.qabar{padding:6px 10px;border-bottom:1px solid var(--g1);display:none;gap:5px;align-items:center}
+.qabar.show{display:flex}
+.qatxt{font-size:10px;color:var(--g3);flex:1}
+.qabtn{height:22px;padding:0 8px;background:var(--bk);color:var(--wh);border:none;border-radius:1px;font-family:var(--fh);font-size:8px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.cl{flex:1;overflow-y:auto}
+.cl::-webkit-scrollbar{width:2px}
+.cl::-webkit-scrollbar-thumb{background:var(--g1)}
+/* LIST ITEMS */
+.ci{padding:10px 10px 10px 13px;cursor:pointer;border-bottom:1px solid var(--g1);border-left:3px solid transparent}
+.ci:hover{background:var(--of)}
+.ci.sel{background:var(--of)}
+.ci-C{border-left-color:#9B6FCC;background:#FDFAFF}
+.ci-A{border-left-color:#C8962A;background:#FFFDF8}
+.ci-B{border-left-color:#3A8A54;background:#FAFFF8}
+.ci-Lost{border-left-color:#B84A4A;background:#FFF8F8}
+.ci-Active{border-left-color:#3A7A8A}
+.ci-C:hover{background:#F5EEFF}
+.ci-A:hover{background:#FFF8EC}
+.ci-B:hover{background:#EEFFEC}
+.ci-Lost:hover{background:#FFF0F0}
+.ci-Active:hover{background:#F0F8FA}
+.cin{font-size:12px;font-weight:500;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:5px}
+.nb{background:var(--rd);color:var(--wh);font-size:8px;font-weight:600;padding:1px 5px;border-radius:1px;flex-shrink:0}
+.fb2{background:#E65100;color:var(--wh);font-size:8px;font-weight:600;padding:1px 5px;border-radius:1px;flex-shrink:0}
+.crow{display:flex;gap:3px;align-items:center;flex-wrap:wrap;margin-bottom:2px}
+.tag{display:inline-flex;align-items:center;height:16px;padding:0 5px;font-size:8px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;border-radius:1px}
+.tC{background:#F0E8F8;color:#4A2A7A}.tA{background:#F8F0E0;color:#7A5A20}
+.tB{background:#E8F2EC;color:#2A6A40}.tL{background:#F8E8E8;color:#7A2A2A}
+.tAc{background:#E8F0F4;color:#2A5A6A}.tTy{background:var(--of);color:var(--g4)}
+.tCr{background:var(--bk);color:var(--wh)}
+.tsc{background:#FFF3E0;color:#E65100}.tsr{background:#E8F2EC;color:#2A6A40}
+.tss{background:#D5F0D8;color:#1A5A24;font-weight:600}.tsn{background:#F8E8E8;color:#7A2A2A}
+.csub{font-size:9px;color:var(--g3)}
+/* MAIN */
+.main{overflow-y:auto;background:var(--wh)}
+.main::-webkit-scrollbar{width:2px}
+.main::-webkit-scrollbar-thumb{background:var(--g1)}
+.emp{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+.empo{font-family:var(--fh);font-size:36px;font-weight:300;color:var(--g1)}
+.empt{font-size:10px;color:var(--g3);letter-spacing:.1em;text-transform:uppercase}
+/* DETAIL */
+.dh{padding:22px;border-bottom:1px solid var(--g1)}
+.deye{font-family:var(--fh);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--g3);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.deye::after{content:'';flex:1;height:1px;background:var(--g1)}
+.dn{font-family:var(--fh);font-size:19px;font-weight:300;margin-bottom:3px;line-height:1.2;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.de{font-size:12px;color:var(--g3);margin-bottom:10px}
+.dtags{display:flex;gap:5px;flex-wrap:wrap}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--g1)}
+.kp{padding:13px 18px;border-right:1px solid var(--g1)}
+.kp:last-child{border-right:none}
+.kpl{font-size:9px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--g3);margin-bottom:5px}
+.kpv{font-family:var(--fh);font-size:19px;font-weight:300;line-height:1}
+.kpvs{font-size:11px;font-weight:400;margin-top:4px}
+.rsec{padding:12px 22px;border-bottom:1px solid var(--g1);display:flex;align-items:center;gap:8px}
+.rlbl{font-size:9px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--g3);flex-shrink:0;width:50px}
+.ri{flex:1;height:28px;padding:0 8px;border:1px solid var(--g1);border-radius:var(--r);font-family:var(--fb);font-size:12px;color:var(--bk);background:var(--wh);outline:none}
+.ri:focus{border-color:var(--bk)}
+.rsave{height:28px;padding:0 10px;background:var(--bk);color:var(--wh);border:none;border-radius:var(--r);font-family:var(--fh);font-size:8px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+/* STATUS */
+.ssec{padding:14px 22px;border-bottom:1px solid var(--g1)}
+.sslbl{font-size:9px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--g3);margin-bottom:8px}
+.sscur{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.sstag{padding:4px 10px;border-radius:var(--r);font-size:11px;font-weight:500}
+.ssupd{font-size:10px;color:var(--g3)}
+.ssfu{background:#FFF3E0;border:1px solid #FFB74D;padding:8px 12px;border-radius:var(--r);font-size:11px;color:#E65100;margin-bottom:8px;display:none}
+.ssfu.show{display:block}
+.ssfu.od{background:#FFF0E0;border-color:var(--rd);color:var(--rd)}
+.ssact{display:flex;gap:6px;flex-wrap:wrap}
+.sa{height:32px;padding:0 14px;border-radius:var(--r);font-family:var(--fb);font-size:11px;font-weight:500;cursor:pointer;border:1px solid var(--g1);background:var(--wh)}
+.sa-ct{border-color:#FFB74D;color:#E65100;background:#FFF8F0}
+.sa-rp{border-color:#2A6A40;color:#2A6A40;background:#E8F4EC}
+.sa-sd{border-color:var(--gn);color:var(--gn);background:#F0FAF4}
+.sa-no{border-color:var(--rd);color:var(--rd);background:#FFF0F0}
+.sa-rs{font-size:10px;color:var(--g3)}
+/* OFFER / MSG / PKG */
+.osec{padding:14px 22px;border-bottom:1px solid var(--g1)}
+.slbl2{font-size:9px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--g3);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.slbl2::after{content:'';flex:1;height:1px;background:var(--g1)}
+.otxt{font-family:var(--fh);font-size:12px;font-weight:400;margin-bottom:4px}
+.otp{font-size:11px;color:var(--g3)}
+.msec{padding:14px 22px;border-bottom:1px solid var(--g1)}
+.mbox{background:var(--bk);padding:16px;position:relative;margin-top:10px}
+.mtxt{font-size:12px;color:rgba(255,255,255,.85);line-height:1.8;white-space:pre-line;word-break:break-word}
+.cpb{position:absolute;top:10px;right:10px;height:22px;padding:0 9px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.45);font-family:var(--fh);font-size:8px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;border-radius:1px}
+.cpb:hover{background:rgba(255,255,255,.14);color:rgba(255,255,255,.9)}
+.pksec{padding:14px 22px 24px}
+.pktbl{width:100%;border-collapse:collapse;margin-top:8px}
+.pktbl th{font-size:9px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--g3);padding:0 0 7px;text-align:left;border-bottom:1px solid var(--g1)}
+.pktbl th:last-child,.pktbl td:last-child{text-align:right}
+.pktbl td{padding:8px 0;border-bottom:1px solid var(--g1);font-size:11px;vertical-align:top}
+.pktbl tr:last-child td{border-bottom:none}
+.pktbl tr.ar td{background:var(--of)}
+.pkn{font-weight:500;margin-bottom:2px}
+.pkd{font-size:10px;color:var(--g3)}
+.pip{display:inline-block;width:5px;height:5px;border-radius:50%;margin-right:4px;vertical-align:middle}
+.pip-Active,.pip-Upcoming{background:var(--gn)}
+.pip-Paused{background:var(--or)}
+.pip-Expired,.pip-Canceled{background:var(--g1)}
+.cra{font-family:var(--fh);font-size:13px;font-weight:400}
+.crz{font-family:var(--fh);font-size:13px;font-weight:300;color:var(--g2)}
+/* DIALOG */
+.dov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;display:none;align-items:flex-end;justify-content:center}
+.dov.show{display:flex}
+.dc{background:var(--wh);width:100%;max-width:480px;border-radius:12px 12px 0 0;padding:24px}
+.dh2{width:36px;height:3px;background:var(--g2);border-radius:2px;margin:0 auto 16px}
+.dt{font-family:var(--fh);font-size:13px;font-weight:400;margin-bottom:5px}
+.ds{font-size:12px;color:var(--g3);margin-bottom:16px}
+.do{display:flex;flex-direction:column;gap:8px}
+.dopt{width:100%;padding:13px 16px;border:1px solid var(--g1);border-radius:var(--r);cursor:pointer;text-align:left;font-family:var(--fb);font-size:13px;background:var(--wh);display:flex;align-items:center;gap:10px}
+.dopt:hover{background:var(--of);border-color:var(--g2)}
+.do-l{font-weight:500;display:block;margin-bottom:1px}
+.do-s{font-size:11px;color:var(--g3);display:block}
+.dcan{width:100%;height:36px;background:var(--of);border:none;border-radius:var(--r);font-family:var(--fh);font-size:9px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;margin-top:10px}
+/* LEGEND */
+.legbtn{position:fixed;bottom:16px;right:16px;width:32px;height:32px;border-radius:50%;background:var(--bk);color:var(--wh);border:none;font-family:var(--fh);font-size:12px;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.legbtn.show{display:flex}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;display:none;align-items:flex-end;justify-content:center}
+.ov.show{display:flex}
+.ovc{background:var(--wh);width:100%;max-width:500px;max-height:88vh;overflow-y:auto;border-radius:12px 12px 0 0;padding:20px}
+.ovh{width:36px;height:3px;background:var(--g2);border-radius:2px;margin:0 auto 16px}
+.ovt{font-family:var(--fh);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--bk);margin-bottom:12px}
+.ovs{font-size:9px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--g3);margin:12px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--g1)}
+.lr{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--g1)}
+.lr:last-of-type{border-bottom:none}
+.lt{flex-shrink:0;width:46px;height:17px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;border-radius:1px;margin-top:2px}
+.ln{font-size:12px;font-weight:500;margin-bottom:1px}
+.ld{font-size:11px;color:var(--g3);line-height:1.5}
+.la{font-size:11px;color:var(--bk);font-weight:500;margin-top:2px}
+.otbl{width:100%;font-size:10px;border-collapse:collapse;margin-top:5px}
+.otbl td{padding:3px 5px;border-bottom:1px solid var(--g1);line-height:1.5;vertical-align:top}
+.otbl tr:last-child td{border-bottom:none}
+.otbl td:first-child{color:var(--g3);white-space:nowrap;width:76px}
+.wb{background:#FBF0DC;border-radius:var(--r);padding:9px 12px;margin-top:10px}
+.wt{font-size:9px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:#7A5A20;margin-bottom:5px}
+.wl{font-size:10px;color:#7A5A20;line-height:1.9}
+.ovcl{width:100%;height:36px;background:var(--of);border:none;border-radius:var(--r);font-family:var(--fh);font-size:9px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;margin-top:14px}
+/* DASH */
+.dw{padding:20px}
+.dwtl{font-family:var(--fh);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--g3);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.dwtl::after{content:'';flex:1;height:1px;background:var(--g1)}
+.kg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
+.dkp{padding:13px;background:var(--of);border-radius:var(--r)}
+.dkl{font-size:9px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--g3);margin-bottom:5px}
+.dkv{font-family:var(--fh);font-size:24px;font-weight:300;line-height:1}
+.dks{font-size:10px;color:var(--g3);margin-top:3px}
+.br{margin-bottom:9px}
+.bt{display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px}
+.btr{height:4px;background:var(--g1);border-radius:2px}
+.bf{height:100%;border-radius:2px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--bk);color:var(--wh);padding:8px 16px;font-family:var(--fh);font-size:8px;letter-spacing:.1em;text-transform:uppercase;opacity:0;transition:opacity .25s;pointer-events:none;z-index:999;border-radius:1px}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="brand">
+    <h1>Pilar Studio</h1>
+    <div class="bdiv"></div>
+    <span class="bsub"><span class="sdot" id="sdot"></span><span id="hsub">Member Intelligence</span></span>
+  </div>
+  <div class="hdr-r">
+    <button class="btn" id="btn-td" style="display:none;background:#FFF3E0;color:#E65100;border-color:#FFB74D;font-weight:600" onclick="showToday()">Today <span id="tct"></span></button>
+    <button class="btn" id="btn-db" style="display:none" onclick="toggleDash()">Dashboard</button>
+    <button class="btn" id="btn-rp" style="display:none" onclick="exportReport()">Report</button>
+    <button class="btn" id="btn-tm" style="display:none" onclick="goTemplates()">&#9998; ข้อความ</button>
+    <button class="btn" id="btn-cv" style="display:none" onclick="goUploadCSV()">&#8679; Upload CSV</button>
+    <button class="btn btn-bk" onclick="goSetup()">Settings</button>
+  </div>
+</div>
+
+<!-- SETUP SCREEN -->
+<div class="scr" id="scr-setup" style="display:none">
+  <div class="card">
+    <div class="eye">Pilar Studio — Google Sheets Sync</div>
+    <div class="ttl">เชื่อมต่อ Google Sheet</div>
+    <div style="font-size:12px;color:var(--g3);line-height:1.7">ข้อมูลลูกค้าและสถานะจะ sync อัตโนมัติทุกเครื่อง</div>
+    <div class="sep"></div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <div class="lbl">Google Apps Script URL</div>
+      <input class="inp" id="cfg-url" type="url" placeholder="https://script.google.com/macros/s/...">
+      <div style="font-size:10px;color:var(--g3)">Deploy ใน Apps Script — Who has access: Anyone</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <div class="lbl">Role</div>
+      <select class="inp" id="cfg-role">
+        <option value="staff">พนักงาน — ดูและอัปเดตสถานะ</option>
+        <option value="owner">เจ้าของร้าน — ทำได้ทุกอย่าง</option>
+      </select>
+    </div>
+    <button class="btn-full" onclick="testConn()">&#128279; ทดสอบการเชื่อมต่อ</button>
+    <div class="tr" id="tr"></div>
+    <div class="sep"></div>
+    <button class="btn-full btn-full-bk" onclick="saveSettings()">บันทึกและเริ่มใช้งาน</button>
+  </div>
+</div>
+
+<!-- UPLOAD CSV SCREEN -->
+<div class="scr" id="scr-upload" style="display:none">
+  <div class="card" style="align-items:center">
+    <div class="eye">อัปโหลดข้อมูลลูกค้าใหม่</div>
+    <div class="ttl" style="text-align:center">Upload Member CSV</div>
+    <label class="uz" id="uz" for="fi">
+      <span class="u-icon">&#128196;</span>
+      <div class="u-lbl">All Members — Single CSV</div>
+      <div class="u-sub">Active + Inactive รวมไฟล์เดียว &#8594; ขึ้น Google Sheet ทันที</div>
+      <div class="u-done" id="udone">&#10003; File loaded</div>
+    </label>
+    <input type="file" id="fi" accept=".csv" style="display:none">
+    <label class="upick" for="fi">Choose File</label>
+    <div class="sep" style="width:100%"></div>
+    <button class="btn-full btn-full-bk" id="btn-proc" style="opacity:.3;pointer-events:none" onclick="uploadToSheet()">&#8679; Upload to Google Sheet</button>
+    <div style="font-size:10px;color:var(--g3);text-align:center">ข้อมูลเก่าจะถูกแทนที่ สถานะการติดต่อยังอยู่ครบ</div>
+    <button style="background:none;border:none;color:var(--g3);font-size:12px;cursor:pointer" onclick="goApp()">&#8592; กลับ</button>
+  </div>
+</div>
+
+<!-- APP LAYOUT -->
+<div class="layout" id="layout">
+  <div class="side">
+    <div class="side-top">
+      <div class="sw">
+        <span class="sico">&#8981;</span>
+        <input class="sinp" type="text" placeholder="Search..." id="sinp" oninput="fl()">
+      </div>
+      <div class="frow" id="sf">
+        <button class="fb on" data-seg="all">All</button>
+        <button class="fb fb-C" data-seg="C" id="fb-C">C</button>
+        <button class="fb fb-A" data-seg="A" id="fb-A">A</button>
+        <button class="fb fb-B" data-seg="B" id="fb-B">B</button>
+        <button class="fb fb-L" data-seg="Lost" id="fb-L">Lost</button>
+        <button class="fb" data-seg="Active" id="fb-Ac">Active</button>
+      </div>
+      <div class="frow" id="stf">
+        <button class="fb on" data-st="all">ทุกสถานะ</button>
+        <button class="fb" data-st="none">ยังไม่ทัก</button>
+        <button class="fb" data-st="contacted">รอตอบ</button>
+        <button class="fb" data-st="replied">ตอบแล้ว</button>
+        <button class="fb" data-st="sold">ซื้อแล้ว</button>
+      </div>
+    </div>
+    <div class="sbar">
+      <span class="slbl">Sort:</span>
+      <button class="sbtn on" data-sort="default">Priority</button>
+      <button class="sbtn" data-sort="credits">Credits</button>
+      <button class="sbtn" data-sort="expiry">Expiry</button>
+      <button class="sbtn" data-sort="name">Name</button>
+    </div>
+    <div class="smeta">
+      <span class="smc" id="lc">0 Members</span>
+      <span class="sms" id="sc2"></span>
+    </div>
+    <div class="qabar" id="qabar">
+      <span class="qatxt" id="qatxt"></span>
+      <button class="qabtn" id="qabtn">Mark ทั้งหมด</button>
+    </div>
+    <div class="cl" id="cl"></div>
+  </div>
+  <div class="main" id="mp">
+    <div class="emp"><div class="empo">&#9711;</div><div class="empt">Select a member</div></div>
+  </div>
+</div>
+
+<!-- FOLLOW-UP DIALOG -->
+<div class="dov" id="fu-dov">
+  <div class="dc">
+    <div class="dh2"></div>
+    <div class="dt">ทักหาลูกค้าแล้ว</div>
+    <div class="ds">ลูกค้าตอบกลับไหมคะ?</div>
+    <div class="do">
+      <button class="dopt" data-res="replied"><span style="font-size:18px">&#9989;</span><span><span class="do-l">ตอบแล้ว — กำลังสนใจ</span><span class="do-s">ย้ายไปสถานะ ตอบแล้ว</span></span></button>
+      <button class="dopt" data-res="contacted"><span style="font-size:18px">&#9203;</span><span><span class="do-l">ยังไม่ตอบ — ติดตามใน 7 วัน</span><span class="do-s">ระบบนัด follow-up อัตโนมัติ</span></span></button>
+      <button class="dopt" data-res="sold"><span style="font-size:18px">&#127881;</span><span><span class="do-l">ซื้อแล้ว!</span><span class="do-s">ปิดการขายสำเร็จ</span></span></button>
+      <button class="dopt" data-res="no"><span style="font-size:18px">&#10060;</span><span><span class="do-l">ไม่สนใจ</span><span class="do-s">บันทึกและไม่ต้องติดตาม</span></span></button>
+    </div>
+    <button class="dcan" id="dcan">ยกเลิก</button>
+  </div>
+</div>
+
+<button class="legbtn" id="legbtn">?</button>
+<div class="ov" id="ov-leg">
+  <div class="ovc">
+    <div class="ovh"></div>
+    <div class="ovt">คู่มือแบ่งกลุ่มและการส่ง</div>
+    <div class="ovs">กลุ่มลูกค้า</div>
+    <div class="lr"><span class="lt tC">C</span><div><div class="ln">&#128156; เครดิตเหลือแต่หมดอายุ</div><div class="ld">จ่ายไว้แต่ยังใช้ไม่หมด เครดิตรอคืนถ้ากลับมาซื้อ</div><div class="la">&#8594; ก่อนทุกกลุ่ม เรียงจากเครดิตมากสุด</div></div></div>
+    <div class="lr"><span class="lt tA">A</span><div><div class="ln">&#129473; หมดไม่ถึง 1 เดือน</div><div class="ld">เพิ่งหมดคอร์ส momentum ยังสด</div><div class="la">&#8594; ติดต่อสัปดาห์นี้</div></div></div>
+    <div class="lr"><span class="lt tB">B</span><div><div class="ln">&#128992; หมด 1-3 เดือน</div><div class="ld">ดึงกลับได้แต่ต้องอ่อนโยน</div><div class="la">&#8594; ติดต่อเดือนนี้</div></div></div>
+    <div class="lr"><span class="lt tL">Lost</span><div><div class="ln">&#128308; หมดเกิน 3 เดือน</div><div class="ld">รอแคมเปญพิเศษ</div><div class="la">&#8594; รอรอบถัดไป</div></div></div>
+    <div class="lr"><span class="lt tAc">Active</span><div><div class="ln">&#9989; ยังใช้งานอยู่</div><div class="ld">มีแพ็กอยู่ยังไม่หมดอายุ</div><div class="la">&#8594; ยังไม่ต้องทำอะไร</div></div></div>
+    <div class="ovs">ส่งอะไร &#183; แถมอะไร</div>
+    <div style="font-size:11px;font-weight:500;margin-bottom:6px">&#128156; C &#8212; เครดิตรอคุณ &#183; &#129473; A &#8212; Something special &#183; &#128992; B &#8212; We've missed you</div>
+    <table class="otbl">
+      <tr><td>Group 5</td><td>&#8594; 10 &#183; แถม Group +1</td></tr>
+      <tr><td>Group 10</td><td>&#8594; 20 &#183; แถม Private 1</td></tr>
+      <tr><td>Group 20</td><td>&#8594; 30 &#183; แถม Group +2</td></tr>
+      <tr><td>Group 30</td><td>ต่อ &#8594; Glow Club</td></tr>
+      <tr><td>Private 5</td><td>&#8594; 10 &#183; แถม Private +1</td></tr>
+      <tr><td>Private 10</td><td>&#8594; 20 &#183; แถม Private +2</td></tr>
+      <tr><td>Private 20</td><td>&#8594; 30 &#183; แถม Private +2</td></tr>
+      <tr><td>Private 30</td><td>ต่อ &#8594; Glow Club</td></tr>
+    </table>
+    <div class="wb"><div class="wt">&#9888; กฎห้ามทำ</div><div class="wl">ห้ามมีราคาในภาพ &#183; ห้ามใช้คำว่า โปร/ลด/พิเศษ<br>ห้ามส่งก่อนดูประวัติแพ็ก &#183; จำกัด 5 ที่เสมอ</div></div>
+    <button class="ovcl" id="leg-close">Close</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+// ALL EVENT HANDLERS USE addEventListener — NO onclick IN HTML
+// ============================================================
+
+var SURL = localStorage.getItem("pilar_script_url") || "https://script.google.com/macros/s/AKfycbyThrNGruSL4186gjZIL-AWJwP8zxtc4KQgT95IJSeF4u_8ywpmgiiOW11BKkXAJ03L0A/exec";
+var ROLE = localStorage.getItem("pilar_role") || "owner";
+var DATA = [];
+var filtSeg = "all", filtSt = "all", sortMode = "default";
+var sel = -1, dashMode = false, rawCSV = null;
+var TMPLS = {
+  C: "สวัสดีค่ะ {name}\n\nอยากแจ้งให้ทราบว่ายังมี {credits} ครั้ง ที่รอคุณอยู่เลยค่ะ\n\nถ้ากลับมาซื้อคอร์สใหม่ภายในเดือนนี้ เครดิตเดิมจะคืนให้ทันทีเลยค่ะ ไม่หายไปไหนค่ะ\n\nมีแค่ 5 ที่เท่านั้นนะคะ ทักมาได้เลยค่ะ",
+  A: "สวัสดีค่ะ {name}\n\nขอบคุณที่ไว้วางใจ Pilar มาตลอดนะคะ\n\nเดือนนี้มีสิทธิพิเศษสำหรับคุณโดยเฉพาะค่ะ\n{offer}\n\nมีแค่ 5 ที่เท่านั้นนะคะ ไม่ได้เปิดทั่วไปค่ะ\nสนใจทักมาได้เลยนะคะ",
+  B: "สวัสดีค่ะ {name}\n\nนานไม่ได้เจอกันเลยนะคะ หวังว่าสบายดีนะคะ\n\nเดือนนี้มีโอกาสดีสำหรับคนที่เคยอยู่กับเราค่ะ\n{offer}\n\nเปิดรับเพียง 5 ที่นะคะ ทักมาได้เลยค่ะ",
+  Lost: "สวัสดีค่ะ {name}\n\nนานไม่ได้เจอกันเลยนะคะ หวังว่าสบายดีนะคะ\n\nเดือนนี้มีโอกาสดีสำหรับคนที่เคยอยู่กับเราค่ะ\n{offer}\n\nเปิดรับเพียง 5 ที่นะคะ ทักมาได้เลยค่ะ"
+};
+
+// ── JSONP API ─────────────────────────────────────────────
+function callScript(action, data) {
+  return new Promise(function(resolve, reject) {
+    if (!SURL) { reject(new Error("No URL")); return; }
+    var cb = "cb_" + Date.now() + "_" + Math.floor(Math.random() * 9999);
+    var params = "?action=" + encodeURIComponent(action) + "&callback=" + cb;
+    if (data && Object.keys(data).length) {
+      params += "&data=" + encodeURIComponent(JSON.stringify(data));
+    }
+    var timer = setTimeout(function() { cleanup(); reject(new Error("Timeout")); }, 30000);
+    function cleanup() {
+      clearTimeout(timer);
+      delete window[cb];
+      var el = document.getElementById("sc_" + cb);
+      if (el) el.parentNode.removeChild(el);
+    }
+    window[cb] = function(res) {
+      cleanup();
+      if (res && res.ok !== false) resolve(res);
+      else reject(new Error((res && res.error) || "Error"));
+    };
+    var s = document.createElement("script");
+    s.id = "sc_" + cb;
+    s.src = SURL + params;
+    s.onerror = function() { cleanup(); reject(new Error("Network error")); };
+    document.head.appendChild(s);
+  });
+}
+
+// ── SYNC STATE ────────────────────────────────────────────
+function setSyn(s) {
+  var d = document.getElementById("sdot");
+  var h = document.getElementById("hsub");
+  d.className = "sdot " + s;
+  if (s === "sy") h.textContent = "Syncing...";
+  else if (s === "ok") h.textContent = "Synced " + new Date().toLocaleTimeString("th-TH", {hour:"2-digit",minute:"2-digit"});
+  else if (s === "er") h.textContent = "Sync failed";
+}
+
+// ── SAVE TO SHEET (OPTIMISTIC) ────────────────────────────
+function saveToSheet(email, updates) {
+  var c = DATA.find(function(x) { return x.email === email; });
+  if (!c) return;
+  var merged = Object.assign({}, c._st, updates);
+  if (updates.status !== undefined && updates.status !== c._st.status) {
+    merged.updated = new Date().toISOString();
+  } else if (!merged.updated) {
+    merged.updated = new Date().toISOString();
+  }
+  c._st = merged;
+  setSyn("sy");
+  callScript("saveStatus", {record: Object.assign({email: email}, merged)})
+    .then(function() { setSyn("ok"); })
+    .catch(function() { setSyn("er"); });
+}
+
+// ── INIT ──────────────────────────────────────────────────
+window.addEventListener("load", function() {
+  document.getElementById("cfg-url").value = SURL;
+  document.getElementById("cfg-role").value = ROLE;
+  bindEvents();
+  loadAll();
+});
+
+function loadAll() {
+  setSyn("sy");
+  Promise.all([
+    callScript("getMembers", {}),
+    callScript("getStatus", {}),
+    callScript("getTemplates", {})
+  ]).then(function(res) {
+    if (res[2] && res[2].templates) Object.assign(TMPLS, res[2].templates);
+    buildData(res[0].rows || [], res[1].data || {});
+    setSyn("ok");
+    showApp();
+  }).catch(function(e) {
+    setSyn("er");
+    showToast("โหลดไม่ได้: " + e.message);
+    document.getElementById("scr-setup").style.display = "flex";
+  });
+}
+
+function showApp() {
+  document.getElementById("scr-setup").style.display = "none";
+  document.getElementById("scr-upload").style.display = "none";
+  document.getElementById("layout").classList.add("show");
+  ["btn-td","btn-db","btn-rp"].forEach(function(id) {
+    document.getElementById(id).style.display = "inline-flex";
+  });
+  if (ROLE === "owner") {
+    document.getElementById("btn-tm").style.display = "inline-flex";
+    document.getElementById("btn-cv").style.display = "inline-flex";
+  }
+  document.getElementById("legbtn").classList.add("show");
+  rl(); updTd();
+}
+
+// ── SETTINGS ──────────────────────────────────────────────
+function goSetup() {
+  document.getElementById("layout").classList.remove("show");
+  document.getElementById("scr-upload").style.display = "none";
+  document.getElementById("scr-setup").style.display = "flex";
+  document.getElementById("cfg-url").value = SURL;
+  document.getElementById("cfg-role").value = ROLE;
+}
+
+function testConn() {
+  var url = document.getElementById("cfg-url").value.trim();
+  var el = document.getElementById("tr");
+  el.style.display = "block"; el.className = "tr"; el.textContent = "กำลังทดสอบ...";
+  var tmp = SURL; SURL = url;
+  callScript("getStatus", {}).then(function() {
+    SURL = tmp;
+    el.className = "tr tr-ok"; el.textContent = "✓ เชื่อมต่อสำเร็จ! พร้อมใช้งาน";
+  }).catch(function(e) {
+    SURL = tmp;
+    el.className = "tr tr-er"; el.textContent = "✕ ไม่ได้: " + e.message;
+  });
+}
+
+function saveSettings() {
+  var url = document.getElementById("cfg-url").value.trim();
+  var role = document.getElementById("cfg-role").value;
+  if (!url) { showToast("กรุณาใส่ URL"); return; }
+  SURL = url; ROLE = role;
+  localStorage.setItem("pilar_script_url", url);
+  localStorage.setItem("pilar_role", role);
+  document.getElementById("scr-setup").style.display = "none";
+  showToast("บันทึกแล้ว กำลังโหลด...");
+  loadAll();
+}
+
+// ── DATA HELPERS ──────────────────────────────────────────
+function pd(s) {
+  if (!s || !s.trim()) return null;
+  var d = new Date(s);
+  return isNaN(d.getTime()) ? null : d;
+}
+function isP(n) { var x = (n || "").toLowerCase(); return x.indexOf("private") >= 0 || x.indexOf("duo") >= 0; }
+function now() { return new Date(); }
+function fD(iso) { if (!iso) return ""; try { return new Date(iso).toLocaleDateString("th-TH",{day:"2-digit",month:"2-digit",year:"numeric"}); } catch(e) { return ""; } }
+function fDT(iso) { if (!iso) return ""; try { return new Date(iso).toLocaleDateString("th-TH",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"}); } catch(e) { return ""; } }
+function esc(s) { return String(s || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+function getSeg(pkgs) {
+  var n = now();
+  var act = pkgs.filter(function(p) { return ["Active","Upcoming","Paused"].indexOf(p.status) >= 0 && (!p.expiry || p.expiry >= n); });
+  if (act.length) {
+    var cr = act.reduce(function(s,p){return s+p.credits;},0);
+    var ex = act.reduce(function(m,p){return p.expiry&&(!m||p.expiry>m)?p.expiry:m;},null);
+    return {seg:"Active",credits:cr,expiry:ex};
+  }
+  var ewc = pkgs.filter(function(p){return ["Active","Upcoming","Paused"].indexOf(p.status)<0&&p.credits>0&&p.expiry&&p.expiry<n;});
+  var lat = pkgs.reduce(function(m,p){return p.expiry&&(!m||p.expiry>m)?p.expiry:m;},null);
+  if (ewc.length) return {seg:"C",credits:ewc.reduce(function(s,p){return s+p.credits;},0),expiry:lat};
+  if (!lat) return {seg:"Active",credits:0,expiry:null};
+  var days = Math.floor((n - lat) / 864e5);
+  if (days <= 30) return {seg:"A",credits:0,expiry:lat};
+  if (days <= 90) return {seg:"B",credits:0,expiry:lat};
+  return {seg:"Lost",credits:0,expiry:lat};
+}
+
+function getOffer(seg, types, pkgs, cr) {
+  var p = pkgs.map(function(x){return x.pkg_name;}).join(" ").toLowerCase();
+  var priv = types.indexOf("Private") >= 0;
+  var sz = p.indexOf("30")>=0?30:p.indexOf("20")>=0?20:p.indexOf("10")>=0?10:p.indexOf("5")>=0?5:0;
+  if (seg === "C") return "สง msg C — เครดิต " + cr + " ครั้งรอคุณอยู่";
+  if (priv) {
+    if (sz<=5) return "เสนอ Private 10 → แถม Private +1 ฟรี";
+    if (sz<=10) return "เสนอ Private 20 → แถม Private +2 ฟรี";
+    if (sz<=20) return "เสนอ Private 30 → แถม Private +2 ฟรี";
+    return "เสนอต่อ Private 30 → Glow Club";
+  }
+  if (sz<=5) return "เสนอ Group 10 → แถม Group +1 ฟรี";
+  if (sz<=10) return "เสนอ Group 20 → แถม Private 1 ฟรี";
+  if (sz<=20) return "เสนอ Group 30 → แถม Group +2 ฟรี";
+  return "เสนอต่อ Group 30 → Glow Club";
+}
+
+function getMsg(name, seg, offer, cr) {
+  var n = name.split(" ")[0] || name;
+  var t = TMPLS[seg] || TMPLS["B"] || "";
+  if (!t || seg === "Active") return "Active — ยังไมตองสงขอความ";
+  return t.replace(/{name}/g,n).replace(/{offer}/g,offer||"").replace(/{credits}/g,String(cr||0));
+}
+
+function buildData(rows, statusMap) {
+  var seen = {}, cm = {};
+  rows.forEach(function(r) {
+    var nm = r.contact_name, em = r.contact_email;
+    if (!nm && !em) return;
+    var k = nm+"|"+em+"|"+r.membership_name+"|"+r.membership_starts_at;
+    if (seen[k]) return; seen[k] = true;
+    var ck = (em||nm).toLowerCase().trim();
+    if (!cm[ck]) cm[ck] = {name:nm,email:em,pkgs:[]};
+    cm[ck].pkgs.push({pkg_name:r.membership_name,status:r.membership_status,expiry:pd(r.membership_expires_at),starts:pd(r.membership_starts_at),credits:parseInt(r.credits_balance)||0});
+  });
+  DATA = [];
+  Object.keys(cm).map(function(k){return cm[k];}).forEach(function(c) {
+    var ts = {}; c.pkgs.forEach(function(p){ts[isP(p.pkg_name)?"Private":"Group"]=1;});
+    var types = Object.keys(ts);
+    var sr = getSeg(c.pkgs);
+    var offer = getOffer(sr.seg,types,c.pkgs,sr.credits);
+    var expStr = sr.expiry?sr.expiry.toLocaleDateString("th-TH",{day:"2-digit",month:"2-digit",year:"numeric"}):"—";
+    var isNew = sr.expiry&&Math.floor((now()-sr.expiry)/864e5)>=0&&Math.floor((now()-sr.expiry)/864e5)<=7&&sr.seg!=="Active";
+    c.pkgs.sort(function(a,b){var aA=["Active","Upcoming","Paused"].indexOf(a.status)>=0?0:1,bA=["Active","Upcoming","Paused"].indexOf(b.status)>=0?0:1;return aA!==bA?aA-bA:(b.starts?b.starts.getTime():0)-(a.starts?a.starts.getTime():0);});
+    DATA.push({name:c.name,email:c.email,segment:sr.seg,class_types:types.join(" / "),total_credits:sr.credits,expiry:expStr,expiry_raw:sr.expiry,offer:offer,msg:getMsg(c.name,sr.seg,offer,sr.credits),packages:c.pkgs,total_pkgs:c.pkgs.length,is_new:isNew,_st:statusMap[c.email]||{status:"none",note:"",phone:"",followup:null,updated:null}});
+  });
+  applySort();
+  var cnt={C:0,A:0,B:0,Lost:0,Active:0};
+  DATA.forEach(function(c){cnt[c.segment]=(cnt[c.segment]||0)+1;});
+  document.getElementById("fb-C").textContent="C "+cnt.C;
+  document.getElementById("fb-A").textContent="A "+cnt.A;
+  document.getElementById("fb-B").textContent="B "+cnt.B;
+  document.getElementById("fb-L").textContent="Lost "+cnt.Lost;
+  document.getElementById("fb-Ac").textContent="Active "+cnt.Active;
+}
+
+// ── SORT / FILTER ─────────────────────────────────────────
+function applySort() {
+  var ORD={C:0,A:1,B:2,Lost:3,Active:4};
+  DATA.sort(function(a,b) {
+    if (sortMode==="name") return a.name.localeCompare(b.name);
+    if (sortMode==="credits") return b.total_credits-a.total_credits;
+    if (sortMode==="expiry") {
+      if (!a.expiry_raw&&!b.expiry_raw) return 0;
+      if (!a.expiry_raw) return 1; if (!b.expiry_raw) return -1;
+      return a.expiry_raw-b.expiry_raw;
+    }
+    var od=(ORD[a.segment]||9)-(ORD[b.segment]||9);
+    if (od!==0) return od;
+    if (a.segment==="C") return b.total_credits-a.total_credits;
+    return a.name.localeCompare(b.name);
+  });
+}
+
+function gf() {
+  var q = document.getElementById("sinp").value.toLowerCase();
+  return DATA.filter(function(c) {
+    return (filtSeg==="all"||c.segment===filtSeg) &&
+      (filtSt==="all"||(c._st.status||"none")===filtSt) &&
+      (!q||c.name.toLowerCase().indexOf(q)>=0||c.email.toLowerCase().indexOf(q)>=0);
+  });
+}
+function fl() { sel=-1; rl(); }
+
+// ── RENDER LIST ───────────────────────────────────────────
+var SEGTAG={C:"tC",A:"tA",B:"tB",Lost:"tL",Active:"tAc"};
+var STTAG={contacted:"tsc",replied:"tsr",sold:"tss",no:"tsn"};
+var STLBL={contacted:"รอตอบ",replied:"ตอบแล้ว",sold:"ซื้อแล้ว",no:"ไม่สนใจ"};
+
+function rl() {
+  var d = gf();
+  var sold = d.filter(function(c){return c._st.status==="sold";}).length;
+  document.getElementById("lc").textContent = d.length + " Members";
+  document.getElementById("sc2").textContent = sold > 0 ? sold + " ซื้อแล้ว" : "";
+  // Update status filter counts based on current seg filter
+  var allInSeg = DATA.filter(function(c){ return filtSeg==="all"||c.segment===filtSeg; });
+  var cntNone = allInSeg.filter(function(c){return (c._st.status||"none")==="none";}).length;
+  var cntCt   = allInSeg.filter(function(c){return c._st.status==="contacted";}).length;
+  var cntRp   = allInSeg.filter(function(c){return c._st.status==="replied";}).length;
+  var cntSd   = allInSeg.filter(function(c){return c._st.status==="sold";}).length;
+  var stBtns  = document.querySelectorAll("#stf .fb");
+  var stLabels = ["ทุกสถานะ ("+allInSeg.length+")","ยังไม่ทัก ("+cntNone+")","รอตอบ ("+cntCt+")","ตอบแล้ว ("+cntRp+")","ซื้อแล้ว ("+cntSd+")"];
+  stBtns.forEach(function(b,i){ if(stLabels[i]) b.textContent=stLabels[i]; });
+
+  if (d.length > 0 && filtSeg !== "Active") {
+    document.getElementById("qabar").classList.add("show");
+    document.getElementById("qatxt").textContent = "แสดงอยู่ " + d.length + " คน";
+  } else {
+    document.getElementById("qabar").classList.remove("show");
+  }
+  var h = "";
+  for (var i = 0; i < d.length; i++) {
+    var c = d[i], st = c._st;
+    var segCls = "ci-" + (c.segment||"Active");
+    var stTag = (st.status&&st.status!=="none"&&STTAG[st.status]) ? '<span class="tag '+STTAG[st.status]+'">'+STLBL[st.status]+"</span>" : "";
+    var nb = c.is_new ? '<span class="nb">NEW</span>' : "";
+    var fb2 = (st.followup&&st.status==="contacted"&&new Date(st.followup)<now()) ? '<span class="fb2">Follow-up!</span>' : "";
+    var phone = st.phone ? '<span style="font-size:9px;color:var(--g3);margin-left:4px;font-weight:400">'+esc(st.phone)+"</span>" : "";
+    var sub = (st.followup&&st.status==="contacted") ? "Follow-up: "+fD(st.followup) : st.updated ? "บันทึก: "+fDT(st.updated) : "";
+    h += '<div class="ci '+segCls+(sel===i?" sel":"")+'" data-idx="'+i+'">' +
+      '<div class="cin">'+esc(c.name)+phone+nb+fb2+"</div>" +
+      '<div class="crow"><span class="tag '+(SEGTAG[c.segment]||"tAc")+'">'+c.segment+"</span>" +
+      '<span class="tag tTy">'+esc(c.class_types)+"</span>" +
+      (c.total_credits>0?'<span class="tag tCr">'+c.total_credits+"cr</span>":"")+stTag+"</div>" +
+      (sub?'<div class="csub">'+sub+"</div>":"")+"</div>";
+  }
+  document.getElementById("cl").innerHTML = h;
+  // Re-bind click for list items
+  document.querySelectorAll(".ci").forEach(function(el) {
+    el.addEventListener("click", function() { sc(parseInt(this.dataset.idx)); });
+  });
+}
+
+// ── DETAIL ────────────────────────────────────────────────
+function sc(i) {
+  sel = i; dashMode = false; rl();
+  var c = gf()[i]; if (!c) return;
+  window._cEmail = c.email; window._cMsg = c.msg; window._cC = c;
+  renderDet(c);
+}
+
+function renderDet(c) {
+  var st = c._st;
+  var apkgs = c.packages.filter(function(p){return ["Active","Upcoming","Paused"].indexOf(p.status)>=0;});
+  var segLbl = {C:"Group C — Credits Waiting",A:"Group A — Expired <1M",B:"Group B — Expired 1-3M",Lost:"Lost",Active:"Active Member"}[c.segment]||c.segment;
+  var tmplNote = {C:"msg C",A:"Something special",B:"We've missed you",Lost:"We've missed you",Active:"no msg"}[c.segment]||"";
+  var stColor = {none:"var(--g2)",contacted:"#E65100",replied:"#2A6A40",sold:"var(--gn)",no:"var(--rd)"}[st.status||"none"];
+  var stLabel = {none:"ยังไม่ได้ทัก",contacted:"รอตอบ",replied:"ตอบแล้ว",sold:"ซื้อแล้ว &#10003;",no:"ไม่สนใจ"}[st.status||"none"];
+  var stBg = {none:"var(--of)",contacted:"#FFF3E0",replied:"#E8F4EC",sold:"#E8F8EC",no:"#FFF0F0"}[st.status||"none"];
+
+  var pkgRows = "";
+  c.packages.forEach(function(p) {
+    var isAct = ["Active","Upcoming","Paused"].indexOf(p.status) >= 0;
+    var expStr = p.expiry?p.expiry.toLocaleDateString("th-TH",{day:"2-digit",month:"2-digit",year:"numeric"}):"—";
+    var startStr = p.starts?p.starts.toLocaleDateString("th-TH",{day:"2-digit",month:"2-digit",year:"numeric"}):"-";
+    pkgRows += "<tr"+(isAct?' class="ar"':"")+"><td><div class='pkn'>"+esc(p.pkg_name)+"</div><div class='pkd'>"+startStr+" &#8594; "+expStr+"</div></td><td><span style='font-size:10px;color:var(--g3)'><span class='pip pip-"+(p.status||"Expired")+"'></span>"+esc(p.status)+"</span></td><td><span class='"+(p.credits>0&&isAct?"cra":"crz")+"'>"+p.credits+"</span></td></tr>";
+  });
+
+  var fuHtml = "";
+  if (st.followup && st.status === "contacted") {
+    var od = new Date(st.followup) < now();
+    fuHtml = "<div class='ssfu show"+(od?" od":"")+"'>" + (od?"&#9888; เลยกำหนดแล้ว! (นัดไว้ "+fD(st.followup)+")":"&#128197; ติดตามอีกครั้ง: "+fD(st.followup)) + "</div>";
+  }
+
+  var contactLabel = (st.status==="none"||!st.status) ? "ทักหาลูกค้า" : "ทักอีกครั้ง";
+  var op = function(s) { return st.status===s ? " style='opacity:.5'" : ""; };
+
+  document.getElementById("mp").innerHTML =
+    "<div class='dh'><div class='deye'>Member Profile</div>" +
+    "<div class='dn'>"+esc(c.name)+(c.is_new?"<span class='nb'>NEW</span>":"")+"</div>" +
+    "<div class='de'>"+esc(c.email)+"</div>" +
+    "<div class='dtags'><span class='tag "+(SEGTAG[c.segment]||"tAc")+"'>"+esc(segLbl)+"</span><span class='tag tTy'>"+esc(c.class_types)+"</span></div></div>" +
+    "<div class='kpis'><div class='kp'><div class='kpl'>Credits</div><div class='kpv' style='color:"+(c.total_credits>0?"var(--bk)":"var(--g2)")+"'>"+c.total_credits+"</div></div><div class='kp'><div class='kpl'>Packages</div><div class='kpv'>"+c.total_pkgs+"</div></div><div class='kp'><div class='kpl'>Expiry</div><div class='kpvs'>"+esc(c.expiry)+"</div></div></div>" +
+    "<div class='rsec'><span class='rlbl'>Phone</span><input class='ri' id='ph' type='tel' placeholder='เบอร์โทร...' value='"+esc(st.phone||"")+"'><button class='rsave' id='ph-save'>Save</button></div>" +
+    "<div class='ssec'><div class='sslbl'>สถานะการติดต่อ</div><div class='sscur'><span class='sstag' style='background:"+stBg+";color:"+stColor+"'>"+stLabel+"</span>"+(st.updated?"<span class='ssupd'>"+fDT(st.updated)+"</span>":"")+"</div>"+fuHtml+"<div class='ssact'><button class='sa sa-ct' id='sa-ct'>"+contactLabel+"</button><button class='sa sa-rp' id='sa-rp'"+op("replied")+">ตอบแล้ว</button><button class='sa sa-sd' id='sa-sd'"+op("sold")+">ซื้อแล้ว!</button><button class='sa sa-no' id='sa-no'"+op("no")+">ไม่สนใจ</button><button class='sa sa-rs' id='sa-rs'>Reset</button></div></div>" +
+    "<div class='rsec'><span class='rlbl'>Note</span><input class='ri' id='note' type='text' placeholder='บันทึกเพิ่มเติม...' value='"+esc(st.note||"")+"'><button class='rsave' id='note-save'>Save</button></div>" +
+    "<div class='osec'><div class='slbl2'>Recommended Offer</div><div class='otxt'>"+esc(c.offer)+"</div><div class='otp'>"+tmplNote+"</div></div>" +
+    "<div class='msec'><div class='slbl2'>Message</div><div class='mbox'><button class='cpb' id='cpb'>Copy</button><div class='mtxt'>"+esc(c.msg)+"</div></div></div>" +
+    "<div class='pksec'><div class='slbl2'>Package History"+(apkgs.length?"<span class='tag tAc' style='margin-left:5px'>"+apkgs.length+" Active</span>":"")+"</div><table class='pktbl'><thead><tr><th>Package</th><th>Status</th><th>Cr</th></tr></thead><tbody>"+pkgRows+"</tbody></table></div>";
+
+  // Bind detail buttons via addEventListener — NO onclick
+  document.getElementById("sa-ct").addEventListener("click", function() { openFuDlg(); });
+  document.getElementById("sa-rp").addEventListener("click", function() { markDirect("replied"); });
+  document.getElementById("sa-sd").addEventListener("click", function() { markDirect("sold"); });
+  document.getElementById("sa-no").addEventListener("click", function() { markDirect("no"); });
+  document.getElementById("sa-rs").addEventListener("click", function() { markDirect("none"); });
+  document.getElementById("ph-save").addEventListener("click", function() { var v=document.getElementById("ph").value; saveToSheet(window._cEmail,{phone:v}); showToast("บันทึกเบอร์แล้ว"); });
+  document.getElementById("note-save").addEventListener("click", function() { var v=document.getElementById("note").value; saveToSheet(window._cEmail,{note:v}); showToast("บันทึก note แล้ว"); });
+  document.getElementById("cpb").addEventListener("click", function() {
+    if (!window._cMsg) return;
+    navigator.clipboard.writeText(window._cMsg).then(function() {
+      var b=document.getElementById("cpb"); if(b){b.textContent="Copied"; setTimeout(function(){b.textContent="Copy";},2000);}
+    });
+  });
+}
+
+// ── ACTIONS ───────────────────────────────────────────────
+function openFuDlg() { document.getElementById("fu-dov").classList.add("show"); }
+function closeFuDlg() { document.getElementById("fu-dov").classList.remove("show"); }
+
+function setResult(result) {
+  closeFuDlg();
+  if (!window._cEmail) return;
+  var upd = {status:result};
+  if (result === "contacted") upd.followup = new Date(now().getTime()+7*24*60*60*1000).toISOString();
+  else upd.followup = null;
+  saveToSheet(window._cEmail, upd);
+  updTd();
+  if (window._cC) renderDet(window._cC);
+  rl();
+  var msgs={contacted:"บันทึกแล้ว ติดตาม 7 วัน",replied:"ลูกค้าสนใจ!",sold:"ปิดการขายสำเร็จ!",no:"บันทึกแล้ว"};
+  showToast(msgs[result]||"บันทึกแล้ว");
+}
+
+function markDirect(status) {
+  if (!window._cEmail) return;
+  saveToSheet(window._cEmail, {status:status,followup:null});
+  updTd();
+  if (window._cC) renderDet(window._cC);
+  rl(); showToast("บันทึกแล้ว");
+}
+
+function quickMark() {
+  var d = gf();
+  if (!d.length) { showToast("ไม่มีลูกค้าที่แสดงอยู่"); return; }
+  if (!confirm("Mark ทั้งหมด " + d.length + " คนที่แสดงอยู่ว่าติดต่อแล้ว?")) return;
+  var fu = new Date(now().getTime()+7*24*60*60*1000).toISOString();
+  var ts = new Date().toISOString();
+  d.forEach(function(c){c._st=Object.assign({},c._st,{status:"contacted",followup:fu,updated:ts});});
+  setSyn("sy");
+  callScript("pushAllStatus",{records:DATA.map(function(c){return Object.assign({email:c.email},c._st);})})
+    .then(function(){setSyn("ok");}).catch(function(){setSyn("er");});
+  updTd(); rl(); showToast("Mark แล้ว "+d.length+" คน");
+}
+
+// ── TODAY ─────────────────────────────────────────────────
+function updTd() {
+  var t = getTdList();
+  var el = document.getElementById("tct");
+  if (el) el.textContent = t.total>0?"("+t.total+")":"";
+}
+function getTdList() {
+  var n=now(),od=[],ur=[];
+  DATA.forEach(function(c){
+    var st=c._st;
+    if (st.status==="contacted"&&st.followup&&new Date(st.followup)<=n) od.push(c);
+    if ((!st.status||st.status==="none")&&(c.segment==="C"||c.segment==="A")&&c.is_new) ur.push(c);
+  });
+  return {overdue:od,urgent:ur,total:od.length+ur.length};
+}
+function showToday() {
+  dashMode=false; sel=-1; rl();
+  var t=getTdList();
+  var h="<div class='dw'><div class='dwtl'>วันนี้ต้องทำ "+t.total+" คน</div>";
+  if (t.overdue.length) {
+    h+="<div class='dkl' style='margin-bottom:8px'>&#128308; เลยกำหนด Follow-up ("+t.overdue.length+" คน)</div>";
+    t.overdue.forEach(function(c){h+="<div style='padding:10px 12px;border:1px solid #FFB74D;border-radius:var(--r);margin-bottom:6px;cursor:pointer;background:#FFF8F0' data-email='"+c.email+"' class='td-row'><div style='font-size:13px;font-weight:500'>"+esc(c.name)+"</div><div style='font-size:11px;color:var(--g3)'>"+c.segment+" &#183; นัดไว้ "+fD(c._st.followup||"")+"</div></div>";});
+  }
+  if (t.urgent.length) {
+    h+="<div class='dkl' style='margin-top:12px;margin-bottom:8px'>&#129473; NEW ต้องทักด่วน ("+t.urgent.length+" คน)</div>";
+    t.urgent.forEach(function(c){h+="<div style='padding:10px 12px;border:1px solid var(--g1);border-radius:var(--r);margin-bottom:6px;cursor:pointer' data-email='"+c.email+"' class='td-row'><div style='font-size:13px;font-weight:500'>"+esc(c.name)+" <span class='nb'>NEW</span></div><div style='font-size:11px;color:var(--g3)'>"+c.segment+" &#183; "+esc(c.class_types)+"</div></div>";});
+  }
+  if (!t.total) h+="<div style='text-align:center;padding:40px 0;color:var(--g3);font-size:12px'>ไม่มีรายการสำหรับวันนี้ &#127881;</div>";
+  document.getElementById("mp").innerHTML=h+"</div>";
+  document.querySelectorAll(".td-row").forEach(function(el){
+    el.addEventListener("click",function(){selByEmail(this.dataset.email);});
+  });
+}
+function selByEmail(email){
+  for(var i=0;i<DATA.length;i++){if(DATA[i].email===email){window._cEmail=DATA[i].email;window._cMsg=DATA[i].msg;window._cC=DATA[i];renderDet(DATA[i]);return;}}
+}
+
+// ── DASHBOARD ─────────────────────────────────────────────
+function toggleDash(){
+  dashMode=!dashMode;
+  document.getElementById("btn-db").textContent=dashMode?"Close":"Dashboard";
+  if(dashMode) renderDash(); else{document.getElementById("mp").innerHTML="<div class='emp'><div class='empo'>&#9711;</div><div class='empt'>Select a member</div></div>";dashMode=false;}
+}
+function renderDash(){
+  var cnt={C:0,A:0,B:0,Lost:0,Active:0};DATA.forEach(function(c){cnt[c.segment]=(cnt[c.segment]||0)+1;});
+  var sold=0,ct=0,rp=0,ny=0,total=DATA.length;
+  DATA.forEach(function(c){var s=(c._st.status||"none");if(s==="sold")sold++;else if(s==="contacted")ct++;else if(s==="replied")rp++;else ny++;});
+  function kp(l,v,sub,col){return "<div class='dkp'><div class='dkl'>"+l+"</div><div class='dkv' style='color:"+(col||"var(--bk)")+"'>"+v+"</div><div class='dks'>"+sub+"</div></div>";}
+  function bar(l,n,col){var p=total>0?Math.round(n/total*100):0;return "<div class='br'><div class='bt'><span>"+l+"</span><span style='color:var(--g3)'>"+n+"</span></div><div class='btr'><div class='bf' style='width:"+p+"%;background:"+col+"'></div></div></div>";}
+  document.getElementById("mp").innerHTML="<div class='dw'><div class='dwtl'>Dashboard</div><div class='kg'>"+kp("ต้องติดต่อ",cnt.C+cnt.A+cnt.B,"จาก "+total+" คน","")+kp("ซื้อแล้ว",sold,(total>0?Math.round(sold/total*100):0)+"% Conversion","var(--gn)")+kp("รอตอบ",ct,"ติดตาม 7 วัน","#E65100")+kp("ตอบแล้ว",rp,"รอปิด","#2A6A40")+"</div>"+bar("&#128156; C",cnt.C,"#4A2A7A")+bar("&#129473; A",cnt.A,"#7A5A20")+bar("&#128992; B",cnt.B,"#2A6A40")+bar("&#128308; Lost",cnt.Lost,"#7A2A2A")+bar("&#9989; Active",cnt.Active,"#2A5A6A")+"</div>";
+}
+
+// ── TEMPLATES ─────────────────────────────────────────────
+function goTemplates(){
+  dashMode=false; sel=-1; rl();
+  var groups=[{k:"C",l:"&#128156; กลุ่ม C",h:"{name}=ชื่อ, {credits}=เครดิต"},{k:"A",l:"&#129473; กลุ่ม A",h:"{name}=ชื่อ, {offer}=ของที่เสนอ"},{k:"B",l:"&#128992; กลุ่ม B",h:"{name}=ชื่อ, {offer}=ของที่เสนอ"},{k:"Lost",l:"&#128308; Lost",h:"{name}=ชื่อ, {offer}=ของที่เสนอ"}];
+  var h="<div class='dw'><div class='dwtl'>จัดการข้อความ</div>";
+  groups.forEach(function(g){var val=(TMPLS[g.k]||"").replace(/</g,"&lt;").replace(/>/g,"&gt;");h+="<div style='margin-bottom:16px'><div style='font-size:11px;font-weight:500;margin-bottom:3px'>"+g.l+"</div><div style='font-size:10px;color:var(--g3);margin-bottom:5px'>"+g.h+"</div><textarea id='tmpl-"+g.k+"' style='width:100%;height:110px;padding:8px;border:1px solid var(--g1);border-radius:var(--r);font-family:var(--fb);font-size:12px;line-height:1.6;resize:vertical;outline:none;color:var(--bk)'>"+val+"</textarea></div>";});
+  h+="<div style='display:flex;gap:8px'><button id='tmpl-save-btn' style='flex:1;height:40px;background:var(--bk);color:var(--wh);border:none;border-radius:var(--r);font-family:var(--fh);font-size:9px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer'>บันทึกข้อความ</button><button id='tmpl-prev-btn' style='height:40px;padding:0 16px;background:var(--of);border:1px solid var(--g1);border-radius:var(--r);font-family:var(--fh);font-size:9px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer'>Preview</button></div><div id='tprev' style='margin-top:12px'></div></div>";
+  document.getElementById("mp").innerHTML=h;
+  document.getElementById("tmpl-save-btn").addEventListener("click",saveTmpls);
+  document.getElementById("tmpl-prev-btn").addEventListener("click",prevTmpls);
+}
+function saveTmpls(){
+  ["C","A","B","Lost"].forEach(function(k){var el=document.getElementById("tmpl-"+k);if(el)TMPLS[k]=el.value;});
+  DATA.forEach(function(c){c.msg=getMsg(c.name,c.segment,c.offer,c.total_credits);});
+  setSyn("sy");
+  callScript("saveTemplates",{templates:TMPLS}).then(function(){setSyn("ok");showToast("บันทึกข้อความแล้ว");}).catch(function(){setSyn("er");showToast("บันทึกไม่ได้ แต่ใช้งานได้ session นี้");});
+}
+function prevTmpls(){
+  ["C","A","B","Lost"].forEach(function(k){var el=document.getElementById("tmpl-"+k);if(el)TMPLS[k]=el.value;});
+  var sC=getMsg("สมใจ","C","เสนอ Group 10 → แถม +1",5);
+  var sA=getMsg("มานี","A","เสนอ Group 10 → แถม +1",0);
+  var prev=document.getElementById("tprev");
+  if(prev){prev.innerHTML="<div style='background:var(--bk);padding:14px;border-radius:var(--r);margin-bottom:8px'><div style='font-size:10px;color:rgba(255,255,255,.4);margin-bottom:5px'>Preview C</div><div style='font-size:12px;color:rgba(255,255,255,.85);white-space:pre-line;line-height:1.7'>"+esc(sC)+"</div></div><div style='background:var(--bk);padding:14px;border-radius:var(--r)'><div style='font-size:10px;color:rgba(255,255,255,.4);margin-bottom:5px'>Preview A</div><div style='font-size:12px;color:rgba(255,255,255,.85);white-space:pre-line;line-height:1.7'>"+esc(sA)+"</div></div>";}
+}
+
+// ── UPLOAD CSV ────────────────────────────────────────────
+function goUploadCSV(){
+  document.getElementById("layout").classList.remove("show");
+  document.getElementById("scr-upload").style.display="flex";
+}
+function goApp(){
+  document.getElementById("scr-upload").style.display="none";
+  document.getElementById("scr-setup").style.display="none";
+  document.getElementById("layout").classList.add("show");
+}
+function parseCSVRows(text){
+  var lines=text.split("\n"),rows=[];
+  for(var i=1;i<lines.length;i++){
+    var line=lines[i].replace(/\r$/,"");if(!line.trim())continue;
+    var cols=[],cur="",inQ=false;
+    for(var j=0;j<line.length;j++){var ch=line[j];if(ch==='"'){inQ=!inQ;}else if(ch===","&&!inQ){cols.push(cur.trim());cur="";}else{cur+=ch;}}
+    cols.push(cur.trim());if(cols.length<12)continue;
+    rows.push({location_name:cols[0]||"",contact_name:cols[1]||"",contact_email:cols[2]||"",contact_added_on:cols[3]||"",membership_name:cols[4]||"",membership_type:cols[5]||"",membership_access:cols[6]||"",membership_status:cols[7]||"",membership_starts_at:cols[8]||"",membership_expires_at:cols[9]||"",membership_created_at:cols[10]||"",credits_balance:cols[11]||"0",contact_tags:cols[12]||""});
+  }
+  return rows;
+}
+function uploadToSheet(){
+  if(!rawCSV){showToast("กรุณาเลือกไฟล์ก่อน");return;}
+  var btn=document.getElementById("btn-proc");
+  btn.textContent="กำลัง Upload...";btn.style.opacity=".5";btn.style.pointerEvents="none";
+  setSyn("sy");
+  callScript("pushMembers",{rows:rawCSV}).then(function(res){
+    showToast("Upload สำเร็จ! "+res.saved+" records");setSyn("ok");
+    rawCSV=null;
+    document.getElementById("uz").classList.remove("done");
+    btn.textContent="&#8679; Upload to Google Sheet";btn.style.opacity=".3";btn.style.pointerEvents="none";
+    goApp();loadAll();
+  }).catch(function(e){
+    setSyn("er");btn.style.opacity="1";btn.style.pointerEvents="auto";
+    showToast("Upload ล้มเหลว: "+e.message);
+  });
+}
+
+// ── REPORT ────────────────────────────────────────────────
+function exportReport(){
+  var cnt={C:0,A:0,B:0,Lost:0,Active:0};DATA.forEach(function(c){cnt[c.segment]=(cnt[c.segment]||0)+1;});
+  var sold=0,ct=0,ny=0,total=DATA.length;
+  DATA.forEach(function(c){var s=(c._st.status||"none");if(s==="sold")sold++;else if(s==="contacted")ct++;else ny++;});
+  var dateStr=new Date().toLocaleDateString("th-TH",{day:"2-digit",month:"long",year:"numeric"});
+  var soldList=DATA.filter(function(c){return c._st.status==="sold";});
+  var soldRows=soldList.map(function(c){return "<tr><td>"+esc(c.name)+"</td><td>"+c.segment+"</td><td>"+fD(c._st.updated||"")+"</td></tr>";}).join("");
+  var rh="<!DOCTYPE html><html><head><meta charset='UTF-8'><title>Pilar Report</title><style>body{font-family:sans-serif;padding:24px;max-width:600px;margin:0 auto}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}.kp{background:#f5f5f3;padding:16px}.kl{font-size:10px;color:#888;text-transform:uppercase;margin-bottom:6px}.kv{font-size:28px;font-weight:300;margin-bottom:2px}.ks{font-size:11px;color:#888}table{width:100%;border-collapse:collapse;font-size:12px}th{text-align:left;padding:6px 8px;background:#f5f5f3;font-size:10px;color:#888}td{padding:7px 8px;border-bottom:1px solid #e8e8e6}footer{margin-top:32px;font-size:10px;color:#aaa;text-align:center}</style></head><body><h2>Pilar Studio &#8212; "+dateStr+"</h2><div class='grid'><div class='kp'><div class='kl'>ทั้งหมด</div><div class='kv'>"+total+"</div></div><div class='kp'><div class='kl'>ซื้อแล้ว</div><div class='kv' style='color:#27AE60'>"+sold+"</div><div class='ks'>"+(total>0?Math.round(sold/total*100):0)+"%</div></div><div class='kp'><div class='kl'>รอตอบ</div><div class='kv' style='color:#E65100'>"+ct+"</div></div><div class='kp'><div class='kl'>ยังไม่ทัก</div><div class='kv'>"+ny+"</div></div></div>"+(soldList.length?"<h3>รายชื่อที่ซื้อแล้ว</h3><table><thead><tr><th>ชื่อ</th><th>กลุ่ม</th><th>วันที่</th></tr></thead><tbody>"+soldRows+"</tbody></table>":"")+"<footer>Pilar CRM v7 &#183; "+dateStr+"</footer></body></html>";
+  var blob=new Blob([rh],{type:"text/html"});var url=URL.createObjectURL(blob);var a=document.createElement("a");
+  a.href=url;a.download="pilar_report_"+new Date().toISOString().slice(0,10)+".html";a.click();URL.revokeObjectURL(url);
+  showToast("Report exported");
+}
+
+// ── BIND ALL EVENTS ───────────────────────────────────────
+function bindEvents(){
+  // Seg filters
+  document.querySelectorAll("#sf .fb").forEach(function(btn){
+    btn.addEventListener("click",function(){
+      filtSeg=this.dataset.seg;
+      document.querySelectorAll("#sf .fb").forEach(function(b){b.classList.remove("on");});
+      this.classList.add("on"); sel=-1;
+      document.getElementById("mp").innerHTML="<div class='emp'><div class='empo'>&#9711;</div><div class='empt'>Select a member</div></div>";
+      dashMode=false; rl();
+    });
+  });
+  // Status filters
+  document.querySelectorAll("#stf .fb").forEach(function(btn){
+    btn.addEventListener("click",function(){
+      filtSt=this.dataset.st;
+      document.querySelectorAll("#stf .fb").forEach(function(b){b.classList.remove("on");});
+      this.classList.add("on"); sel=-1; rl();
+    });
+  });
+  // Sort buttons
+  document.querySelectorAll(".sbtn").forEach(function(btn){
+    btn.addEventListener("click",function(){
+      sortMode=this.dataset.sort;
+      document.querySelectorAll(".sbtn").forEach(function(b){b.classList.remove("on");});
+      this.classList.add("on"); applySort(); sel=-1; rl();
+    });
+  });
+  // Quick mark
+  document.getElementById("qabtn").addEventListener("click",quickMark);
+  // Dialog options
+  document.querySelectorAll(".dopt").forEach(function(btn){
+    btn.addEventListener("click",function(){setResult(this.dataset.res);});
+  });
+  document.getElementById("dcan").addEventListener("click",closeFuDlg);
+  // Legend
+  document.getElementById("legbtn").addEventListener("click",function(){document.getElementById("ov-leg").classList.add("show");});
+  document.getElementById("leg-close").addEventListener("click",function(){document.getElementById("ov-leg").classList.remove("show");});
+  document.getElementById("ov-leg").addEventListener("click",function(e){if(e.target===this)this.classList.remove("show");});
+  // File input
+  document.getElementById("fi").addEventListener("change",function(e){
+    var f=e.target.files[0];if(!f)return;
+    var r=new FileReader();
+    r.onload=function(ev){
+      rawCSV=parseCSVRows(ev.target.result);
+      document.getElementById("uz").classList.add("done");
+      document.getElementById("udone").textContent="&#10003; "+f.name+" ("+rawCSV.length+" records)";
+      var btn=document.getElementById("btn-proc");btn.style.opacity="1";btn.style.pointerEvents="auto";
+      showToast("File loaded &#8212; "+rawCSV.length+" records");
+    };
+    r.readAsText(f,"UTF-8"); e.target.value="";
+  });
+}
+
+// ── TOAST ─────────────────────────────────────────────────
+function showToast(msg){
+  var t=document.getElementById("toast");t.innerHTML=msg;t.classList.add("show");
+  setTimeout(function(){t.classList.remove("show");},2500);
+}
+</script>
+</body>
+</html>
