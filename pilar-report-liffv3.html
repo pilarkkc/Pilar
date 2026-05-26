@@ -1,0 +1,2392 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Pilar Studio · Body Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+/* ── PILAR STUDIO · BODY REPORT ── */
+/* WHOOP-inspired dark athletic design system  */
+:root{
+  --bg:#07080F;
+  --bg2:#0C0E18;
+  --card:rgba(255,255,255,0.04);
+  --card2:rgba(255,255,255,0.07);
+  --border:rgba(255,255,255,0.08);
+  --border-bright:rgba(255,255,255,0.14);
+  --text:#FFFFFF;
+  --sub:rgba(255,255,255,0.38);
+  --dim:rgba(255,255,255,0.18);
+  --green:#1BE3A0;
+  --teal:#00CAFF;
+  --blue:#4F7AFF;
+  --yellow:#F5C842;
+  --red:#FF4444;
+  --orange:#FF9500;
+  --pink:#FF6B9D;
+  --purple:#BF5AF2;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'DM Sans','Barlow Semi Condensed','Barlow',system-ui,sans-serif;
+  font-weight:400;
+  min-height:100vh;
+  max-width:430px;
+  margin:0 auto;
+  -webkit-font-smoothing:antialiased;
+  letter-spacing:.01em;
+}
+
+/* ══ SCREENS ══ */
+.screen{display:none;min-height:100vh;flex-direction:column}
+.screen.active{display:flex}
+
+/* ══ UPLOAD ══ */
+#su{align-items:center;justify-content:center;padding:48px 28px;position:relative;overflow:hidden}
+#su::before{
+  content:'';position:fixed;
+  top:-5%;left:50%;transform:translateX(-50%);
+  width:520px;height:520px;border-radius:50%;
+  background:radial-gradient(circle,rgba(0,202,255,0.06) 0%,transparent 65%);
+  pointer-events:none;z-index:0;
+}
+#su::after{
+  content:'';position:fixed;
+  bottom:10%;left:30%;
+  width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,rgba(79,122,255,0.05) 0%,transparent 65%);
+  pointer-events:none;z-index:0;
+}
+.up-logo{text-align:center;margin-bottom:60px;position:relative;z-index:1}
+.up-brand{
+  font-size:9px;letter-spacing:.55em;color:rgba(0,202,255,0.7);
+  text-transform:uppercase;margin-bottom:20px;font-weight:700;
+}
+.up-h1{font-size:52px;font-weight:300;letter-spacing:-.025em;line-height:1;margin-bottom:12px;color:#fff}
+.up-p{font-size:13px;color:var(--sub);letter-spacing:.02em}
+.up-box{
+  border:1px solid rgba(0,202,255,0.22);border-radius:20px;
+  padding:38px 48px;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:16px;
+  background:rgba(0,202,255,0.04);transition:all .22s ease;
+  max-width:280px;width:100%;text-align:center;position:relative;z-index:1;
+}
+.up-box:hover{border-color:rgba(0,202,255,0.48);background:rgba(0,202,255,0.08);transform:translateY(-1px)}
+.up-icon-wrap{
+  width:58px;height:58px;border-radius:50%;
+  background:rgba(0,202,255,0.1);border:1px solid rgba(0,202,255,0.2);
+  display:flex;align-items:center;justify-content:center;
+}
+.up-box h3{font-size:16px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff}
+.up-box p{font-size:12px;color:var(--sub);letter-spacing:.03em}
+
+/* ══ SELECT ══ */
+#ss{padding:0;background:var(--bg)}
+.sel-inner{max-width:430px;margin:0 auto;width:100%;padding:52px 20px 40px}
+.sel-brand{font-size:9px;letter-spacing:.52em;color:rgba(0,202,255,0.65);text-transform:uppercase;margin-bottom:14px;font-weight:700}
+.sel-inner h2{font-size:36px;font-weight:300;letter-spacing:-.02em;margin-bottom:4px;color:#fff}
+.sel-sub{font-size:12px;color:var(--sub);margin-bottom:24px;letter-spacing:.03em}
+.srch{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,0.05);border:1px solid var(--border);
+  border-radius:12px;padding:11px 14px;margin-bottom:12px;
+  transition:border-color .15s;
+}
+.srch:focus-within{border-color:rgba(0,202,255,0.3)}
+.srch input{background:none;border:none;outline:none;color:var(--text);font-size:14px;flex:1;font-family:inherit;font-weight:500}
+.srch input::placeholder{color:var(--sub)}
+.clist{display:flex;flex-direction:column;gap:3px;max-height:62vh;overflow-y:auto}
+.citem{
+  background:rgba(255,255,255,0.03);border:1px solid var(--border);
+  border-radius:10px;padding:12px 16px;color:var(--text);font-size:14px;font-weight:500;
+  cursor:pointer;text-align:left;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:background .12s;font-family:inherit;width:100%;letter-spacing:.01em;
+}
+.citem:hover{background:rgba(255,255,255,0.07)}
+.cbadge{
+  background:rgba(0,202,255,0.1);color:rgba(0,202,255,0.9);
+  font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;
+  letter-spacing:.08em;text-transform:uppercase;
+}
+.no-res{color:var(--sub);font-size:13px;text-align:center;padding:32px}
+
+/* ══ DASHBOARD ══ */
+#sd{padding-bottom:40px;background:linear-gradient(180deg,var(--bg) 0%,#0A0C16 100%);min-height:100vh}
+
+/* Top bar */
+.w-topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 18px;
+  background:rgba(7,8,15,0.92);
+  position:sticky;top:0;z-index:10;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+}
+.w-back{
+  background:rgba(255,255,255,0.06);border:1px solid var(--border);
+  border-radius:50%;width:36px;height:36px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--sub);font-size:20px;font-family:inherit;line-height:1;
+  transition:background .12s;
+}
+.w-back:hover{background:rgba(255,255,255,0.1)}
+.w-topbar-center{text-align:center}
+.w-topbar-name{font-size:14px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#fff}
+.w-topbar-sub{font-size:8px;color:var(--dim);letter-spacing:.24em;text-transform:uppercase;margin-top:2px}
+
+/* Period selector */
+.w-period{
+  display:flex;gap:4px;padding:10px 18px 14px;justify-content:center;
+  border-bottom:1px solid rgba(255,255,255,0.05);
+}
+.w-period-btn{
+  padding:6px 18px;border-radius:8px;
+  border:1px solid transparent;
+  background:transparent;color:rgba(255,255,255,0.28);
+  font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;
+  transition:all .18s;letter-spacing:.14em;text-transform:uppercase;
+}
+.w-period-btn:hover{color:rgba(255,255,255,0.65);background:rgba(255,255,255,0.04)}
+.w-period-btn.active{
+  background:rgba(255,255,255,0.09);
+  border-color:rgba(255,255,255,0.14);
+  color:#fff;font-weight:800;
+}
+
+/* Rings section */
+.w-rings-section{padding:24px 0 0;position:relative}
+.w-rings-section::before{
+  content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-55%);
+  width:300px;height:300px;border-radius:50%;
+  background:radial-gradient(circle,rgba(79,122,255,0.055) 0%,transparent 70%);
+  pointer-events:none;z-index:0;
+}
+.w-strain-row{display:flex;flex-direction:column;align-items:center;position:relative;z-index:1}
+.ring-item{display:flex;flex-direction:column;align-items:center;gap:6px}
+.ring-lbl{font-size:9px;font-weight:800;letter-spacing:.22em;text-transform:uppercase}
+.ring-sub{font-size:10px;color:var(--dim);text-align:center;max-width:90px;line-height:1.3}
+
+/* Strain zone badge */
+.w-strain-zone{
+  display:inline-flex;align-items:center;gap:10px;
+  margin:0;padding:7px 22px;border-radius:20px;border:1px solid;
+}
+
+/* Stats strip */
+.w-stats-strip{
+  display:flex;align-items:center;width:100%;
+  border-top:1px solid rgba(255,255,255,0.07);
+  margin-top:18px;
+}
+.w-stat-cell{flex:1;text-align:center;padding:14px 8px 12px}
+.w-stat-val{font-size:26px;font-weight:900;letter-spacing:-.03em;color:#fff;line-height:1}
+.w-stat-lbl{font-size:8px;color:var(--dim);letter-spacing:.22em;text-transform:uppercase;margin-top:3px;font-weight:700}
+.w-stat-note{font-size:10px;font-weight:700;margin-top:2px}
+.w-stat-div{width:1px;height:36px;background:rgba(255,255,255,0.07)}
+
+/* Personal title */
+.w-title-card{
+  margin:8px 18px 4px;padding:12px 16px;border-radius:14px;
+  background:linear-gradient(90deg,rgba(245,200,66,0.08),transparent);
+  border:1px solid rgba(245,200,66,0.12);
+  display:flex;align-items:center;gap:12px;
+  box-shadow:inset 0 0 20px rgba(245,200,66,0.04);
+}
+.w-title-icon{
+  width:30px;height:30px;border-radius:8px;
+  background:rgba(245,200,66,0.12);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:900;color:var(--yellow);flex-shrink:0;
+}
+.w-title-text{font-size:12px;font-weight:700;color:var(--yellow);flex:1;letter-spacing:.02em}
+.w-title-sub{font-size:9px;color:rgba(245,200,66,0.4);margin-top:2px;letter-spacing:.07em;text-transform:uppercase}
+.w-title-arrow{font-size:18px;color:var(--dim)}
+
+/* Readiness mini */
+.w-readiness-mini{
+  margin:10px 18px;
+  background:rgba(255,255,255,0.04);
+  border-radius:16px;padding:16px;
+  border:1px solid var(--border);
+  display:flex;align-items:center;gap:14px;
+}
+.w-rd-dot-wrap{display:flex;align-items:center;gap:7px;flex-shrink:0}
+.w-rd-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.w-rd-state{font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+.w-rd-body{flex:1}
+.w-rd-msg{font-size:11px;color:rgba(255,255,255,0.38);line-height:1.5}
+.w-rd-rec{font-size:12px;font-weight:700;margin-top:4px;letter-spacing:.01em}
+
+/* Score bars */
+.w-score-bars{padding:8px 18px 4px;display:flex;flex-direction:column;gap:12px}
+.w-sbar-row{display:flex;align-items:center;gap:10px}
+.w-sbar-label{
+  font-size:8px;font-weight:800;letter-spacing:.2em;
+  color:var(--dim);width:88px;flex-shrink:0;text-transform:uppercase;
+}
+.w-sbar-track{flex:1;height:3px;background:rgba(255,255,255,0.06);border-radius:2px}
+.w-sbar-fill{height:100%;border-radius:2px;transition:width 1s cubic-bezier(.4,0,.2,1)}
+.w-sbar-val{font-size:14px;font-weight:800;width:50px;text-align:right;flex-shrink:0;letter-spacing:-.01em}
+.w-sbar-sub{font-size:10px;color:var(--dim);margin-top:3px;padding-left:98px;letter-spacing:.03em}
+
+/* Strain horizontal bars */
+.w-strain-hbars{padding:4px 18px 10px}
+.w-shb-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.w-shb-lbl{
+  font-size:8px;font-weight:800;letter-spacing:.12em;color:var(--dim);
+  width:38px;flex-shrink:0;text-transform:uppercase;
+}
+.w-shb-track{flex:1;height:3px;background:rgba(255,255,255,0.05);border-radius:2px}
+.w-shb-fill{height:100%;border-radius:2px;transition:width .9s ease}
+.w-shb-val{font-size:10px;font-weight:800;width:30px;text-align:right;flex-shrink:0}
+
+/* Issue pills */
+.w-issues-strip{display:flex;flex-direction:column;gap:4px;padding:4px 18px 6px}
+.w-issue-pill{
+  font-size:10px;font-weight:700;color:var(--orange);
+  background:rgba(255,149,0,0.07);border:1px solid rgba(255,149,0,0.15);
+  border-radius:20px;padding:5px 14px;letter-spacing:.08em;text-transform:uppercase;display:inline-block;
+}
+.w-radar-ok{
+  font-size:10px;font-weight:700;color:var(--green);
+  background:rgba(27,227,160,0.07);border:1px solid rgba(27,227,160,0.18);
+  border-radius:20px;padding:5px 14px;letter-spacing:.08em;text-transform:uppercase;display:inline-block;
+}
+
+/* Streak banner */
+.w-streak{
+  display:flex;align-items:center;gap:18px;
+  background:linear-gradient(135deg,rgba(245,200,66,0.08),rgba(255,149,0,0.04));
+  border-radius:16px;margin:0 18px 10px;padding:18px 20px;
+  border:1px solid rgba(245,200,66,0.13);
+}
+.w-streak-empty{border-color:var(--border);background:rgba(255,255,255,0.02);opacity:.65}
+.w-streak-num{font-size:52px;font-weight:900;letter-spacing:-.04em;line-height:1;color:var(--yellow);text-shadow:0 0 28px rgba(245,200,66,0.32)}
+.w-streak-label{font-size:8px;font-weight:800;letter-spacing:.24em;color:rgba(245,200,66,0.5);text-transform:uppercase}
+.w-streak-action{font-size:12px;color:rgba(255,255,255,0.48);margin-top:5px;line-height:1.4}
+
+/* PB badge */
+.pb-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(27,227,160,0.08);border:1px solid rgba(27,227,160,0.2);
+  border-radius:20px;padding:5px 14px;font-size:10px;font-weight:700;
+  color:var(--green);margin:0 18px 10px;letter-spacing:.07em;text-transform:uppercase;
+}
+
+/* Share button */
+
+
+
+/* Section headers */
+.w-sec-hdr{
+  font-size:9px;font-weight:800;
+  padding:24px 18px 8px;
+  letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,0.28);
+  border-top:1px solid rgba(255,255,255,0.04);
+}
+.w-sec-hdr-sm{
+  font-size:9px;font-weight:800;
+  letter-spacing:.24em;text-transform:uppercase;
+  color:rgba(255,255,255,0.14);padding:24px 18px 8px;
+  border-top:1px solid rgba(255,255,255,0.04);
+}
+
+/* Week mini graph */
+.w-week-mini{display:flex;align-items:center;gap:14px;padding:8px 18px 4px}
+.w-week-mini-info{}
+.w-week-diff-badge{font-size:16px;font-weight:900;letter-spacing:-.02em;line-height:1}
+.w-week-sub{font-size:9px;color:var(--dim);margin-top:3px;letter-spacing:.04em}
+.w-wg-bar{width:18px;border-radius:3px 3px 0 0}
+.w-wg-bar-lbl{font-size:8px;color:var(--dim);text-align:center;margin-top:3px;letter-spacing:.05em;text-transform:uppercase}
+
+/* Activity list */
+.w-act-list{display:flex;flex-direction:column;gap:6px;padding:0 18px}
+.w-act-item{
+  background:rgba(255,255,255,0.04);border-radius:14px;
+  padding:13px 14px;display:flex;align-items:center;gap:12px;
+  border:1px solid rgba(255,255,255,0.06);transition:background .12s;
+}
+.w-act-item:hover{background:rgba(255,255,255,0.06)}
+.w-act-badge{
+  min-width:54px;height:48px;border-radius:12px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;flex-shrink:0;
+}
+.w-act-score{font-size:18px;font-weight:900;color:#fff;line-height:1;letter-spacing:-.02em}
+.w-act-type{font-size:8px;color:rgba(255,255,255,0.65);font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.w-act-info{flex:1}
+.w-act-name{font-size:13px;font-weight:600;margin-bottom:3px;letter-spacing:.01em}
+.w-act-meta{font-size:10px;color:var(--dim);letter-spacing:.03em}
+.w-act-right{text-align:right}
+.w-act-time{font-size:11px;color:var(--sub)}
+.w-act-kcal{font-size:10px;color:var(--dim);margin-top:2px}
+
+/* Class focus (merged breakdown) */
+.w-focus-card{
+  background:rgba(255,255,255,0.04);
+  border-radius:16px;margin:0 18px;padding:16px;
+  border:1px solid var(--border);
+}
+.w-fc-row{display:flex;align-items:center;gap:10px;margin-bottom:11px}
+.w-fc-row:last-child{margin-bottom:0}
+.w-fc-left{display:flex;align-items:center;gap:7px;width:76px;flex-shrink:0}
+.w-fc-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.w-fc-name{font-size:11px;font-weight:600;color:rgba(255,255,255,0.7);letter-spacing:.03em}
+.w-fc-track{flex:1;height:3px;background:rgba(255,255,255,0.05);border-radius:2px;overflow:hidden}
+.w-fc-fill{height:100%;border-radius:2px;transition:width .9s ease}
+.w-fc-right{display:flex;gap:8px;align-items:center;flex-shrink:0;min-width:80px;justify-content:flex-end}
+.w-fc-count{font-size:14px;font-weight:900;letter-spacing:-.01em}
+.w-fc-kcal{font-size:10px;color:var(--dim)}
+
+/* Radar / Breakdown */
+.w-radar-wrap{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,0.06)}
+.w-radar-chart{flex-shrink:0}
+.w-radar-info{flex:1;padding-top:6px}
+.w-radar-issues{display:flex;flex-direction:column;gap:5px;margin-bottom:10px}
+.w-radar-issue{
+  font-size:10px;font-weight:700;color:var(--orange);
+  background:rgba(255,149,0,0.08);border:1px solid rgba(255,149,0,0.16);
+  border-radius:20px;padding:4px 10px;letter-spacing:.07em;text-transform:uppercase;
+}
+.w-radar-rec-title{font-size:8px;font-weight:800;letter-spacing:.18em;color:var(--dim);margin-bottom:5px;text-transform:uppercase}
+.w-radar-rec-item{font-size:11px;color:var(--teal);margin-bottom:4px;line-height:1.4}
+.w-radar-instr{
+  background:rgba(255,255,255,0.03);border-radius:12px;
+  padding:12px 14px;margin-bottom:12px;border:1px solid var(--border);
+}
+.w-radar-instr-row{display:flex;gap:7px;margin-bottom:8px;flex-wrap:wrap}
+.w-instr-chip{
+  display:flex;align-items:center;gap:6px;
+  border-radius:20px;border:1px solid;padding:5px 10px;
+  font-size:11px;font-weight:500;
+}
+.w-instr-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.w-instr-tag{font-size:8px;font-weight:700;letter-spacing:.1em;color:var(--dim);text-transform:uppercase}
+.w-instr-msg{font-size:11px;color:rgba(255,255,255,0.38);line-height:1.5}
+.w-radar-detail-title{font-size:8px;font-weight:800;letter-spacing:.2em;color:var(--dim);margin-bottom:10px;padding-top:4px;text-transform:uppercase}
+.w-bd-issues{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.w-bd-rec-box{
+  background:rgba(0,202,255,0.06);border:1px solid rgba(0,202,255,0.14);
+  border-radius:14px;padding:12px 14px;margin-bottom:12px;
+}
+.w-bd-rec-label{font-size:8px;font-weight:800;letter-spacing:.2em;color:rgba(0,202,255,0.65);margin-bottom:6px;text-transform:uppercase}
+.w-bd-rec-class{font-size:14px;font-weight:900;color:#fff;margin-bottom:4px;letter-spacing:-.01em}
+.w-bd-rec-reason{font-size:11px;color:rgba(255,255,255,0.35);line-height:1.45}
+.w-bd-divider{height:1px;background:rgba(255,255,255,0.06);margin:12px 0 10px}
+.w-bd-period-label{font-size:8px;font-weight:800;letter-spacing:.26em;color:var(--dim);margin-bottom:12px;text-transform:uppercase}
+
+/* Muscle mini */
+.w-muscle-card-mini{margin:6px 18px 0;background:rgba(255,255,255,0.03);border-radius:12px;padding:10px 14px;border:1px solid var(--border)}
+.w-muscle-mini-title{font-size:8px;font-weight:800;letter-spacing:.2em;color:var(--dim);margin-bottom:8px;text-transform:uppercase}
+.w-muscle-mini-row{display:flex;gap:6px;align-items:center}
+.w-muscle-mini-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px}
+.w-muscle-mini-bar-wrap{width:100%;height:24px;display:flex;align-items:flex-end}
+.w-muscle-mini-bar{width:100%;border-radius:2px 2px 0 0;min-height:3px}
+.w-muscle-mini-lbl{font-size:7px;color:var(--dim);text-align:center;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.w-muscle-mini-val{font-size:9px;font-weight:800;text-align:center}
+
+/* Readiness outlook */
+.w-oc-icon{width:36px;height:36px;border-radius:50%;border:2px solid;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.w-oc-body{flex:1}
+.w-oc-label{font-size:8px;color:var(--dim);font-weight:800;letter-spacing:.2em;text-transform:uppercase;margin-bottom:2px}
+.w-oc-title{font-size:14px;font-weight:900;letter-spacing:-.01em}
+.w-oc-msg{font-size:11px;color:rgba(255,255,255,0.38);margin-top:3px;line-height:1.4}
+.w-oc-right{text-align:right}
+.w-oc-rec{font-size:11px;color:var(--teal);font-weight:600;max-width:80px;text-align:right;line-height:1.4}
+
+/* Recovery bar */
+.w-recovery-bar{height:3px;background:rgba(255,255,255,0.06);border-radius:2px;margin-top:8px}
+.w-rec-fill{height:100%;border-radius:2px;transition:width .8s ease}
+
+/* Week card */
+.w-week-card{margin:8px 18px 0;background:rgba(255,255,255,0.04);border-radius:14px;padding:12px 14px;border:1px solid var(--border);display:flex;gap:12px;align-items:center}
+.w-week-graph{display:flex;align-items:flex-end;gap:5px;height:36px}
+.w-week-graph-wrap{display:flex;flex-direction:column;gap:4px}
+.w-week-diff-badge{font-size:14px;font-weight:900}
+.w-week-sub{font-size:9px;color:var(--dim)}
+.w-week-strip{display:flex;align-items:center;background:rgba(255,255,255,0.04);border-radius:14px;margin:0 18px 10px;padding:14px 16px;border:1px solid var(--border)}
+.w-week-item{flex:1;text-align:center}
+.w-week-val{font-size:22px;font-weight:900;letter-spacing:-.03em}
+.w-week-lbl{font-size:8px;color:var(--dim);font-weight:700;letter-spacing:.16em;margin-top:2px;text-transform:uppercase}
+.w-week-diff{font-size:11px;font-weight:700;margin-top:4px}
+.w-week-div{width:1px;height:36px;background:rgba(255,255,255,0.06)}
+.w-week-avg-box{flex:1;background:rgba(255,255,255,0.04);border-radius:8px;padding:8px 10px;text-align:center;border:1px solid var(--border)}
+.w-avg-val{font-size:18px;font-weight:900;letter-spacing:-.03em}
+.w-avg-lbl{font-size:8px;color:var(--dim);font-weight:700;letter-spacing:.16em;margin-top:2px;text-transform:uppercase}
+
+/* Calendar */
+.cal-card{background:rgba(255,255,255,0.04);border-radius:16px;margin:0 18px 10px;padding:16px;border:1px solid var(--border)}
+.cal-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.cal-title-lbl{font-size:8px;font-weight:800;letter-spacing:.24em;text-transform:uppercase;color:var(--dim)}
+.cal-month-lbl{font-size:13px;font-weight:700;letter-spacing:-.01em}
+.cal-dow-row{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px}
+.cal-dow{font-size:9px;color:var(--dim);text-align:center;padding:2px 0;font-weight:600;letter-spacing:.04em}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal-day{aspect-ratio:1;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;color:rgba(255,255,255,0.18)}
+.cal-day.empty{background:transparent}
+.cal-day.no-sess{background:rgba(255,255,255,0.03);color:rgba(255,255,255,0.12)}
+.cal-day.has-sess-1{background:rgba(0,202,255,0.15);color:rgba(255,255,255,0.5)}
+.cal-day.has-sess-2{background:rgba(0,202,255,0.35);color:#fff}
+.cal-day.has-sess-3{background:#00CAFF;color:#07080F;font-weight:700}
+.cal-day.today{box-shadow:0 0 0 1.5px rgba(0,202,255,0.55)}
+
+/* Milestone */
+.ms-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.94);z-index:200;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center;backdrop-filter:blur(24px)}
+.ms-overlay.open{display:flex}
+.ms-circle{width:180px;height:180px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:28px}
+.ms-val{font-size:60px;font-weight:900;letter-spacing:-.04em;line-height:1;margin-bottom:8px}
+.ms-label{font-size:18px;font-weight:600;margin-bottom:6px;letter-spacing:.01em}
+.ms-name{font-size:12px;color:var(--sub);margin-bottom:32px;letter-spacing:.06em;text-transform:uppercase}
+.ms-close{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:13px 32px;color:var(--text);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:.1em;text-transform:uppercase}
+
+/* Share modal */
+
+.share-overlay.open{display:flex}
+
+
+
+
+
+
+.sc-ring-item{text-align:center}
+.sc-ring-val{font-size:28px;font-weight:900;line-height:1;letter-spacing:-.03em}
+.sc-ring-lbl{font-size:8px;letter-spacing:.14em;color:var(--sub);margin-top:4px;text-transform:uppercase;font-weight:700}
+
+
+
+.sc-stat-val{font-size:17px;font-weight:900;letter-spacing:-.02em}
+.sc-stat-lbl{font-size:9px;color:var(--sub);margin-top:2px;letter-spacing:.08em;text-transform:uppercase}
+
+.sc-streak-num{font-size:24px;font-weight:900;color:var(--yellow);letter-spacing:-.03em}
+.sc-streak-lbl{font-size:12px;font-weight:700;color:var(--yellow)}
+.sc-streak-sub{font-size:10px;color:var(--sub);margin-top:2px;letter-spacing:.04em}
+
+
+
+
+/* Insight bars */
+.w-insight-compact{display:flex;flex-direction:column;gap:5px;padding:0 18px}
+.w-insight-bar{
+  display:flex;align-items:flex-start;gap:12px;background:rgba(255,255,255,0.03);
+  border-radius:14px;padding:12px 14px;border:1px solid rgba(255,255,255,0.06);
+  transition:background .12s;
+}
+.w-insight-bar:hover{background:rgba(255,255,255,0.05)}
+.w-ib-accent{width:3px;height:36px;border-radius:2px;flex-shrink:0;margin-top:1px}
+.w-ib-body{flex:1}
+.w-ib-tag{font-size:8px;font-weight:800;letter-spacing:.14em;margin-bottom:3px;text-transform:uppercase}
+.w-ib-title{font-size:13px;font-weight:700;line-height:1.3;letter-spacing:.01em}
+.w-ib-desc{font-size:11px;color:rgba(255,255,255,0.32);margin-top:3px;line-height:1.5}
+
+/* Prog3 (hidden) */
+.prog3-card,.prog3-rings,.prog3-item,.prog3-label,.prog3-note,.prog3-title{display:none}
+
+/* Burn pulse animation for OVERDRIVE */
+@keyframes burnPulse{
+  0%,100%{filter:drop-shadow(0 0 8px rgba(255,255,255,0.4));}
+  50%{filter:drop-shadow(0 0 20px rgba(255,255,255,0.9));}
+}
+@keyframes overdrivePulse{
+  0%,100%{opacity:1;transform:scale(1);}
+  50%{opacity:0.85;transform:scale(1.02);}
+}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.08);border-radius:2px}
+
+/* bd card wrapper */
+#bdCard{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:16px;margin:0 18px;padding:16px}
+
+/* Glow accents */
+.w-sbar-fill{box-shadow:0 0 8px rgba(0,202,255,0.25)}
+.w-act-badge{box-shadow:inset 0 0 0 1px rgba(255,255,255,0.07)}
+
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- ══ UPLOAD ══ -->
+<div id="su" class="screen active">
+  <div class="up-logo">
+    <div class="up-brand">Pilar Studio</div>
+    <h1 class="up-h1">Body Report</h1>
+    <p class="up-p">Upload All Bookings CSV to begin</p>
+  </div>
+  <div class="up-box" onclick="document.getElementById('fi').click()">
+    <div class="up-icon-wrap">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#4EAEF5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+      </svg>
+    </div>
+    <h3>Upload CSV</h3>
+    <p>All Bookings from Gokenko CRM</p>
+  </div>
+  <input type="file" id="fi" accept=".csv" style="display:none" onchange="handleFile(event)"/>
+</div>
+
+<!-- ══ SELECT ══ -->
+<div id="ss" class="screen">
+  <div class="sel-inner">
+    <div class="sel-brand">Pilar Studio · Body Report</div>
+    <!-- Loading state -->
+    <div id="liffLoading" style="text-align:center;padding:40px 0">
+      <div style="font-size:32px;margin-bottom:12px">⏳</div>
+      <div style="color:rgba(255,255,255,0.5);font-size:13px">กำลังโหลด...</div>
+    </div>
+    <!-- Email input (first time) -->
+    <div id="emailScreen" style="display:none">
+      <h2 style="margin-bottom:8px">ยืนยันตัวตน</h2>
+      <p class="sel-sub" style="margin-bottom:24px">ใส่อีเมลที่ลงทะเบียนกับ Pilar Studio</p>
+      <div style="display:flex;flex-direction:column;gap:12px;padding:0 4px">
+        <input type="email" id="emailInput" placeholder="your@email.com"
+          style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;color:#fff;font-size:15px;font-family:'DM Sans',sans-serif;outline:none;width:100%"/>
+        <button onclick="submitEmail()"
+          style="background:#1BE3A0;border:none;border-radius:12px;padding:14px;color:#000;font-size:15px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;width:100%">
+          ดูรายงานของฉัน
+        </button>
+        <div id="emailError" style="color:#FF453A;font-size:12px;text-align:center;display:none"></div>
+      </div>
+    </div>
+    <!-- Member list (staff view) -->
+    <div id="memberListScreen" style="display:none">
+      <h2>Select Member</h2>
+      <p class="sel-sub" id="cCount"></p>
+      <div class="srch">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8E8E93" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="sInput" placeholder="Search name..." oninput="filterC()"/>
+      </div>
+      <div class="clist" id="cList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DASHBOARD ══ -->
+<div id="sd" class="screen">
+  <!-- Top bar -->
+  <div class="w-topbar">
+    <button class="w-back" onclick="showScr('ss')">‹</button>
+    <div class="w-topbar-center">
+      <div style="display:flex;align-items:center;justify-content:center;gap:8px">
+        <div class="w-topbar-name" id="dName"></div>
+        <div id="classCountBadge"></div>
+      </div>
+      <div class="w-topbar-sub">Pilar Studio · Body Report</div>
+    </div>
+    <div style="width:36px"></div>
+  </div>
+
+  <!-- Personal Title — prominent, below name -->
+  <div id="titleCard"></div>
+
+  <!-- Period -->
+  <div class="w-period">
+    <button class="w-period-btn active" onclick="setPeriod('thisWeek',this)">THIS WK</button>
+    <button class="w-period-btn" onclick="setPeriod('lastWeek',this)">LAST WK</button>
+    <button class="w-period-btn" onclick="setPeriod(30,this)">1M</button>
+    <button class="w-period-btn" onclick="setPeriod(0,this)">ALL</button>
+  </div>
+  <div id="periodDateRange" style="text-align:center;font-size:9px;color:rgba(255,255,255,0.22);letter-spacing:.06em;padding:4px 0 2px;font-family:'DM Sans',sans-serif"></div>
+
+  <!-- Big Strain Ring + Stats Strip -->
+  <div class="w-rings-section">
+    <div class="w-strain-row">
+      <div id="ringsRow" style="flex:1;display:flex;justify-content:center"></div>
+    </div>
+  </div>
+
+  <!-- Week comparison strip -->
+  <div id="weekStrip"></div>
+
+  <!-- My Day — readiness -->
+  <div id="readinessCard"></div>
+
+  <!-- Score bars: CONSISTENCY + BURN -->
+  <div id="scoreBars"></div>
+
+  <!-- Strain Breakdown horizontal bars -->
+  <div id="muscleBreakdown"></div>
+
+  <!-- Issue pills -->
+  <div id="issuePills"></div>
+
+  <!-- PB -->
+  <div id="pbBadge"></div>
+
+  <!-- Your Story -->
+  <div class="w-sec-hdr">YOUR STORY</div>
+  <div id="insightCards"></div>
+
+  <!-- Top Classes -->
+  <div class="w-sec-hdr">MOST VISITED CLASSES</div>
+  <div id="topClassCard"></div>
+
+  <!-- Class Breakdown -->
+  <div class="w-sec-hdr">CLASS BREAKDOWN</div>
+  <div id="bdCard"></div>
+
+  <!-- Share Button -->
+  <div style="padding:24px 18px 40px;display:flex;justify-content:center">
+    <button onclick="openShareCamera()" style="display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,rgba(0,202,255,0.15),rgba(27,227,160,0.1));border:1px solid rgba(0,202,255,0.3);border-radius:24px;padding:14px 28px;color:#fff;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;letter-spacing:.06em;cursor:pointer">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00CAFF" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M2 12C2 12 5 5 12 5s10 7 10 7-3 7-10 7S2 12 2 12z"/></svg>
+      SHARE MY STATS
+    </button>
+  </div>
+</div>
+
+<!-- Share Camera Overlay -->
+<div id="shareCameraOverlay" style="display:none;position:fixed;inset:0;background:#000;z-index:9999;flex-direction:column">
+  <video id="shareVideo" autoplay playsinline style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0"></video>
+  <canvas id="shareCanvas" style="display:none"></canvas>
+
+  <!-- Dark gradient fade at bottom -->
+  <div style="position:absolute;left:0;right:0;bottom:155px;height:120px;background:linear-gradient(to bottom,rgba(0,0,0,0),rgba(0,0,0,0.95));pointer-events:none"></div>
+
+  <!-- Rings — bottom section -->
+  <div id="shareRingsOverlay" style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.92);padding:16px 8px 20px;display:flex;flex-direction:column;align-items:center;gap:10px">
+    <div id="shareRingsSvg" style="width:100%;display:flex;justify-content:center;align-items:center;gap:4px"></div>
+    <div style="background:rgba(255,255,255,0.07);border-radius:6px;padding:3px 14px">
+      <div id="shareBrandLabel" style="font-family:'DM Sans',sans-serif;font-size:9px;font-weight:800;color:rgba(255,255,255,0.5);letter-spacing:.25em;text-align:center">PILAR STUDIO</div>
+    </div>
+  </div>
+
+  <!-- Controls top -->
+  <div style="position:absolute;top:0;left:0;right:0;padding:20px 20px 0;display:flex;justify-content:space-between;align-items:center">
+    <button onclick="closeShareCamera()" style="background:rgba(0,0,0,0.5);border:none;border-radius:50%;width:40px;height:40px;color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center">‹</button>
+    <div style="font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;color:rgba(255,255,255,0.5);letter-spacing:.2em">MY PILAR STATS</div>
+    <div style="width:40px"></div>
+  </div>
+
+  <!-- Capture button — above rings section -->
+  <div style="position:absolute;bottom:165px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:10px">
+    <div style="font-family:'DM Sans',sans-serif;font-size:10px;color:rgba(255,255,255,0.35);letter-spacing:.1em">กดเพื่อบันทึกภาพ</div>
+    <button onclick="captureShare()" style="width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,0.15);border:3px solid #fff;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)">
+      <div style="width:48px;height:48px;border-radius:50%;background:#fff"></div>
+    </button>
+  </div>
+</div>
+
+<!-- Milestone -->
+<div class="ms-overlay" id="msOverlay">
+  <div class="ms-circle" id="msGlow"></div>
+  <div class="ms-val" id="msVal"></div>
+  <div class="ms-label" id="msLabel"></div>
+  <div class="ms-name" id="msName"></div>
+  <button class="ms-close" onclick="document.getElementById('msOverlay').classList.remove('open')">Close</button>
+</div>
+
+<!-- Share Modal -->
+<script>
+
+
+/* ── Muscle Group & Strain Keyword Map ── */
+const MUSCLE_KEYWORDS = {
+  core:    ['basic core','core','pulse & core','flow & control','pilar flow','endurance full body','full body sculpt','sculpt & curve','strength & balance'],
+  lower:   ['booty','glutes','legs','hips','barre','booty lift','glutes & legs','hips & legs'],
+  upper:   ['upper body','back','office syndrome','office fix','office synfrome'],
+  posture: ['reformer posture','posture','office syndrome','office fix','spine','alignment'],
+  flex:    ['yoga','harmony','sound','morning flow','energy awakening','happy back','deep sound','reset'],
+};
+
+const STRAIN_WEIGHT = {
+  // ── Calibrated for Pilates context (0-21 scale) ──
+  // Optimal zone = 3-4 classes/week consistently
+  'jumpboard':4.5,'cardio barre':4.0,'cardio':3.8,
+  'booty lift':3.6,'glutes & legs':3.6,'endurance':3.6,
+  'barre with weight':3.4,'sculpt & curve':3.3,'full body sculpt':3.3,
+  'reformer':3.0,'pilar flow':3.0,'pulse & core':3.0,
+  'basic core':2.5,'upper body':2.5,'posture':2.5,
+  'private':3.6,'duo':3.6,
+  'yoga':1.8,'sound':1.4,'harmony':1.4,'reset':1.4,
+  'first barre':2.0,'hello pilar':2.0,
+};
+
+function getStrainWeight(name){
+  const n=name.toLowerCase();
+  for(const[k,v] of Object.entries(STRAIN_WEIGHT)){
+    if(n.includes(k)) return v;
+  }
+  return 2.4; // default: moderate pilates class
+}
+
+function getMuscleGroups(name){
+  const n=name.toLowerCase();
+  // Special cases: Reformer and Private contribute to multiple groups
+  if(n.includes('private')||n.includes('duo')){
+    return['core','lower','upper','posture']; // balanced 25% each
+  }
+  if(n.includes('reformer')&&!n.includes('posture')){
+    return['core','core','lower','posture']; // core 40%, lower 30%, posture 30%
+  }
+  const groups=[];
+  for(const[group,kws] of Object.entries(MUSCLE_KEYWORDS)){
+    if(kws.some(k=>n.includes(k))) groups.push(group);
+  }
+  return groups.length?groups:['core'];
+}
+
+/* ── Safe element setter ── */
+function setEl(id,html_content){const el=document.getElementById(id);if(el)el.innerHTML=html_content;}
+
+/* ── Constants ── */
+const MET={Reformer:4.0,Private:3.5,Barre:4.5,Yoga:2.5,Pilates:3.0};
+const COLORS={Reformer:'#00CAFF',Private:'#F5C842',Barre:'#FF6B9D',Yoga:'#1BE3A0',Pilates:'#BF5AF2'};
+const CLASS_EMOJI={Reformer:'🔵',Private:'⭐',Barre:'🩷',Yoga:'🌿',Pilates:'💜'};
+let allBookings=[],allCustomers=[],currentName='',currentPeriod=0;
+
+/* ── Classify ── */
+function classify(n=''){
+  const s=n.toLowerCase();
+  if(s.includes('reformer')) return 'Reformer';
+  if(s.includes('private')||s.includes('duo')) return 'Private';
+  if(s.includes('barre')) return 'Barre';
+  if(s.includes('yoga')) return 'Yoga';
+  return 'Pilates';
+}
+
+/* ── Filter by period ── */
+function getWeekBounds(offset=0){
+  // offset 0 = this week, offset 1 = last week
+  const now=new Date();
+  const dow=(now.getDay()+6)%7; // Mon=0
+  const start=new Date(now);
+  start.setDate(now.getDate()-dow-(offset*7));
+  start.setHours(0,0,0,0);
+  const end=offset===0?new Date():new Date(start);
+  if(offset>0){end.setDate(start.getDate()+6);end.setHours(23,59,59,999);}
+  return{start,end};
+}
+
+function filterByPeriod(sessions,days){
+  const now=new Date();
+  if(days==='thisWeek'){
+    const{start,end}=getWeekBounds(0);
+    return sessions.filter(s=>{const d=new Date(s.event_date);return !isNaN(d)&&d>=start&&d<=end;});
+  }
+  if(days==='lastWeek'){
+    const{start,end}=getWeekBounds(1);
+    return sessions.filter(s=>{const d=new Date(s.event_date);return !isNaN(d)&&d>=start&&d<=end;});
+  }
+  if(!days) return sessions.filter(s=>{const d=new Date(s.event_date);return !isNaN(d)&&d<=now;});
+  const cutoff=new Date(now);
+  cutoff.setDate(cutoff.getDate()-days);
+  return sessions.filter(s=>{
+    const d=new Date(s.event_date);
+    return !isNaN(d)&&d>=cutoff&&d<=now;
+  });
+}
+
+/* ── Process stats ── */
+function process(sessions, periodDays=null){
+  const AVG=65; // updated avg weight kg
+  const KCAL_MULT=1.15; // studio factor (incl. EPOC)
+  const rows=sessions.map(s=>({
+    dt:new Date(s.event_date),
+    type:classify(s.event_name),
+    name:s.event_name,
+    mins:parseInt(s.duration)||60,
+    instructor:s.instructors||'',
+  })).filter(r=>!isNaN(r.dt)&&r.dt<=new Date());
+  const total=rows.length;
+  if(!total) return null;
+  const totalMins=rows.reduce((a,r)=>a+r.mins,0);
+  const calories=Math.round(rows.reduce((a,r)=>a+MET[r.type]*AVG*r.mins/60,0)*KCAL_MULT);
+
+  const tc={},tCal={};
+  rows.forEach(r=>{tc[r.type]=(tc[r.type]||0)+1;tCal[r.type]=(tCal[r.type]||0)+MET[r.type]*AVG*r.mins/60;});
+
+  const favClass=Object.entries(tc).sort((a,b)=>b[1]-a[1])[0]?.[0]||'-';
+
+  const slots={Morning:0,Midday:0,Evening:0};
+  rows.forEach(r=>{const h=r.dt.getHours();if(!isNaN(h)){if(h<12)slots.Morning++;else if(h<15)slots.Midday++;else slots.Evening++;}});
+  const peakTime=Object.entries(slots).sort((a,b)=>b[1]-a[1])[0]?.[0]||'-';
+
+  // Monthly
+  const mmap={};
+  rows.forEach(r=>{if(!isNaN(r.dt)){const k=`${r.dt.getFullYear()}-${String(r.dt.getMonth()+1).padStart(2,'0')}`;mmap[k]=(mmap[k]||0)+1;}});
+  const monthly=Object.entries(mmap).sort().map(([k,v])=>({label:new Date(k+'-01').toLocaleDateString('th-TH',{month:'short'}),sessions:v}));
+
+  // Dates
+  const valid=rows.map(r=>r.dt).filter(d=>!isNaN(d)).sort((a,b)=>a-b);
+  const firstDate=valid[0],lastDate=valid[valid.length-1];
+  const spanDays=firstDate&&lastDate?Math.max(1,Math.floor((lastDate-firstDate)/86400000)+1):1;
+  // Use periodDays if provided (more accurate for filtered views), else use session span
+  const days=periodDays?Math.max(periodDays,1):spanDays;
+  const avgPerWeek=parseFloat((total/(days/7)).toFixed(1));
+
+  // Consistency score
+  const consistency=Math.min(100,Math.round((avgPerWeek/3)*100));
+
+  // Burn score — based on adj kcal/week vs 1500 target
+  const weeklyKcal=calories/(days/7);
+  const burnScore=Math.min(100,Math.round((weeklyKcal/1500)*100));
+
+  // Pilates Strain Score — total strain in period
+  // weeklyStrain = raw sum (used by renderDash for recalculation with proper period)
+  const weeklyStrain=rows.reduce((a,r)=>a+getStrainWeight(r.name)*(r.mins/60),0);
+  // Normalize: use session span as fallback (renderDash overrides with proper period)
+  const strainSpanDays=rows.length>=2
+    ? Math.max(7,Math.ceil((Math.max(...rows.map(r=>r.dt))-Math.min(...rows.map(r=>r.dt)))/86400000)+1)
+    : 7;
+  const weekNorm=Math.max(strainSpanDays/7,1);
+  const strainScore=Math.min(21,parseFloat((weeklyStrain/weekNorm).toFixed(1)));
+
+  // Muscle group distribution
+  const muscleMap={core:0,lower:0,upper:0,posture:0,flex:0};
+  rows.forEach(r=>{
+    const w=getStrainWeight(r.name)*(r.mins/60);
+    getMuscleGroups(r.name).forEach(g=>{muscleMap[g]=(muscleMap[g]||0)+w;});
+  });
+  const muscleTotal=Object.values(muscleMap).reduce((a,b)=>a+b,1);
+  const musclePct={};
+  Object.entries(muscleMap).forEach(([k,v])=>{musclePct[k]=Math.round(v/muscleTotal*100);});
+
+  // Top classes
+  const topClasses=Object.entries(tc).sort((a,b)=>b[1]-a[1]).map(([type,count])=>({
+    type,count,cals:Math.round(tCal[type]),color:COLORS[type],
+  }));
+
+  // Recent 5 sessions
+  const recent=rows.sort((a,b)=>b.dt-a.dt).slice(0,5);
+
+  // Progress: logarithmic curve (body improvement naturally plateaus)
+  // 30 sessions~30%, 70~45%, 150~60%, 300~75%
+  const logScale=(n,cap)=>Math.round(Math.log(n+1)/Math.log(cap+1)*85);
+  const core=Math.min(80,Math.max(5,logScale(total,300)));
+  const flexInput=(tc.Barre||0)*1.5+(tc.Yoga||0)*2+total*0.3;
+  const flex=Math.min(75,Math.max(5,logScale(flexInput,200)));
+  const postureInput=(tc.Reformer||0)*1.8+(tc.Private||0)*1.2+total*0.2;
+  const posture=Math.min(78,Math.max(5,logScale(postureInput,250)));
+
+  return{total,calories,totalMins,favClass,peakTime,consistency,burnScore,strainScore,
+    weeklyStrain,musclePct,
+    tc,topClasses,monthly,firstDate,lastDate,days,avgPerWeek,slots,recent,
+    progress:{core,flex,posture}};
+}
+
+/* ── SVG Ring — WHOOP open-arc style ── */
+function svgRing(pct,color,value,unit,label,sub='',size=176,stroke=16){
+  const r=(size-stroke)/2;
+  const cx=size/2,cy=size/2;
+  // Open arc: 240° sweep (gaps at bottom), starting from -210° (bottom-left)
+  const totalAngle=240; // degrees of arc shown
+  const startAngle=-210; // starts bottom-left, going clockwise
+  const endAngle=startAngle+totalAngle;
+
+  function polarToXY(angleDeg,radius){
+    const rad=angleDeg*Math.PI/180;
+    return{x:cx+radius*Math.cos(rad),y:cy+radius*Math.sin(rad)};
+  }
+
+  function describeArc(startDeg,endDeg,radius){
+    const start=polarToXY(startDeg,radius);
+    const end=polarToXY(endDeg,radius);
+    const largeArc=Math.abs(endDeg-startDeg)>180?1:0;
+    return`M${start.x.toFixed(2)},${start.y.toFixed(2)} A${radius},${radius} 0 ${largeArc},1 ${end.x.toFixed(2)},${end.y.toFixed(2)}`;
+  }
+
+  const clampedPct=Math.min(pct/100,1);
+  const fillEnd=startAngle+totalAngle*clampedPct;
+  const bgPath=describeArc(startAngle,endAngle,r);
+  const fillPath=clampedPct>0?describeArc(startAngle,fillEnd,r):'';
+  const gradId='g'+Math.random().toString(36).slice(2,7);
+
+  return`
+  <div class="ring-item">
+    <div style="position:relative;width:${size}px;height:${size}px">
+      <svg width="${size}" height="${size}" style="display:block;overflow:visible">
+        <defs>
+          <linearGradient id="${gradId}" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="${color}" stop-opacity="0.7"/>
+            <stop offset="100%" stop-color="${color}" stop-opacity="1"/>
+          </linearGradient>
+        </defs>
+        <!-- Background track -->
+        <path d="${bgPath}" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="${stroke}" stroke-linecap="round"/>
+        <!-- Filled arc -->
+        ${fillPath?`<path d="${fillPath}" fill="none" stroke="url(#${gradId})" stroke-width="${stroke}" stroke-linecap="round"
+          filter="drop-shadow(0 0 ${stroke/2}px ${color}66)"
+          style="transition:stroke-dasharray .8s ease"/>`:``}
+        <!-- End cap dot -->
+        ${clampedPct>0.02?(()=>{const ep=polarToXY(fillEnd,r);return`<circle cx="${ep.x.toFixed(2)}" cy="${ep.y.toFixed(2)}" r="${stroke/2}" fill="${color}" filter="drop-shadow(0 0 6px ${color})"/>`;})():''}
+      </svg>
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding-bottom:12px">
+        <span style="font-size:${size>140?42:24}px;font-weight:900;color:#fff;line-height:1;letter-spacing:-.03em">${value}</span>
+        ${unit?`<span style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:4px;letter-spacing:.1em;text-transform:uppercase">${unit}</span>`:''}
+      </div>
+    </div>
+    <div class="ring-lbl" style="color:${color};letter-spacing:.22em;font-size:9px;font-weight:800;margin-top:-4px">
+      ${label}
+    </div>
+    ${sub?`<div class="ring-sub">${sub}</div>`:''}
+  </div>`;
+}
+
+
+/* ── SVG Ring Small — 3-ring layout ── */
+function svgRingSmall(pct,color,centerHTML,label,size=120,stroke=10,pulse=false){
+  const r=(size-stroke)/2;
+  const cx=size/2,cy=size/2;
+  const totalAngle=240;
+  const startAngle=-210;
+  const endAngle=startAngle+totalAngle;
+  function polarToXY(a,radius){const rad=a*Math.PI/180;return{x:cx+radius*Math.cos(rad),y:cy+radius*Math.sin(rad)};}
+  function describeArc(s,e,radius){
+    const p1=polarToXY(s,radius),p2=polarToXY(e,radius);
+    const la=Math.abs(e-s)>180?1:0;
+    return`M${p1.x.toFixed(2)},${p1.y.toFixed(2)} A${radius},${radius} 0 ${la},1 ${p2.x.toFixed(2)},${p2.y.toFixed(2)}`;
+  }
+  const clamped=Math.min(pct/100,1);
+  const fillEnd=startAngle+totalAngle*clamped;
+  const bgPath=describeArc(startAngle,endAngle,r);
+  const fillPath=clamped>0?describeArc(startAngle,fillEnd,r):'';
+  const gradId='g'+Math.random().toString(36).slice(2,7);
+  const endCap=clamped>0.02?(()=>{const ep=polarToXY(fillEnd,r);return`<circle cx="${ep.x.toFixed(2)}" cy="${ep.y.toFixed(2)}" r="${stroke/2}" fill="${color}" filter="drop-shadow(0 0 5px ${color})"/>`;})():'';
+  const glowFilter=pulse?`filter="drop-shadow(0 0 8px ${color})"`:'' ;
+  return`
+  <div style="display:flex;flex-direction:column;align-items:center;gap:5px">
+    <div style="position:relative;width:${size}px;height:${size}px${pulse?';animation:burnPulse 2s ease-in-out infinite':''}">
+      <svg width="${size}" height="${size}" style="display:block;overflow:visible">
+        <defs>
+          <linearGradient id="${gradId}" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="${color}" stop-opacity="0.75"/>
+            <stop offset="100%" stop-color="${color}" stop-opacity="1"/>
+          </linearGradient>
+        </defs>
+        <path d="${bgPath}" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="${stroke}" stroke-linecap="round"/>
+        ${fillPath?`<path d="${fillPath}" fill="none" stroke="url(#${gradId})" stroke-width="${stroke}" stroke-linecap="round" ${glowFilter}/>`:``}
+        ${endCap}
+      </svg>
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding-bottom:10px;gap:2px">
+        ${centerHTML}
+      </div>
+    </div>
+    <div style="font-size:8px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:${color}">${label}</div>
+  </div>`;
+}
+
+/* ── Burn Zone System ── */
+const BURN_ZONES=[
+  {name:'COLD',     emoji:'🧊', color:'#4EAEF5', maxRatio:0.25},
+  {name:'WARMING',  emoji:'🌡️', color:'#F5C842', maxRatio:0.50},
+  {name:'ACTIVE',   emoji:'⚡', color:'#FF9500', maxRatio:0.75},
+  {name:'ON FIRE',  emoji:'🔥', color:'#FF4444', maxRatio:1.00},
+  {name:'OVERDRIVE',emoji:'💥', color:'#FFFFFF', maxRatio:999 },
+];
+function getBurnZone(ratio){
+  const idx=BURN_ZONES.findIndex(z=>ratio<z.maxRatio);
+  return{zone:BURN_ZONES[idx===-1?4:idx],idx:idx===-1?4:idx};
+}
+function foodCompare(kcal){
+  if(kcal>=1000) return `≈ข้าวมันไก่ ${Math.round(kcal/500)} จาน 🍗`;
+  if(kcal>=400)  return `≈ชานมไข่มุก ${Math.round(kcal/250)} แก้ว 🧋`;
+  if(kcal>=150)  return `≈โยเกิร์ต ${Math.round(kcal/120)} ถ้วย 🥛`;
+  return `≈ช็อกโกแลต ${Math.round(kcal/80)} ชิ้น 🍫`;
+}
+
+/* ── Generate insight cards ── */
+function generateInsights(stats,name){
+  const{total,calories,favClass,consistency,burnScore,
+    strainScore,tc,topClasses,days,avgPerWeek,slots,progress,firstDate}=stats;
+
+  const cards=[];
+  const fmt=n=>Number(n).toLocaleString();
+  const topType=topClasses[0];
+  const topPct=topType?Math.round(topType.count/total*100):0;
+
+  // ── 1. Personality ──
+  const personality={
+    Reformer:{label:'Reformer, Always',sub:`${topType?.count||0} คลาส · ${topPct}% ของทั้งหมด · เน้น control & alignment`},
+    Private: {label:'Private Session',sub:`${topPct}% ลงทุนกับตัวเอง · พัฒนาเร็วกว่าคลาสกลุ่ม`},
+    Barre:   {label:'Barre Regular',sub:`${topType?.count||0} คลาส · rhythm & endurance`},
+    Yoga:    {label:'Quiet & Grounded',sub:`Yoga เป็นคลาสหลัก · ให้ความสำคัญกับ recovery`},
+    Pilates: {label:'Pilates Foundation',sub:`สร้าง core จากพื้นฐาน · ${topType?.count||0} คลาสสะสม`},
+  }[favClass||'Pilates'];
+  cards.push({tag:'CLASS',tagColor:'#4EAEF5',title:personality.label,desc:personality.sub});
+
+  // ── 2. Consistency ──
+  const consistCard=consistency>=80
+    ?{tag:'ELITE',tagColor:'#1BE3A0',title:'ไม่เคยหยุด',desc:`${avgPerWeek}x/สัปดาห์ · ใน ${Math.round(days/7)} สัปดาห์ พลาดไปน้อยมาก`}
+    :consistency>=50
+    ?{tag:'STEADY',tagColor:'#FF9F0A',title:'กำลังสร้างนิสัย',desc:`${avgPerWeek}x/สัปดาห์ · เพิ่มเป็น 3x จะเห็นผลชัดขึ้น`}
+    :{tag:'BUILDING',tagColor:'#6FB3D3',title:'เพิ่งเริ่มต้น',desc:`${avgPerWeek}x/สัปดาห์ · 2x+ ต่อสัปดาห์คือจุดเปลี่ยน`};
+  cards.push(consistCard);
+
+  // ── 3. Effort ──
+  const kcalPerClass=Math.round(calories/total);
+  const compareActivity=kcalPerClass>250?'วิ่ง 35 นาที':kcalPerClass>200?'ปั่นจักรยาน 30 นาที':'เดินเร็ว 45 นาที';
+  cards.push({
+    tag:'BURN',tagColor:'#FF6B9D',
+    title:`${fmt(kcalPerClass)} kcal / คลาส`,
+    desc:`รวม ${fmt(calories)} kcal · เทียบเท่า${compareActivity}ต่อครั้ง`,
+  });
+
+  return cards;
+}
+
+
+
+/* ── Radar Chart SVG ── */
+function drawRadar(data, size=200){
+  // data = {core, lower, upper, posture, flex} each 0-100
+  const labels = ['CORE','LOWER','UPPER','POSTURE','FLEX'];
+  const keys   = ['core','lower','upper','posture','flex'];
+  const N = 5;
+  const cx = size/2, cy = size/2;
+  const maxR = size*0.38;
+  const labelR = size*0.47;
+
+  // Angles starting from top, clockwise
+  const angles = keys.map((_,i) => (i * 2*Math.PI/N) - Math.PI/2);
+
+  function pt(pct, angleIdx){
+    const r = maxR * Math.min(pct/100, 1);
+    return {
+      x: cx + r * Math.cos(angles[angleIdx]),
+      y: cy + r * Math.sin(angles[angleIdx]),
+    };
+  }
+
+  // Grid rings (20%, 40%, 60%, 80%, 100%)
+  const rings = [20,40,60,80,100].map(ring=>{
+    const pts = keys.map((_,i)=>{
+      const r2 = maxR*(ring/100);
+      return `${cx+r2*Math.cos(angles[i])},${cy+r2*Math.sin(angles[i])}`;
+    }).join(' ');
+    return `<polygon points="${pts}" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>`;
+  }).join('');
+
+  // Axis lines
+  const axes = keys.map((_,i)=>{
+    const end = pt(100,i);
+    return `<line x1="${cx}" y1="${cy}" x2="${end.x}" y2="${end.y}" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>`;
+  }).join('');
+
+  // Data polygon
+  const dataVals = keys.map(k=>Math.max(data[k]||0, 3));
+  const dataPts  = dataVals.map((_,i)=>pt(dataVals[i],i));
+  const dataPath = dataPts.map((p,i)=>`${i===0?'M':'L'}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ')+'Z';
+
+  // Detect imbalance — highlight low axes in orange
+  const avgVal = dataVals.reduce((a,b)=>a+b,0)/N;
+  const dotColors = dataVals.map(v=>v<15?'#FF9500':v===Math.max(...dataVals)?'#4EAEF5':'rgba(255,255,255,0.4)');
+
+  // Dots on vertices
+  const dots = dataPts.map((p,i)=>`
+    <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.5" fill="${dotColors[i]}"/>
+  `).join('');
+
+  // Labels
+  const labelEls = keys.map((k,i)=>{
+    const lx = cx + labelR*Math.cos(angles[i]);
+    const ly = cy + labelR*Math.sin(angles[i]);
+    const val = data[k]||0;
+    const isLow = val < 15;
+    return `
+    <text x="${lx.toFixed(1)}" y="${(ly-6).toFixed(1)}" text-anchor="middle"
+      font-size="9" font-weight="700" letter-spacing="0.06em"
+      fill="${isLow?'#FF9500':'rgba(255,255,255,0.5)'}">${labels[i]}</text>
+    <text x="${lx.toFixed(1)}" y="${(ly+7).toFixed(1)}" text-anchor="middle"
+      font-size="10" font-weight="800"
+      fill="${isLow?'#FF9500':'rgba(255,255,255,0.8)'}">${val}%</text>
+    `;
+  }).join('');
+
+  // Pick fill color based on balance
+  const minVal = Math.min(...dataVals);
+  const fillColor = minVal >= 15 ? '#4EAEF5' : '#FF9500';
+
+  return `<svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}">
+    ${rings}
+    ${axes}
+    <path d="${dataPath}" fill="${fillColor}22" stroke="${fillColor}" stroke-width="2" stroke-linejoin="round"/>
+    ${dots}
+    ${labelEls}
+  </svg>`;
+}
+
+/* ── Balance analysis ── */
+function analyzeBalance(musclePct){
+  const {core=0,lower=0,upper=0,posture=0,flex=0} = musclePct||{};
+  const all=[];
+
+  if(upper < 15) all.push({msg:'ลอง Upper Body & Back เพิ่มด้วยนะ',priority:2});
+  if(flex  < 10) all.push({msg:'เพิ่ม Recovery class จะช่วยได้มาก',priority:1});
+  if(lower < 10) all.push({msg:'ลอง Booty Lift หรือ Glutes & Legs บ้างไหม',priority:2});
+  if(posture<10) all.push({msg:'Reformer Posture จะช่วย alignment ได้ดี',priority:3});
+  if(core  > 55) all.push({msg:'Core หนักมาก ลอง Recovery class บ้างนะ',priority:1});
+
+  // Sort by priority, cap at 2
+  all.sort((a,b)=>a.priority-b.priority);
+  const issues=all.slice(0,2).map(i=>i.msg);
+  const balanced=all.length===0;
+  const recs=issues;
+  return{issues,recs,balanced};
+}
+
+
+/* ── Unified Recommendation Engine ── */
+function getUnifiedRec(rd, musclePct){
+  // Priority 1: Recovery state drives what class type
+  const {core=0,lower=0,upper=0,posture=0,flex=0} = musclePct||{};
+  const lastGroups = rd.lastGroups||[];
+
+  if(rd.risk==='decon'){
+    return {
+      class: 'Basic Core | Reformer',
+      reason: 'หายไปนาน — เริ่มด้วยคลาสเบาๆ เพื่อ re-activate กล้ามเนื้อ',
+    };
+  }
+
+  if(rd.risk==='overstrain'){
+    // Last class was heavy — recommend opposite muscle group or flex
+    if(lastGroups.includes('lower')) return {class:'Yoga for Office Syndrome', reason:'Lower body กำลัง recover — เปลี่ยนไป Upper + Flex'};
+    if(lastGroups.includes('upper')) return {class:'Booty Lift', reason:'Upper body กำลัง recover — สลับมา Lower body'};
+    return {class:'Yoga or Harmony Hour', reason:'ร่างกายต้องการ recovery วันนี้'};
+  }
+
+  if(rd.risk==='moderate'){
+    // Moderate recovery — recommend lighter version of most needed group
+    if(upper < 15) return {class:'Upper Body & Back | Reformer', reason:'Upper body underused + recovery ยังไม่เต็ม'};
+    if(flex < 10)  return {class:'Pilar Barre Signature', reason:'เพิ่ม flexibility — ร่างกายพักพอแล้ว'};
+    return {class:'Reformer Posture', reason:'Recovery ดี — เน้น posture alignment'};
+  }
+
+  // READY — recommend based on imbalance
+  if(upper < 15) return {class:'Upper Body & Back | Reformer', reason:'Upper body ขาดการเทรน — วันนี้เหมาะมาก'};
+  if(flex < 10)  return {class:'Yoga or Harmony Hour', reason:'ไม่มี recovery class เลย — ร่างกายต้องการ'};
+  if(lower < 15) return {class:'Glutes & Legs Power | Reformer', reason:'Lower body ต้องการ attention'};
+  if(posture < 10) return {class:'Reformer Posture | Reformer', reason:'Posture training ต่ำ'};
+  // Balanced — push intensity
+  return {class:'PILAR Flow & Control | Reformer', reason:'ร่างกายสมดุลและพร้อม — push ได้เลย'};
+}
+
+/* ── Reusable render helpers ── */
+function renderMuscle(musclePct){
+  const muscleEl=document.getElementById('muscleBreakdown');
+  if(!muscleEl) return;
+  const C='#00CAFF';
+  const mData=musclePct||{};
+  const labels={core:'CORE',lower:'LOWER',upper:'UPPER',posture:'POST',flex:'FLEX'};
+  muscleEl.innerHTML=`<div class="w-sec-hdr">MUSCLE FOCUS</div>
+  <div style="padding:4px 18px 12px;display:flex;flex-direction:column;gap:8px">
+    ${['core','lower','upper','posture','flex'].map(k=>{
+      const v=mData[k]||0;
+      return `<div style="display:flex;align-items:stretch;background:rgba(255,255,255,0.03);border-radius:10px;overflow:hidden;height:31px">
+        <div style="width:64px;background:${C}22;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;gap:1px">
+          <span style="font-size:10px;font-weight:900;color:#fff;line-height:1">${v}%</span>
+          <span style="font-size:5px;font-weight:800;color:rgba(255,255,255,0.45);letter-spacing:.12em">${labels[k]}</span>
+        </div>
+        <div style="flex:1;position:relative;overflow:hidden;background:${C}08">
+          <div style="position:absolute;inset:0;background:${C}08"></div>
+          <div style="position:absolute;top:0;left:0;height:100%;width:${v}%;background:${C}28"></div>
+        </div>
+        <div style="width:3px;background:${C};opacity:0.5;flex-shrink:0"></div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+function renderInsights(stats,name){
+  const insights=generateInsights(stats,name);
+  document.getElementById('insightCards').innerHTML=`<div style="padding:4px 18px 12px;display:flex;flex-direction:column;gap:8px">`+insights.map(c=>`
+    <div style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.03);border-radius:10px;padding:12px 14px;border-left:3px solid ${c.tagColor}">
+      <div style="flex:1;min-width:0">
+        <div style="font-size:8px;font-weight:800;color:${c.tagColor};letter-spacing:.12em;margin-bottom:3px">${c.tag}</div>
+        <div style="font-size:13px;font-weight:700;color:#fff;line-height:1.2">${c.title}</div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.38);margin-top:3px;line-height:1.4">${c.desc}</div>
+      </div>
+    </div>`).join('')+'</div>';
+}
+
+function renderTopClasses(allSess,totalCount){
+  const classNameCount={};
+  allSess.forEach(s=>{const n=s.event_name||'Unknown';classNameCount[n]=(classNameCount[n]||0)+1;});
+  const top4=Object.entries(classNameCount).sort((a,b)=>b[1]-a[1]).slice(0,4);
+  const el=document.getElementById('topClassCard');
+  if(!el||!top4.length) return;
+  el.innerHTML=`<div style="padding:4px 18px 12px;display:flex;flex-direction:column;gap:8px">
+    ${top4.map(([n,cnt])=>{
+      const pct=Math.round(cnt/totalCount*100);
+      const sn=n.length>24?n.substring(0,22)+'…':n;
+      return `<div style="display:flex;align-items:stretch;background:rgba(255,255,255,0.03);border-radius:10px;overflow:hidden;height:31px">
+        <div style="flex:1;position:relative;overflow:hidden">
+          <div style="position:absolute;inset:0;background:rgba(0,202,255,0.08)"></div>
+          <div style="position:absolute;top:0;left:0;height:100%;width:${pct}%;background:rgba(0,202,255,0.28)"></div>
+          <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 14px">
+            <span style="font-size:11px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${sn}</span>
+          </div>
+        </div>
+        <div style="width:52px;background:rgba(0,202,255,0.15);display:flex;flex-direction:column;align-items:center;justify-content:center;border-left:1px solid rgba(0,202,255,0.15)">
+          <span style="font-size:11px;font-weight:900;color:#fff">${cnt}x</span>
+          <span style="font-size:5px;font-weight:700;color:rgba(255,255,255,0.4)">${pct}%</span>
+        </div>
+        <div style="width:3px;background:#00CAFF;opacity:0.5;flex-shrink:0"></div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+function renderBdCard(allSess,allStats){
+  const classTypes=['Reformer','Barre','Yoga','Private','Pilates'];
+  const classShort={Reformer:'REF',Barre:'BAR',Yoga:'YOG',Private:'PRV',Pilates:'PIL'};
+  const memberCounts={};classTypes.forEach(t=>memberCounts[t]=0);
+  allSess.forEach(s=>{const t=classify(s.event_name);if(memberCounts[t]!==undefined)memberCounts[t]++;});
+  const uniqueM=[...new Set(allBookings.filter(b=>b.booking_status==='Booked').map(b=>b.contact_name))];
+  const studioByType={};classTypes.forEach(t=>studioByType[t]=[]);
+  uniqueM.forEach(m=>{const ms=allBookings.filter(b=>b.contact_name===m&&b.booking_status==='Booked');classTypes.forEach(t=>{studioByType[t].push(ms.filter(s=>classify(s.event_name)===t).length);});});
+  const studioAvg={};classTypes.forEach(t=>{const a=studioByType[t].filter(v=>v>0);studioAvg[t]=a.length?parseFloat((a.reduce((x,y)=>x+y,0)/a.length).toFixed(1)):0;});
+  const chartMax=35,chartH=100,barW=22,gap=22,padL=28;
+  const totalW=classTypes.length*(barW+gap)-gap;
+  const gradId='bG'+Math.random().toString(36).slice(2,5);
+  const yTicks=[0,Math.round(chartMax*0.5),chartMax];
+  const yHtml=yTicks.map(v=>{const y=chartH-(v/chartMax*chartH);return `<text x="${padL-6}" y="${y+4}" fill="rgba(255,255,255,0.25)" font-size="8" text-anchor="end">${v}</text><line x1="${padL}" y1="${y}" x2="${padL+totalW}" y2="${y}" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>`;}).join('');
+  const bHtml=classTypes.map((t,i)=>{const x=padL+i*(barW+gap);const h=Math.max(2,Math.round(memberCounts[t]/chartMax*chartH));const y=chartH-h;const op=memberCounts[t]>0?1:0.15;return `<rect x="${x}" y="${y}" width="${barW}" height="${h}" fill="url(#${gradId})" opacity="${op}" rx="2"/>${memberCounts[t]>0?`<text x="${x+barW/2}" y="${y-5}" fill="#fff" font-size="9" font-weight="700" text-anchor="middle">${memberCounts[t]}</text>`:''}<text x="${x+barW/2}" y="${chartH+13}" fill="rgba(255,255,255,0.35)" font-size="8" font-weight="600" text-anchor="middle">${classShort[t]}</text>`;}).join('');
+  const aHtml=classTypes.map((t,i)=>{const x=padL+i*(barW+gap);const ay=chartH-(Math.min(studioAvg[t],chartMax)/chartMax*chartH);return studioAvg[t]>0?`<line x1="${x}" y1="${ay}" x2="${x+barW}" y2="${ay}" stroke="#4EAEF5" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.85"/><text x="${x+barW/2}" y="${ay-4}" fill="#4EAEF5" font-size="7" text-anchor="middle" opacity="0.7">${studioAvg[t]}</text>`:'';}).join('');
+  document.getElementById('bdCard').innerHTML=`
+  <div class="w-bd-period-label" style="padding:8px 18px 4px">CLASS BREAKDOWN · ALL TIME</div>
+  <div style="padding:4px 18px 8px;overflow-x:auto">
+    <svg width="${padL+totalW+60}" height="${chartH+32}" style="overflow:visible;display:block;margin:0 auto">
+      <defs><linearGradient id="${gradId}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#00CAFF" stop-opacity="1"/><stop offset="100%" stop-color="#005F8A" stop-opacity="0.7"/></linearGradient></defs>
+      ${yHtml}${bHtml}${aHtml}
+      <line x1="${padL}" y1="0" x2="${padL}" y2="${chartH}" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+      <line x1="${padL}" y1="${chartH}" x2="${padL+totalW}" y2="${chartH}" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+    </svg>
+    <div style="display:flex;align-items:center;gap:5px;margin-top:2px;padding-left:${padL}px">
+      <svg width="18" height="8"><line x1="0" y1="4" x2="18" y2="4" stroke="#4EAEF5" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.8"/></svg>
+      <span style="font-size:8px;color:rgba(255,255,255,0.28);letter-spacing:.06em">avg จากสมาชิกที่เข้าคลาสนั้นจริงๆ (${uniqueM.length} คนในระบบ)</span>
+    </div>
+  </div>`;
+}
+
+/* ── Render dashboard ── */
+function renderDash(name,sessions){
+  const stats=process(sessions, currentPeriod==='thisWeek'?7:currentPeriod==='lastWeek'?7:currentPeriod>0?currentPeriod:null);
+  document.getElementById('dName').textContent=name;
+
+  // All-time class count badge in topbar
+  const allTimeTotal=allBookings.filter(b=>b.contact_name===name&&b.booking_status==='Booked').length;
+  const badgeEl=document.getElementById('classCountBadge');
+  if(badgeEl) badgeEl.innerHTML=allTimeTotal>0
+    ?`<span style="font-size:9px;font-weight:700;color:var(--teal);border:1px solid rgba(0,202,255,0.3);border-radius:20px;padding:2px 9px;letter-spacing:.08em;white-space:nowrap">${allTimeTotal} CLASSES</span>`
+    :'';
+
+  if(!stats||!stats.total){
+    // Empty rings
+    const _ec=`<span style="font-size:9px;color:rgba(255,255,255,0.18);letter-spacing:.06em">—</span>`;
+    document.getElementById('ringsRow').innerHTML=`
+    <div style="display:flex;flex-direction:column;align-items:center;gap:12px;width:100%;padding:0 4px">
+      <div style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%">
+        ${svgRingSmall(0,'rgba(255,255,255,0.08)',_ec,'BURN',84,7)}
+        ${svgRingSmall(0,'rgba(255,255,255,0.08)',_ec,'PILAR LOAD',130,12)}
+        ${svgRingSmall(0,'rgba(255,255,255,0.08)',_ec,'CONSISTENCY',84,7)}
+      </div>
+      <div style="font-size:9px;color:rgba(255,255,255,0.18);letter-spacing:.1em">ไม่มีข้อมูลในช่วงนี้</div>
+    </div>`;
+
+    ['weekStrip','issuePills','pbBadge'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML='';});
+
+    // Load all-time data for sections below
+    const allSessAT=allBookings.filter(b=>b.contact_name===name&&b.booking_status==='Booked');
+    const allStatsAT=process(allSessAT,null);
+
+    // Title + readiness still work from all-time
+    const streakAT=calcStreak(name);
+    const allStatsFallback=allStatsAT||{total:0,calories:0,favClass:'Pilates',avgPerWeek:0,topClasses:[],musclePct:{},days:1};
+
+    // titleCard
+    let titleAT='Here for It';
+    try{titleAT=getTitle(name,allStatsFallback);}catch(e){}
+    const titlePartsAT=titleAT.split(' · ');
+    const streakCopyAT=getStreakCopy(streakAT);
+    const ic='fill="none" stroke="rgba(255,255,255,0.82)" stroke-linecap="round" stroke-linejoin="round"';
+    const CLASS_ICONS_AT={Reformer:`<svg width="26" height="18" viewBox="0 0 32 22" ${ic} stroke-width="1.6"><circle cx="4" cy="8" r="2" fill="rgba(255,255,255,0.82)" stroke="none"/><path d="M6 9 C10 8.5 16 7.5 21 5.5 L28 3"/><path d="M6 10.5 L22 14"/><rect x="0" y="17" width="32" height="2" rx="1" fill="rgba(255,255,255,0.82)" stroke="none"/></svg>`,Barre:`<svg width="20" height="26" viewBox="0 0 24 30" ${ic} stroke-width="1.6"><circle cx="12" cy="3" r="2" fill="rgba(255,255,255,0.82)" stroke="none"/><line x1="12" y1="5" x2="12" y2="16"/><line x1="4" y1="10" x2="20" y2="10"/><line x1="12" y1="16" x2="9" y2="26"/><line x1="12" y1="16" x2="20" y2="21"/></svg>`,Pilates:`<svg width="24" height="20" viewBox="0 0 28 24" ${ic} stroke-width="1.6"><circle cx="24" cy="6" r="2" fill="rgba(255,255,255,0.82)" stroke="none"/><path d="M22 8 Q16 11 10 10 L3 9"/><path d="M22 8 L26 15"/><path d="M20 9 L24 16"/><line x1="1" y1="20" x2="27" y2="20"/></svg>`};
+    const classIconAT=CLASS_ICONS_AT[allStatsFallback.favClass]||CLASS_ICONS_AT['Pilates'];
+    const streakSecAT=streakAT>0?`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px"><div style="display:flex;align-items:baseline;gap:4px"><span style="font-size:28px;font-weight:900;color:#F5C842;line-height:1;text-shadow:0 0 16px rgba(245,200,66,0.45)">${streakAT}</span><span style="font-size:9px;font-weight:700;color:rgba(245,200,66,0.55);letter-spacing:.1em">WK 🔥</span></div><span style="font-size:8px;color:rgba(255,255,255,0.35);letter-spacing:.04em;text-align:center;line-height:1.3">${streakCopyAT}</span></div>`:`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px"><span style="font-size:20px;line-height:1">🔥</span><span style="font-size:8px;font-weight:700;color:rgba(0,202,255,0.6);letter-spacing:.06em;text-align:center">${streakCopyAT}</span></div>`;
+    document.getElementById('titleCard').innerHTML=`<div style="margin:0;background:linear-gradient(135deg,rgba(0,202,255,0.06),rgba(245,200,66,0.04));border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:stretch"><div style="flex:7;display:flex;align-items:center;gap:12px;padding:13px 14px 13px 18px"><div style="flex-shrink:0;opacity:0.9">${classIconAT}</div><div style="flex:1;min-width:0"><div style="font-size:15px;font-weight:700;color:#fff;letter-spacing:.01em;line-height:1.2">${titlePartsAT[0]}</div>${titlePartsAT[1]?`<div style="font-size:10px;color:rgba(255,255,255,0.38);margin-top:3px;letter-spacing:.06em">${titlePartsAT.slice(1).join(' · ')}</div>`:''}</div></div><div style="width:1px;background:rgba(255,255,255,0.07);flex-shrink:0;margin:10px 0"></div><div style="flex:3;display:flex;align-items:center;justify-content:center;padding:13px 14px">${streakSecAT}</div></div>`;
+
+    // Readiness
+    let rdAT={score:60,status:'ไปได้เลยค่ะ',color:'#1BE3A0',msg:'พร้อมมาคลาสได้เลยค่ะ',rec:'เลือกคลาสที่ชอบได้เลย'};
+    try{rdAT=calcReadiness(name);}catch(e){}
+    document.getElementById('readinessCard').innerHTML=`<div class="w-sec-hdr" style="padding-top:14px">MY DAY</div><div class="w-readiness-mini"><div style="flex-shrink:0;width:42px;height:42px;border-radius:50%;border:2px solid ${rdAT.color};display:flex;align-items:center;justify-content:center;background:${rdAT.color}14;box-shadow:0 0 12px ${rdAT.color}44"><span style="font-size:14px;font-weight:900;color:${rdAT.color}">${rdAT.score}</span></div><div class="w-rd-body"><div class="w-rd-state" style="color:${rdAT.color};margin-bottom:3px">${rdAT.status}</div><div class="w-rd-msg">${rdAT.msg}</div><div class="w-rd-rec" style="color:#00CAFF">→ ${rdAT.rec}</div></div></div>`;
+
+    if(!allStatsAT||!allStatsAT.total){
+      ['muscleBreakdown','insightCards','topClassCard','bdCard'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML='';});
+      return;
+    }
+
+    // Render all-time sections using existing render functions
+    renderInsights(allStatsAT,name);
+    renderTopClasses(allSessAT,allStatsAT.total);
+    renderBdCard(allSessAT,allStatsAT);
+    // Muscle focus — empty when no period data
+    const muscleElAT=document.getElementById('muscleBreakdown');
+    if(muscleElAT) muscleElAT.innerHTML='';
+    return;
+  }
+
+  // Soft empty state — few sessions
+  const showSoftEmpty=stats.total<3;
+
+  const{total,calories,totalMins,favClass,peakTime,consistency,burnScore,
+    musclePct,topClasses,monthly,days,avgPerWeek,slots,recent,progress,firstDate}=stats;
+
+  const fmt=n=>Number(n).toLocaleString();
+  const peakTh={Morning:'เช้า',Midday:'กลางวัน',Evening:'เย็น'};
+  const peakEm={Morning:'🌅',Midday:'☀️',Evening:'🌙'};
+
+  /* ── 3-Ring Layout: BURN · STRAIN · CONSISTENCY ── */
+  const properPeriodDays=currentPeriod==='thisWeek'?7:currentPeriod==='lastWeek'?7:currentPeriod===30?30:Math.max(7,stats.days||7);
+  const properWeekNorm   = Math.max(properPeriodDays/7, 1/7);
+  const strainScore      = Math.min(21, parseFloat((stats.weeklyStrain/properWeekNorm).toFixed(1)));
+  const strainRingColor='#1BE3A0';
+  const strainColor = strainScore>=13?'#FF4444':strainScore>=7?'#FF9500':strainScore>=3?'#F5C842':'#1BE3A0';
+  const strainZone  = strainScore>=13?'HIGH LOAD':strainScore>=7?'OPTIMAL':strainScore>=3?'ACTIVE':'LIGHT';
+  const strainPct   = Math.min(100,Math.round((strainScore/21)*100));
+
+  // BURN — dynamic target based on member's own all-time average
+  const allSessAll=allBookings.filter(b=>b.contact_name===name&&b.booking_status==='Booked');
+  const allStatsAll=process(allSessAll)||stats;
+  const weeklyKcalAvgAll=allStatsAll.calories/Math.max(allStatsAll.days/7,1);
+  const dynWeeklyTarget=Math.max(1000,Math.round(weeklyKcalAvgAll*1.1));
+  const periodWeeks=Math.max(1/7,properPeriodDays/7);
+  const periodTarget=dynWeeklyTarget*periodWeeks;
+  const burnRatio=calories/periodTarget;
+  const{zone:burnZone,idx:burnZoneIdx}=getBurnZone(burnRatio);
+  const burnFillPct=Math.min(100,Math.round(burnRatio*100));
+  const isOverdrive=burnRatio>=1.0;
+  const nextBurnZone=burnZoneIdx<4?BURN_ZONES[burnZoneIdx+1]:null;
+  const kcalToNext=nextBurnZone?Math.max(0,Math.round(burnZone.maxRatio*periodTarget)-calories):0;
+  // Burn motive message — based on strain zone
+  const strainZoneMsg=strainScore>=13
+    ?`💥 OVERDRIVE — ร่างกายทำงานหนักมาก`
+    :strainScore>=7
+    ?`⚡ OPTIMAL — กำลังพอดี เยี่ยมมาก`
+    :strainScore>=3
+    ?`🔥 ACTIVE — กำลังอุ่นขึ้น มาเพิ่มอีกได้`
+    :`🧊 LIGHT — ยังมีแรงเหลือ มาเพิ่ม load ได้เลย`;
+  const burnMotiveMsg=strainZoneMsg;
+  const burnCenterHTML=`
+    <span style="font-size:7px;color:${burnZone.color};font-weight:800;letter-spacing:.06em;text-transform:uppercase">${burnZone.emoji} ${burnZone.name}</span>
+    <span style="font-size:${calories>=10000?11:14}px;font-weight:900;color:#fff;line-height:1;letter-spacing:-.02em">${Number(calories).toLocaleString()}</span>
+    <span style="font-size:6px;color:rgba(255,255,255,0.32);text-align:center;line-height:1.3;max-width:60px">${foodCompare(calories)}</span>`;
+
+  // CONSISTENCY — fix thisW source + neutral arrow when thisW=0
+  let wc={thisW:0,lastW:0,diff:0};
+  try{wc=getWeekComp(name,currentPeriod);}catch(e){console.error('weekComp',e);}
+  // Override thisW with stats.total when period is thisWeek (more accurate)
+  if(currentPeriod==='thisWeek') wc.thisW=total;
+  if(currentPeriod==='lastWeek') wc.thisW=total;
+  wc.diff=wc.thisW-wc.lastW;
+  // If thisW=0, don't compare — show neutral arrow
+  const effectiveDiff=wc.thisW===0?0:wc.diff;
+  const consistDiffColor=effectiveDiff>0?'#1BE3A0':effectiveDiff<0?'#FF453A':'rgba(255,255,255,0.35)';
+  const consistRingColor='#4EAEF5';
+  const consistFillPct=Math.min(100,Math.round(avgPerWeek/3*100));
+  const _svgPath=`M31.843,7.546c0.006-0.389-0.146-0.764-0.418-1.042c-0.271-0.277-0.646-0.433-1.035-0.433h-6.396c-0.181,0-0.344,0.109-0.413,0.276c-0.067,0.167-0.028,0.359,0.099,0.487l1.233,1.232c0.195,0.194,0.306,0.457,0.306,0.732c0,0.274-0.108,0.538-0.305,0.732l-6.26,6.257c-0.536,0.537-1.405,0.537-1.939,0l-4.039-4.039c-0.239-0.239-0.562-0.373-0.9-0.373s-0.662,0.134-0.901,0.373L0.372,22.245c-0.496,0.498-0.496,1.305,0,1.803L1.726,25.4c0.239,0.239,0.562,0.372,0.9,0.372c0.338,0,0.661-0.133,0.9-0.37l7.277-7.276c0.536-0.535,1.405-0.535,1.94,0l3.968,3.969c0.258,0.256,0.605,0.399,0.971,0.399s0.715-0.146,0.973-0.399l9.416-9.417c0.193-0.194,0.457-0.303,0.73-0.303c0.274,0,0.539,0.109,0.731,0.304l1.453,1.457c0.127,0.127,0.316,0.166,0.484,0.099c0.166-0.067,0.273-0.228,0.279-0.407L31.843,7.546z`;
+  const _vb=`0 0 31.843 31.842`;
+  const SVG_UP=`<svg width="18" height="18" viewBox="${_vb}" xmlns="http://www.w3.org/2000/svg" style="opacity:0.7"><path d="${_svgPath}" fill="#1BE3A0"/></svg>`;
+  const SVG_DOWN=`<svg width="18" height="18" viewBox="${_vb}" xmlns="http://www.w3.org/2000/svg" style="opacity:0.7"><g transform="translate(0,31.842) scale(1,-1)"><path d="${_svgPath}" fill="#FF453A"/></g></svg>`;
+  const trendArrowSvg=effectiveDiff>0?SVG_UP:effectiveDiff<0?SVG_DOWN
+    :`<svg width="18" height="8" viewBox="0 0 38 14" fill="none">
+        <line x1="2" y1="7" x2="30" y2="7" stroke="rgba(255,255,255,0.35)" stroke-width="2.5" stroke-linecap="round"/>
+        <polygon points="30,7 21,3 21,11" fill="rgba(255,255,255,0.35)"/>
+      </svg>`;
+  // Show comparison for THIS WK, LAST WK, and 1M
+  const showComparison = currentPeriod==='thisWeek'||currentPeriod==='lastWeek'||currentPeriod===30;
+  const periodPrevLabel=currentPeriod==='lastWeek'?'2 อาทิตย์ก่อน':currentPeriod===30?'เดือนก่อน':'อาทิตย์ก่อน';
+  const lastWLabel=wc.lastW>0?`${periodPrevLabel} ${wc.lastW}x`:`${periodPrevLabel}ไม่มีข้อมูล`;
+  const consistCenterHTML=!showComparison?`
+    <span style="font-size:16px;font-weight:900;color:#fff;line-height:1;letter-spacing:-.02em">${avgPerWeek}x</span>
+    <span style="font-size:6px;color:rgba(255,255,255,0.38);line-height:1">/สัปดาห์ (avg)</span>`:
+  wc.thisW===0&&currentPeriod==='thisWeek'?`
+    <span style="font-size:14px;font-weight:900;color:#fff;line-height:1;letter-spacing:-.02em">${avgPerWeek}x</span>
+    <span style="font-size:6px;color:rgba(255,255,255,0.38);line-height:1">/สัปดาห์</span>
+    ${trendArrowSvg}
+    <span style="font-size:5.5px;color:rgba(255,255,255,0.45);font-weight:600;text-align:center;line-height:1.2;max-width:58px">ยังไม่มีคลาส<br>${lastWLabel}</span>`:`
+    <span style="font-size:14px;font-weight:900;color:#fff;line-height:1;letter-spacing:-.02em">${currentPeriod===30?total:wc.thisW}x</span>
+    <span style="font-size:6px;color:rgba(255,255,255,0.38);line-height:1">${currentPeriod===30?'/เดือนนี้':'/สัปดาห์นี้'}</span>
+    ${trendArrowSvg}
+    <span style="font-size:5.5px;color:${consistDiffColor};font-weight:600;text-align:center;line-height:1.2;max-width:58px">${effectiveDiff>0?'ดีกว่า':effectiveDiff<0?'น้อยกว่า':'เท่ากับ'}${currentPeriod===30?'เดือนก่อน':'อาทิตย์ก่อน'}<br>${lastWLabel}</span>`;
+
+  const strainCenterHTML=`
+    <span style="font-size:26px;font-weight:900;color:#fff;line-height:1;letter-spacing:-.03em">${strainScore}</span>
+    <span style="font-size:8px;color:${strainColor};font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-top:1px">${strainZone}</span>`;
+
+  document.getElementById('weekStrip').innerHTML=showSoftEmpty?`
+  <div style="margin:8px 18px;background:rgba(27,227,160,0.06);border:1px solid rgba(27,227,160,0.15);border-radius:12px;padding:10px 16px;text-align:center">
+    <div style="font-size:12px;font-weight:700;color:#1BE3A0">มาแล้ว ${stats.total} คลาส 🌱</div>
+    <div style="font-size:10px;color:rgba(255,255,255,0.35);margin-top:3px">ข้อมูลจะสมบูรณ์ขึ้นเรื่อยๆ ยิ่งมาบ่อย ยิ่งเห็นชัด</div>
+  </div>`:'';
+
+  document.getElementById('ringsRow').innerHTML=`
+  <div style="display:flex;flex-direction:column;align-items:center;gap:12px;width:100%;padding:0 4px">
+    <div style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%">
+      ${svgRingSmall(burnFillPct,burnZone.color,burnCenterHTML,'BURN',84,7,isOverdrive)}
+      ${svgRingSmall(strainPct,strainRingColor,strainCenterHTML,'PILAR LOAD',130,12)}
+      ${svgRingSmall(consistFillPct,consistRingColor,consistCenterHTML,'CONSISTENCY',84,7)}
+    </div>
+    ${burnMotiveMsg?`<div style="display:inline-flex;align-items:center;gap:8px;background:#1BE3A012;border:1px solid #1BE3A030;border-radius:20px;padding:6px 20px;${isOverdrive?'animation:overdrivePulse 2s ease-in-out infinite':''}">
+      <span style="color:#1BE3A0;font-weight:800;font-size:11px;letter-spacing:.1em">${burnMotiveMsg}</span>
+    </div>`:''}
+    <div style="font-size:8px;color:rgba(255,255,255,0.15);letter-spacing:.08em">est. incl. studio factor</div>
+  </div>`;
+
+  /* ── Readiness ── */
+  let rd={score:60,status:'READY',color:'#28A745',msg:'ร่างกายพร้อม',rec:'มาได้เลย',lastGroups:[],recReason:''};
+  try{rd=calcReadiness(name);}catch(e){console.error('readiness',e);}
+  try{const uRec=getUnifiedRec(rd,musclePct);rd.rec=uRec.class;rd.recReason=uRec.reason;}catch(e){}
+  document.getElementById('readinessCard').innerHTML=`
+  <div class="w-sec-hdr" style="padding-top:14px">MY DAY</div>
+  <div class="w-readiness-mini">
+    <div style="flex-shrink:0;width:42px;height:42px;border-radius:50%;border:2px solid ${rd.color};display:flex;align-items:center;justify-content:center;background:${rd.color}14;box-shadow:0 0 12px ${rd.color}44">
+      <span style="font-size:14px;font-weight:900;color:${rd.color}">${rd.score}</span>
+    </div>
+    <div class="w-rd-body">
+      <div class="w-rd-state" style="color:${rd.color};margin-bottom:3px">${rd.status}</div>
+      <div class="w-rd-msg">${rd.msg.length>60?rd.msg.substring(0,58)+'…':rd.msg}</div>
+      <div class="w-rd-rec" style="color:${rd.score>=80?'#00CAFF':'#FF9500'}">→ ${rd.rec}</div>
+      ${rd.recReason?`<div style="font-size:9px;color:var(--dim);margin-top:2px;letter-spacing:.03em">${rd.recReason}</div>`:''}
+    </div>
+  </div>`;
+
+  /* ── Personal Title + Streak — locked to ALL TIME ── */
+  const _allSessTitle=allBookings.filter(b=>b.contact_name===name&&b.booking_status==='Booked');
+  const _allStatsTitle=process(_allSessTitle,null)||stats;
+  let title='Here for It';
+  try{title=getTitle(name,_allStatsTitle);}catch(e){console.error('title',e);}
+  const titleParts=title.split(' · ');
+  const titleMain=titleParts[0]||title;
+  const titleSub=titleParts.slice(1).join(' · ');
+  const streak=calcStreak(name);
+
+  function getStreakCopy(s){
+    if(s===0) return'เริ่มต้นสัปดาห์นี้เลย';
+    if(s<=2)  return'เพิ่งเริ่มต้น';
+    if(s<=3)  return'กำลังจับจังหวะ';
+    if(s<=5)  return'กำลังสร้างนิสัย';
+    if(s<=7)  return'เริ่มสม่ำเสมอแล้ว';
+    if(s<=11) return'เงียบๆ แต่ไม่เคยหยุด';
+    if(s<=15) return'แทบไม่เคยพลาด';
+    if(s<=23) return'กลายเป็นส่วนหนึ่งของชีวิต';
+    if(s<=51) return'นี่คือตัวตนของคุณแล้ว';
+    return'หนึ่งปีไม่เคยหยุด';
+  }
+
+  const streakCopy=getStreakCopy(streak);
+  const streakSection=streak>0?`
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px">
+      <div style="display:flex;align-items:baseline;gap:4px">
+        <span style="font-size:28px;font-weight:900;color:#F5C842;line-height:1;letter-spacing:-.03em;text-shadow:0 0 16px rgba(245,200,66,0.45)">${streak}</span>
+        <span style="font-size:9px;font-weight:700;color:rgba(245,200,66,0.55);letter-spacing:.1em">WK 🔥</span>
+      </div>
+      <span style="font-size:8px;color:rgba(255,255,255,0.35);letter-spacing:.04em;text-align:center;line-height:1.3">${streakCopy}</span>
+    </div>`
+  :`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px">
+      <span style="font-size:20px;line-height:1">🔥</span>
+      <span style="font-size:8px;font-weight:700;color:rgba(0,202,255,0.6);letter-spacing:.06em;text-align:center;line-height:1.3">${streakCopy}</span>
+    </div>`;
+
+  const ic='fill="none" stroke="rgba(255,255,255,0.82)" stroke-linecap="round" stroke-linejoin="round"';
+  const CLASS_ICONS={
+    Reformer:`<svg width="26" height="18" viewBox="0 0 32 22" ${ic} stroke-width="1.6">
+      <circle cx="4" cy="8" r="2" fill="rgba(255,255,255,0.82)" stroke="none"/>
+      <path d="M6 9 C10 8.5 16 7.5 21 5.5 L28 3"/>
+      <path d="M6 10.5 L22 14"/>
+      <rect x="0" y="17" width="32" height="2" rx="1" fill="rgba(255,255,255,0.82)" stroke="none"/>
+    </svg>`,
+    Barre:`<svg width="20" height="26" viewBox="0 0 24 30" ${ic} stroke-width="1.6">
+      <circle cx="12" cy="3" r="2" fill="rgba(255,255,255,0.82)" stroke="none"/>
+      <line x1="12" y1="5" x2="12" y2="16"/>
+      <line x1="4" y1="10" x2="20" y2="10"/>
+      <line x1="12" y1="16" x2="9" y2="26"/>
+      <line x1="12" y1="16" x2="20" y2="21"/>
+    </svg>`,
+    Yoga:`<svg width="22" height="22" viewBox="0 0 26 26" ${ic} stroke-width="1.6">
+      <circle cx="13" cy="3.5" r="2" fill="rgba(255,255,255,0.82)" stroke="none"/>
+      <path d="M13 6 L13 13"/>
+      <path d="M5 10 L13 13 L21 10"/>
+      <path d="M13 13 Q8 18 5 22 M13 13 Q18 18 21 22"/>
+      <line x1="5" y1="22" x2="21" y2="22"/>
+    </svg>`,
+    Private:`<svg width="16" height="26" viewBox="0 0 18 30" ${ic} stroke-width="1.6">
+      <circle cx="9" cy="3" r="2" fill="rgba(255,255,255,0.82)" stroke="none"/>
+      <line x1="9" y1="5" x2="9" y2="18"/>
+      <path d="M5 9 L9 11 L13 9"/>
+      <line x1="9" y1="18" x2="6" y2="28"/>
+      <line x1="9" y1="18" x2="12" y2="28"/>
+    </svg>`,
+    Pilates:`<svg width="24" height="20" viewBox="0 0 28 24" ${ic} stroke-width="1.6">
+      <circle cx="24" cy="6" r="2" fill="rgba(255,255,255,0.82)" stroke="none"/>
+      <path d="M22 8 Q16 11 10 10 L3 9"/>
+      <path d="M22 8 L26 15"/>
+      <path d="M20 9 L24 16"/>
+      <line x1="1" y1="20" x2="27" y2="20"/>
+    </svg>`,
+  };
+  const classIcon=CLASS_ICONS[favClass]||CLASS_ICONS['Pilates'];
+
+  document.getElementById('titleCard').innerHTML=`
+  <div style="margin:0;background:linear-gradient(135deg,rgba(0,202,255,0.06),rgba(245,200,66,0.04));border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:stretch">
+    <div style="flex:7;display:flex;align-items:center;gap:12px;padding:13px 14px 13px 18px">
+      <div style="flex-shrink:0;opacity:0.9">${classIcon}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:15px;font-weight:700;color:#fff;letter-spacing:.01em;line-height:1.2">${titleMain}</div>
+        ${titleSub?`<div style="font-size:10px;color:rgba(255,255,255,0.38);margin-top:3px;letter-spacing:.06em">${titleSub}</div>`:''}
+      </div>
+    </div>
+    <div style="width:1px;background:rgba(255,255,255,0.07);flex-shrink:0;margin:10px 0"></div>
+    <div style="flex:3;display:flex;align-items:center;justify-content:center;padding:13px 14px">
+      ${streakSection}
+    </div>
+  </div>`;
+
+  try{checkMilestone(name,total,streak);}catch(e){console.error('milestone',e);}
+  const isPB=isPersonalBest(name,sessions,currentPeriod);
+  document.getElementById('pbBadge').innerHTML=isPB?'<div class="pb-badge">🏆 Personal Best ในช่วงนี้!</div>':'';
+
+  document.getElementById('scoreBars').innerHTML='';
+
+  /* ── Strain Breakdown — horizontal bars, no card ── */
+  const muscleColors2={core:'#00CAFF',lower:'#00CAFF',upper:'#00CAFF',posture:'#00CAFF',flex:'#00CAFF'};
+  const muscleLabels2={core:'CORE',lower:'LOWER',upper:'UPPER',posture:'POST',flex:'FLEX'};
+  const muscleEl=document.getElementById('muscleBreakdown');
+  if(muscleEl){
+    const mData=musclePct||{};
+    const allGroups=['core','lower','upper','posture','flex'];
+    const C='#00CAFF';
+    muscleEl.innerHTML=`
+    <div class="w-sec-hdr" style="padding-top:14px">MUSCLE FOCUS</div>
+    <div style="padding:4px 18px 12px;display:flex;flex-direction:column;gap:8px">
+      ${allGroups.map(k=>{
+        const v=mData[k]||0;
+        return `
+        <div style="display:flex;align-items:stretch;gap:0;background:rgba(255,255,255,0.03);border-radius:10px;overflow:hidden;height:31px">
+          <div style="width:64px;background:${C}22;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;gap:1px">
+            <span style="font-size:10px;font-weight:900;color:#fff;line-height:1;letter-spacing:-.02em">${v}%</span>
+            <span style="font-size:7px;font-weight:800;color:rgba(255,255,255,0.5);letter-spacing:.12em">${muscleLabels2[k]}</span>
+          </div>
+          <div style="flex:1;display:flex;align-items:center;padding:0 12px;background:${C}08">
+            <div style="width:100%;height:31px;background:${C}12;position:relative;border-radius:0">
+              <div style="width:${v}%;height:100%;background:${C}40;border-radius:0;box-shadow:0 0 8px ${C}33;position:absolute;top:0;left:0"></div>
+            </div>
+          </div>
+          <div style="width:3px;background:${C};opacity:0.5;flex-shrink:0"></div>
+        </div>`;
+      }).join('')}
+    </div>`;
+  }
+
+  /* Insights — locked to ALL TIME data */
+  const allSessions=allSessAll;
+  const allStats=allStatsAll;
+  const insights=allStats?generateInsights(allStats,name):[];
+  document.getElementById('insightCards').innerHTML=`<div style="padding:4px 18px 12px;display:flex;flex-direction:column;gap:8px">`+insights.map(c=>`
+    <div style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.03);border-radius:10px;padding:12px 14px;border-left:3px solid ${c.tagColor}">
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">
+          <span style="font-size:8px;font-weight:800;color:${c.tagColor};letter-spacing:.12em">${c.tag}</span>
+        </div>
+        <div style="font-size:13px;font-weight:700;color:#fff;line-height:1.2;letter-spacing:.01em">${c.title}</div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.38);margin-top:3px;line-height:1.4">${c.desc}</div>
+      </div>
+    </div>`).join('')+'</div>';
+
+  /* Top 4 Most Visited Classes — all time, by actual class name */
+  const classNameCount={};
+  allSessAll.forEach(s=>{
+    const n=s.event_name||'Unknown';
+    classNameCount[n]=(classNameCount[n]||0)+1;
+  });
+  const allTimeTotal2=allSessAll.length||1;
+  const top4=Object.entries(classNameCount)
+    .sort((a,b)=>b[1]-a[1])
+    .slice(0,4);
+  const topCardEl=document.getElementById('topClassCard');
+  if(topCardEl){
+    topCardEl.innerHTML=`<div style="padding:4px 18px 12px;display:flex;flex-direction:column;gap:8px">
+      ${top4.map(([name,cnt])=>{
+        const pct=Math.round(cnt/allTimeTotal2*100);
+        const shortName=name.length>24?name.substring(0,22)+'…':name;
+        return `
+        <div style="display:flex;align-items:stretch;background:rgba(255,255,255,0.03);border-radius:10px;overflow:hidden;height:31px">
+          <div style="flex:1;position:relative;overflow:hidden">
+            <div style="position:absolute;inset:0;background:rgba(0,202,255,0.08)"></div>
+            <div style="position:absolute;top:0;left:0;height:100%;width:${pct}%;background:rgba(0,202,255,0.28)"></div>
+            <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 14px">
+              <span style="font-size:12px;font-weight:700;color:#fff;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${shortName}</span>
+            </div>
+          </div>
+          <div style="width:52px;background:rgba(0,202,255,0.15);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;gap:1px;border-left:1px solid rgba(0,202,255,0.15)">
+            <span style="font-size:11px;font-weight:900;color:#fff;line-height:1;letter-spacing:-.02em">${cnt}x</span>
+            <span style="font-size:5px;font-weight:700;color:rgba(255,255,255,0.4);letter-spacing:.08em">${pct}%</span>
+          </div>
+          <div style="width:3px;background:#00CAFF;opacity:0.5;flex-shrink:0"></div>
+        </div>`;
+      }).join('')}
+    </div>`;
+  }
+
+  /* Class breakdown */
+  const mPct=musclePct||{core:20,lower:20,upper:20,posture:20,flex:20};
+  const bal=analyzeBalance(mPct);
+
+  // Issue pills
+  const issuePillsEl=document.getElementById('issuePills');
+  if(issuePillsEl) issuePillsEl.innerHTML=bal.balanced
+    ?`<div style="padding:4px 18px 10px">
+        <div style="display:flex;align-items:center;gap:8px;background:rgba(27,227,160,0.08);border:1px solid rgba(27,227,160,0.2);border-radius:20px;padding:8px 16px">
+          <span style="font-size:13px">✨</span>
+          <span style="font-size:11px;font-weight:700;color:#1BE3A0;letter-spacing:.06em">ความสมดุลดีมาก — ร่างกายได้ทุก group</span>
+        </div>
+      </div>`
+    :`<div style="padding:4px 18px 12px;display:flex;flex-direction:column;gap:8px">
+        ${bal.issues.map(i=>`
+          <div style="display:flex;align-items:center;gap:10px;background:rgba(255,149,0,0.06);border:1px solid rgba(255,149,0,0.18);border-radius:20px;padding:8px 16px">
+            <span style="font-size:10px">💡</span>
+            <span style="font-size:11px;font-weight:600;color:rgba(255,149,0,0.9);letter-spacing:.04em">${i}</span>
+          </div>`).join('')}
+      </div>`;
+  // Period bars
+  const maxC=Math.max(...topClasses.map(c=>c.count),1);
+  const periodBars=topClasses.map(c=>`
+    <div class="w-fc-row">
+      <div class="w-fc-left">
+        <div class="w-fc-dot" style="background:${c.color}"></div>
+        <div class="w-fc-name">${c.type}</div>
+      </div>
+      <div class="w-fc-track"><div class="w-fc-fill" style="width:${Math.round(c.count/maxC*100)}%;background:${c.color}"></div></div>
+      <div class="w-fc-right">
+        <span class="w-fc-count" style="color:${c.color}">${c.count}</span>
+        <span class="w-fc-kcal">${fmt(c.cals)} kcal</span>
+      </div>
+    </div>`).join('');
+
+  // Build chart data — all-time per class type for this member
+  const classTypes=['Reformer','Barre','Yoga','Private','Pilates'];
+  const classShort={Reformer:'REF',Barre:'BAR',Yoga:'YOG',Private:'PRV',Pilates:'PIL'};
+  const memberCounts={};
+  classTypes.forEach(t=>memberCounts[t]=0);
+  allSessAll.forEach(s=>{const t=classify(s.event_name);if(memberCounts[t]!==undefined)memberCounts[t]++;});
+
+  // Studio avg — avg sessions per member per class type
+  const studioByType={};
+  classTypes.forEach(t=>studioByType[t]=[]);
+  const uniqueMembers=[...new Set(allBookings.filter(b=>b.booking_status==='Booked').map(b=>b.contact_name))];
+  uniqueMembers.forEach(m=>{
+    const mSess=allBookings.filter(b=>b.contact_name===m&&b.booking_status==='Booked');
+    classTypes.forEach(t=>{
+      const cnt=mSess.filter(s=>classify(s.event_name)===t).length;
+      studioByType[t].push(cnt);
+    });
+  });
+  const studioAvg={};
+  classTypes.forEach(t=>{
+    const arr=studioByType[t].filter(v=>v>0); // เฉพาะคนที่เข้าจริง
+    studioAvg[t]=arr.length?parseFloat((arr.reduce((a,b)=>a+b,0)/arr.length).toFixed(1)):0;
+  });
+
+  const studioMemberCount=uniqueMembers.length;
+
+  const chartMax=35;
+  const chartH=100;
+  const barW=22;
+  const gap=22;
+  const padL=28;
+  const totalW=classTypes.length*(barW+gap)-gap;
+  const gradId='barGrad'+Math.random().toString(36).slice(2,6);
+
+  // Y axis ticks
+  const yTicks=[0,Math.round(chartMax*0.5),chartMax];
+  const yTicksHtml=yTicks.map(v=>{
+    const y=chartH-(v/chartMax*chartH);
+    return `<text x="${padL-6}" y="${y+4}" fill="rgba(255,255,255,0.25)" font-size="8" text-anchor="end">${v}</text>
+    <line x1="${padL}" y1="${y}" x2="${padL+totalW}" y2="${y}" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>`;
+  }).join('');
+
+  // Bars with gradient
+  const barsHtml=classTypes.map((t,i)=>{
+    const x=padL+i*(barW+gap);
+    const memberH=Math.max(2,Math.round(memberCounts[t]/chartMax*chartH));
+    const memberY=chartH-memberH;
+    const opacity=memberCounts[t]>0?1:0.15;
+    return `
+      <rect x="${x}" y="${memberY}" width="${barW}" height="${memberH}" fill="url(#${gradId})" opacity="${opacity}" rx="2"/>
+      ${memberCounts[t]>0?`<text x="${x+barW/2}" y="${memberY-5}" fill="#fff" font-size="9" font-weight="700" text-anchor="middle">${memberCounts[t]}</text>`:''}
+      <text x="${x+barW/2}" y="${chartH+13}" fill="rgba(255,255,255,0.35)" font-size="8" font-weight="600" text-anchor="middle">${classShort[t]}</text>`;
+  }).join('');
+
+  // Avg line per class type
+  const avgLineHtml=classTypes.map((t,i)=>{
+    const x=padL+i*(barW+gap);
+    const avgY=chartH-(Math.min(studioAvg[t],chartMax)/chartMax*chartH);
+    return studioAvg[t]>0?`<line x1="${x}" y1="${avgY}" x2="${x+barW}" y2="${avgY}" stroke="#4EAEF5" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.85"/>
+    <text x="${x+barW/2}" y="${avgY-4}" fill="#4EAEF5" font-size="7" text-anchor="middle" opacity="0.7">${studioAvg[t]}</text>`:''
+  }).join('');
+
+  document.getElementById('bdCard').innerHTML=`
+  <div class="w-bd-period-label" style="padding:8px 18px 4px">CLASS BREAKDOWN · ALL TIME</div>
+  <div style="padding:4px 18px 8px;overflow-x:auto">
+    <svg width="${padL+totalW+60}" height="${chartH+32}" style="overflow:visible;display:block;margin:0 auto">
+      <defs>
+        <linearGradient id="${gradId}" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#00CAFF" stop-opacity="1"/>
+          <stop offset="100%" stop-color="#005F8A" stop-opacity="0.7"/>
+        </linearGradient>
+      </defs>
+      ${yTicksHtml}
+      ${barsHtml}
+      ${avgLineHtml}
+      <line x1="${padL}" y1="0" x2="${padL}" y2="${chartH}" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+      <line x1="${padL}" y1="${chartH}" x2="${padL+totalW}" y2="${chartH}" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+    </svg>
+    <div style="display:flex;align-items:center;gap:5px;margin-top:2px;padding-left:${padL}px">
+      <svg width="18" height="8"><line x1="0" y1="4" x2="18" y2="4" stroke="#4EAEF5" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.8"/></svg>
+      <span style="font-size:8px;color:rgba(255,255,255,0.28);letter-spacing:.06em">avg จากสมาชิกที่เข้าคลาสนั้นจริงๆ (${studioMemberCount} คนในระบบ)</span>
+    </div>
+  </div>`;
+}
+
+
+/* ── Share Camera Overlay ── */
+function getShareMetrics(name){
+  const all=allBookings.filter(b=>b.contact_name===name&&b.booking_status==='Booked');
+  const stats=process(all,null);
+  if(!stats) return null;
+  const streak=calcStreak(name);
+  const totalHours=Math.round(stats.totalMins/60);
+  const total=stats.total;
+  const calories=stats.calories;
+
+  // Milestone targets — calibrated for Pilates studio
+  const hoursTarget=totalHours<20?20:totalHours<50?50:totalHours<100?100:200;
+  const kcalTarget=calories<5000?5000:calories<10000?10000:calories<20000?20000:50000;
+  const classTarget=total<10?10:total<30?30:total<50?50:total<100?100:200;
+
+  const isNew=total<5;
+  const hasStreak=streak>=4;
+
+  if(isNew){
+    // ลูกค้าใหม่ — milestone ที่กำลังจะถึง ดึงดูดให้มาต่อ
+    return[
+      {val:`#${total}`,label:'CLASS',sub:'เพิ่งเริ่มดูแลตัวเอง',color:'#1BE3A0',pct:Math.min(100,total/10*100)},
+      {val:`${totalHours}h`,label:'HOURS',sub:'ลงทุนกับตัวเอง',color:'#4EAEF5',pct:Math.min(100,totalHours/5*100)},
+      {val:Number(Math.round(calories)).toLocaleString(),label:'KCAL',sub:'เผาผลาญแล้ว',color:'#FF9500',pct:Math.min(100,calories/1500*100)},
+    ];
+  } else if(hasStreak){
+    // มี streak — โชว์ consistency
+    return[
+      {val:`${totalHours}h`,label:'HOURS',sub:'ทุ่มเทให้ตัวเอง',color:'#4EAEF5',pct:Math.min(100,totalHours/hoursTarget*100)},
+      {val:Number(Math.round(calories)).toLocaleString(),label:'KCAL',sub:'เผาผลาญสะสม',color:'#FF9500',pct:Math.min(100,calories/kcalTarget*100)},
+      {val:`${streak}WK`,label:'STREAK',sub:'ไม่เคยหยุด',color:'#1BE3A0',pct:Math.min(100,streak/52*100)},
+    ];
+  } else {
+    // Regular — โชว์สะสม
+    return[
+      {val:`${totalHours}h`,label:'HOURS',sub:'ทุ่มเทให้ตัวเอง',color:'#4EAEF5',pct:Math.min(100,totalHours/hoursTarget*100)},
+      {val:Number(Math.round(calories)).toLocaleString(),label:'KCAL',sub:'เผาผลาญสะสม',color:'#FF9500',pct:Math.min(100,calories/kcalTarget*100)},
+      {val:`${total}`,label:'CLASSES',sub:'ลงทุนกับตัวเอง',color:'#1BE3A0',pct:Math.min(100,total/classTarget*100)},
+    ];
+  }
+}
+
+function drawShareRing(val,label,sub,color,pct,size=110,stroke=9){
+  const r=(size-stroke)/2;
+  const cx=size/2,cy=size/2;
+  const totalAngle=270,startAngle=-225;
+  function polarToXY(a,rad){const r2=a*Math.PI/180;return{x:cx+rad*Math.cos(r2),y:cy+rad*Math.sin(r2)};}
+  function arc(s,e,rad){const p1=polarToXY(s,rad),p2=polarToXY(e,rad);const la=Math.abs(e-s)>180?1:0;return`M${p1.x.toFixed(1)},${p1.y.toFixed(1)} A${rad},${rad} 0 ${la},1 ${p2.x.toFixed(1)},${p2.y.toFixed(1)}`;}
+  const fillEnd=startAngle+totalAngle*(pct/100);
+  const bgPath=arc(startAngle,startAngle+totalAngle,r);
+  const fillPath=pct>0?arc(startAngle,fillEnd,r):'';
+  const gid='sg'+Math.random().toString(36).slice(2,5);
+  const isGold=pct>=100;
+  const ringColor=isGold?'#F5C842':color;
+
+  return `<div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+    <div style="position:relative;width:${size}px;height:${size}px">
+      <svg width="${size}" height="${size}" style="overflow:visible">
+        <defs>
+          <linearGradient id="${gid}" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="${ringColor}" stop-opacity="0.7"/>
+            <stop offset="100%" stop-color="${ringColor}"/>
+          </linearGradient>
+        </defs>
+        <path d="${bgPath}" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="${stroke}" stroke-linecap="round"/>
+        ${fillPath?`<path d="${fillPath}" fill="none" stroke="url(#${gid})" stroke-width="${stroke}" stroke-linecap="round" filter="drop-shadow(0 0 6px ${ringColor}88)"/>`:''}
+      </svg>
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding-bottom:8px">
+        <span style="font-family:'Barlow Semi Condensed',sans-serif;font-size:${val.length>5?18:22}px;font-weight:900;color:#fff;line-height:1;letter-spacing:-.02em;text-shadow:0 2px 8px rgba(0,0,0,0.6)">${val}</span>
+        <span style="font-family:'DM Sans',sans-serif;font-size:7px;font-weight:800;color:${ringColor};letter-spacing:.15em;text-transform:uppercase;text-shadow:0 1px 4px rgba(0,0,0,0.8)">${label}</span>
+      </div>
+    </div>
+    <span style="font-family:'DM Sans',sans-serif;font-size:9px;color:rgba(255,255,255,0.6);letter-spacing:.06em;text-align:center;text-shadow:0 1px 4px rgba(0,0,0,0.9)">${sub}</span>
+  </div>`;
+}
+
+let _shareStream=null;
+
+async function openShareCamera(){
+  const metrics=getShareMetrics(currentName);
+  if(!metrics) return;
+
+  // Render rings
+  document.getElementById('shareRingsSvg').innerHTML=
+    metrics.map(m=>drawShareRing(m.val,m.label,m.sub,m.color,m.pct)).join('');
+
+  // Show overlay
+  const overlay=document.getElementById('shareCameraOverlay');
+  overlay.style.display='flex';
+
+  // Start camera
+  try{
+    _shareStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:false});
+    document.getElementById('shareVideo').srcObject=_shareStream;
+  }catch(e){
+    // No camera — show dark bg fallback
+    document.getElementById('shareVideo').style.background='#111';
+  }
+}
+
+function closeShareCamera(){
+  document.getElementById('shareCameraOverlay').style.display='none';
+  if(_shareStream){_shareStream.getTracks().forEach(t=>t.stop());_shareStream=null;}
+}
+
+async function captureShare(){
+  const video=document.getElementById('shareVideo');
+  const overlay=document.getElementById('shareRingsOverlay');
+  const canvas=document.getElementById('shareCanvas');
+  const W=video.videoWidth||390,H=video.videoHeight||844;
+  canvas.width=W;canvas.height=H;
+  const ctx=canvas.getContext('2d');
+
+  // Draw video frame
+  ctx.drawImage(video,0,0,W,H);
+
+  // Dark vignette
+  const grad=ctx.createRadialGradient(W/2,H/2,H*0.2,W/2,H/2,H*0.7);
+  grad.addColorStop(0,'rgba(0,0,0,0)');
+  grad.addColorStop(1,'rgba(0,0,0,0.55)');
+  ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);
+
+  // Draw rings overlay as image
+  const svgEl=document.getElementById('shareRingsOverlay');
+  const svgData=new XMLSerializer().serializeToString(svgEl);
+  // Fallback: show download prompt with screenshot instruction
+  const dataUrl=canvas.toDataURL('image/png');
+  const a=document.createElement('a');
+  a.href=dataUrl;a.download=`pilar-stats-${currentName.replace(/\s/g,'-')}.png`;
+  a.click();
+
+  // Show hint
+  const hint=document.createElement('div');
+  hint.style.cssText='position:absolute;bottom:140px;left:0;right:0;text-align:center;font-family:DM Sans,sans-serif;font-size:11px;color:rgba(255,255,255,0.7);letter-spacing:.08em;animation:fadeIn 0.3s ease';
+  hint.textContent='บันทึกแล้ว! หรือ Screenshot หน้านี้เพื่อแชร์ได้เลย';
+  document.getElementById('shareCameraOverlay').appendChild(hint);
+  setTimeout(()=>hint.remove(),3000);
+}
+function calcStreak(name){
+  const all=allBookings.filter(b=>b.contact_name===name);
+  const weekSet=new Set();
+  all.forEach(s=>{
+    const d=new Date(s.event_date);
+    if(!isNaN(d)){
+      const startOfWeek=new Date(d);
+      startOfWeek.setDate(d.getDate()-d.getDay());
+      weekSet.add(startOfWeek.toDateString());
+    }
+  });
+  const weeks=[...weekSet].map(w=>new Date(w)).sort((a,b)=>b-a);
+  if(!weeks.length) return 0;
+  let streak=1;
+  for(let i=0;i<weeks.length-1;i++){
+    const diff=(weeks[i]-weeks[i+1])/(86400000*7);
+    if(Math.round(diff)===1) streak++;
+    else break;
+  }
+  // Check if current week has any sessions
+  const now=new Date();
+  const startOfThisWeek=new Date(now);
+  startOfThisWeek.setDate(now.getDate()-now.getDay());
+  startOfThisWeek.setHours(0,0,0,0);
+  const hasThisWeek=all.some(s=>{
+    const d=new Date(s.event_date);
+    return !isNaN(d)&&d>=startOfThisWeek;
+  });
+  if(!hasThisWeek&&weeks.length){
+    const lastWeekStart=new Date(startOfThisWeek);
+    lastWeekStart.setDate(lastWeekStart.getDate()-7);
+    const hadLastWeek=all.some(s=>{
+      const d=new Date(s.event_date);
+      return !isNaN(d)&&d>=lastWeekStart&&d<startOfThisWeek;
+    });
+    if(!hadLastWeek) return 0;
+  }
+  return streak;
+}
+
+/* ── This week session count ── */
+function thisWeekCount(name){
+  const now=new Date();
+  const startOfWeek=new Date(now);
+  startOfWeek.setDate(now.getDate()-now.getDay());
+  startOfWeek.setHours(0,0,0,0);
+  return allBookings.filter(b=>{
+    if(b.contact_name!==name) return false;
+    const d=new Date(b.event_date);
+    return !isNaN(d)&&d>=startOfWeek&&b.booking_status==='Booked';
+  }).length;
+}
+
+/* ── Personal best detection ── */
+function isPersonalBest(name,sessions,period){
+  if(!period||!sessions.length) return false;
+  const all=allBookings.filter(b=>b.contact_name===name&&b.booking_status==='Booked');
+  const current=sessions.length;
+  // Compare same window historically
+  const now=new Date();
+  const windows=[];
+  for(let w=1;w<=12;w++){
+    const end=new Date(now);end.setDate(end.getDate()-(w*period));
+    const start=new Date(end);start.setDate(start.getDate()-period);
+    const cnt=all.filter(s=>{const d=new Date(s.event_date);return !isNaN(d)&&d>=start&&d<=end;}).length;
+    if(cnt>0) windows.push(cnt);
+  }
+  if(!windows.length) return false;
+  return current>0&&current>=Math.max(...windows);
+}
+
+/* ── Open/close share modal ── */
+/* ── Core Recovery Window (muscle-aware) ── */
+function calcReadiness(name){
+  const all=allBookings.filter(b=>b.contact_name===name&&b.booking_status==='Booked');
+  if(!all.length) return{score:60,status:'READY',color:'#4CAF50',msg:'ยังไม่มีข้อมูล — มาคลาสแรกได้เลยนะคะ',rec:'คลาสเริ่มต้นสำหรับมือใหม่',risk:null};
+
+  const sorted=all.map(s=>({dt:new Date(s.event_date),name:s.event_name||''}))
+    .filter(s=>!isNaN(s.dt)).sort((a,b)=>b.dt-a.dt);
+
+  const now=new Date();
+  const last=sorted[0];
+  const hoursSince=Math.floor((now-last.dt)/3600000);
+  const daysSince=Math.floor(hoursSince/24);
+  const lastGroups=getMuscleGroups(last.name);
+  const lastWeight=getStrainWeight(last.name);
+
+  // Week load
+  const weekAgo=new Date(now);weekAgo.setDate(now.getDate()-7);
+  const weekSess=sorted.filter(s=>s.dt>=weekAgo).length;
+  const weekStrain=sorted.filter(s=>s.dt>=weekAgo).reduce((a,s)=>a+getStrainWeight(s.name),0);
+
+  // Base recovery
+  const requiredHours=lastWeight>=3.4?48:lastWeight>=2.8?36:24;
+  const baseRecovery=Math.min(100,(hoursSince/requiredHours)*100);
+
+  // Week load penalty — ยิ่งมาหนัก score ลดลง
+  const weekLoadPenalty=Math.min(30,Math.round((weekStrain/15)*25));
+  const score=Math.max(35,Math.round(baseRecovery-weekLoadPenalty));
+
+  const deconRisk=hoursSince>168; // 7+ days
+
+  let status,color,msg,rec,risk=null;
+
+  if(deconRisk){
+    status='หยุดมานาน';color='#FF9500';
+    msg=`หยุดมา ${daysSince} วันแล้วนะคะ กล้ามเนื้อเริ่มเคยชินกับการพักแล้ว`;
+    rec='แนะนำเริ่มด้วย Barre หรือ Basic Core ก่อนเลยค่ะ';
+    risk='decon';
+  } else if(score<45){
+    status='พักก่อนนะคะ';color='#FF453A';
+    msg=`มาหนักสัปดาห์นี้ ${weekSess} คลาสแล้ว ร่างกายต้องการพักค่ะ`;
+    rec='วันนี้แนะนำ Yoga หรือ Harmony Hour ค่ะ';
+    risk='overstrain';
+  } else if(score<70){
+    status='ไปได้เลยค่ะ';color='#FF9500';
+    msg=`พักมา ${hoursSince<24?`${hoursSince} ชั่วโมง`:`${daysSince} วัน`} แล้ว ร่างกายพร้อมระดับนึงค่ะ`;
+    rec='แนะนำ Reformer หรือ Flow class วันนี้ค่ะ';
+    risk='moderate';
+  } else if(score<85){
+    status='ไปได้เลยค่ะ';color='#1BE3A0';
+    msg=`พักมา ${daysSince>0?`${daysSince} วัน`:`${hoursSince} ชั่วโมง`} ร่างกายฟื้นตัวดีแล้วค่ะ`;
+    rec=weekStrain<8?'ลอง Cardio Barre หรือ Glutes & Legs วันนี้ได้เลยค่ะ':'Reformer หรือ Private Session เหมาะมากค่ะ';
+    risk=null;
+  } else {
+    status='พร้อมมากค่ะ';color='#1BE3A0';
+    msg=`พักมา ${daysSince>0?`${daysSince} วัน`:`${hoursSince} ชั่วโมง`} ร่างกายพร้อมเต็มที่เลยค่ะ`;
+    rec=weekStrain<8?'ลอง class ที่หนักขึ้นได้เลยนะคะ เช่น Jumpboard หรือ Cardio Barre':'Reformer หรือ Barre เหมาะมากค่ะ';
+    risk=null;
+  }
+
+  return{score,status,color,msg,rec,risk,hoursSince,weekSess,weekStrain,lastGroups};
+}
+
+/* ── Personal Title ── */
+function getTitle(name,stats){
+  const{favClass,avgPerWeek,tc,total,peakTime}=stats;
+  const streak=calcStreak(name);
+
+  // Class-based base — understated, no superlatives
+  const classTitles={
+    Reformer: total>=50?'Reformer, Always':total>=20?'The Reformer Regular':'New to Reformer',
+    Private:  avgPerWeek>=3?'Private, Every Week':'The Private Session Type',
+    Barre:    total>=30?'Barre, Consistently':total>=15?'The Barre Regular':'Discovering Barre',
+    Yoga:     'Quiet & Grounded',
+    Pilates:  total>=30?'Pilates, Long Term':'Building the Foundation',
+  };
+  const classTitle=classTitles[favClass]||'Here for It';
+
+  // Behavior layer — quiet luxury tone
+  const timeBehavior={
+    Morning:'Mornings First',
+    Midday: 'Midday Reset',
+    Evening:'Evening Practice',
+  };
+  const behavior=timeBehavior[peakTime]||'';
+
+  // Streak layer — only if notable
+  const streakNote=streak>=12?'Rarely Missed':streak>=8?'Quietly Consistent':streak>=4?'Building Momentum':'';
+
+  return[classTitle,behavior,streakNote].filter(Boolean).join(' · ');
+}
+
+/* ── Week comparison ── */
+function getWeekComp(name, period='thisWeek'){
+  const all=allBookings.filter(b=>b.contact_name===name&&b.booking_status==='Booked');
+  const now=new Date();
+  let curStart,curEnd,prevStart,prevEnd;
+
+  if(period==='thisWeek'){
+    const dow=(now.getDay()+6)%7;
+    curStart=new Date(now);curStart.setDate(now.getDate()-dow);curStart.setHours(0,0,0,0);
+    curEnd=new Date(now);
+    prevEnd=new Date(curStart);
+    prevStart=new Date(curStart);prevStart.setDate(curStart.getDate()-7);
+  } else if(period==='lastWeek'){
+    const dow=(now.getDay()+6)%7;
+    const thisMonday=new Date(now);thisMonday.setDate(now.getDate()-dow);thisMonday.setHours(0,0,0,0);
+    curStart=new Date(thisMonday);curStart.setDate(thisMonday.getDate()-7);
+    curEnd=new Date(thisMonday);curEnd.setMilliseconds(-1);
+    prevStart=new Date(curStart);prevStart.setDate(curStart.getDate()-7);
+    prevEnd=new Date(curStart);prevEnd.setMilliseconds(-1);
+  } else if(period===30){
+    curEnd=new Date(now);
+    curStart=new Date(now);curStart.setDate(now.getDate()-30);curStart.setHours(0,0,0,0);
+    prevEnd=new Date(curStart);
+    prevStart=new Date(curStart);prevStart.setDate(curStart.getDate()-30);
+  } else {
+    return{thisW:0,lastW:0,diff:0};
+  }
+
+  const thisW=all.filter(s=>{const d=new Date(s.event_date);return d>=curStart&&d<=curEnd;}).length;
+  const lastW=all.filter(s=>{const d=new Date(s.event_date);return d>=prevStart&&d<=prevEnd;}).length;
+  return{thisW,lastW,diff:thisW-lastW};
+}
+
+/* ── Milestone ── */
+function checkMilestone(name,total,streak){
+  const key=`ms_${name}_${total}_${streak}`;
+  if(sessionStorage.getItem(key)) return;
+  const classMilestones=[10,25,50,100,150,200];
+  const streakMilestones=[4,8,12,24,52];
+  let milestone=null;
+  if(classMilestones.includes(total)) milestone={type:'class',val:total};
+  else if(streakMilestones.includes(streak)) milestone={type:'streak',val:streak};
+  if(!milestone) return;
+  sessionStorage.setItem(key,'1');
+  const isClass=milestone.type==='class';
+  const color=isClass?'#C8963A':'#3D8FD4';
+  document.getElementById('msEmoji').textContent=isClass?'🏆':'🔥';
+  document.getElementById('msGlow').style.background=`radial-gradient(circle,${color}40,transparent 70%)`;
+  document.getElementById('msVal').textContent=milestone.val+(isClass?'':' wks');
+  document.getElementById('msVal').style.color=color;
+  document.getElementById('msLabel').textContent=isClass?`Classes Completed!`:`Week Streak!`;
+  document.getElementById('msName').textContent=name+' — '+new Date().toLocaleDateString('th-TH',{day:'numeric',month:'long'});
+  setTimeout(()=>document.getElementById('msOverlay').classList.add('open'),600);
+}
+
+/* ── Period selector ── */
+function getPeriodDateLabel(period){
+  const now=new Date();
+  const fmt=(d)=>d.toLocaleDateString('th-TH',{day:'numeric',month:'short'});
+  const dayTh=['อา.','จ.','อ.','พ.','พฤ.','ศ.','ส.'];
+  const dow=(now.getDay()+6)%7; // Mon=0
+  if(period==='thisWeek'){
+    const start=new Date(now);start.setDate(now.getDate()-dow);start.setHours(0,0,0,0);
+    return `${dayTh[start.getDay()]} ${fmt(start)} – ${dayTh[now.getDay()]} ${fmt(now)}`;
+  }
+  if(period==='lastWeek'){
+    const end=new Date(now);end.setDate(now.getDate()-dow-1);end.setHours(23,59,59,0); // last Sunday
+    const start=new Date(end);start.setDate(end.getDate()-6);start.setHours(0,0,0,0); // last Monday
+    return `${dayTh[start.getDay()]} ${fmt(start)} – ${dayTh[end.getDay()]} ${fmt(end)}`;
+  }
+  if(period===30){
+    const start=new Date(now);start.setDate(now.getDate()-30);
+    return `${fmt(start)} – ${fmt(now)}`;
+  }
+  return '';
+}
+
+function setPeriod(days,btn){
+  currentPeriod=days;
+  document.querySelectorAll('.w-period-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const dateEl=document.getElementById('periodDateRange');
+  if(dateEl) dateEl.textContent=getPeriodDateLabel(days);
+  try{
+    const sessions=allBookings.filter(b=>b.contact_name===currentName);
+    const filtered=filterByPeriod(sessions,days);
+    renderDash(currentName,filtered);
+  }catch(e){
+    document.getElementById('ringsRow').innerHTML='<div style="color:#9B3D3D;padding:24px;font-size:13px">'+e.message+'</div>';
+  }
+}
+
+/* ── Navigation ── */
+function showScr(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+/* ── Config ── */
+const LIFF_ID='2010200951-cZ3mSQJL';
+const API_URL='https://script.google.com/macros/s/AKfycby_CXGWfIAgbbboztalwasdxG6cmklk_RnLzRAaZkGSbQq7bWNiZYTY-M7wTyDTh8OS/exec';
+const STAFF_EMAILS=['pilar.pilartess@gmail.com']; // เพิ่ม email staff ที่นี่
+
+let currentLineId='',currentUserEmail='';
+
+/* ── LIFF Init ── */
+async function initLiff(){
+  try{
+    // Check if running inside LINE app first (before init)
+    const ua=navigator.userAgent||'';
+    const isLineApp=ua.includes('Line/');
+
+    if(!isLineApp){
+      // Browser / dev mode — skip LIFF entirely
+      showEmailScreen();
+      return;
+    }
+
+    // Inside LINE app — init LIFF
+    await liff.init({liffId:LIFF_ID});
+    if(!liff.isLoggedIn()){
+      liff.login();
+      return;
+    }
+    const profile=await liff.getProfile();
+    currentLineId=profile.userId;
+
+    const saved=localStorage.getItem('pilar_email_'+currentLineId);
+    if(saved){
+      await loadByEmail(saved,currentLineId);
+    } else {
+      showEmailScreen();
+    }
+  }catch(err){
+    console.error('LIFF init error:',err);
+    showEmailScreen();
+  }
+}
+
+function showEmailScreen(){
+  document.getElementById('liffLoading').style.display='none';
+  document.getElementById('emailScreen').style.display='block';
+}
+
+/* ── Email submit ── */
+async function submitEmail(){
+  const email=document.getElementById('emailInput').value.toLowerCase().trim();
+  const errEl=document.getElementById('emailError');
+  errEl.style.display='none';
+
+  if(!email||!email.includes('@')){
+    errEl.textContent='กรุณาใส่อีเมลให้ถูกต้องครับ';
+    errEl.style.display='block';
+    return;
+  }
+
+  const btn=document.querySelector('#emailScreen button');
+  btn.textContent='กำลังค้นหา...';
+  btn.disabled=true;
+
+  try{
+    // Check email exists
+    const res=await fetch(`${API_URL}?action=checkEmail&email=${encodeURIComponent(email)}`);
+    const data=await res.json();
+
+    if(!data.found){
+      errEl.textContent='ไม่พบอีเมลนี้ในระบบ กรุณาติดต่อ Pilar Studio ครับ';
+      errEl.style.display='block';
+      btn.textContent='ดูรายงานของฉัน';
+      btn.disabled=false;
+      return;
+    }
+
+    // Save mapping
+    if(currentLineId) localStorage.setItem('pilar_email_'+currentLineId,email);
+    await loadByEmail(email,currentLineId);
+  }catch(err){
+    errEl.textContent='เกิดข้อผิดพลาด กรุณาลองใหม่ครับ';
+    errEl.style.display='block';
+    btn.textContent='ดูรายงานของฉัน';
+    btn.disabled=false;
+  }
+}
+
+/* ── Load bookings by email ── */
+async function loadByEmail(email,lineId){
+  currentUserEmail=email;
+  document.getElementById('liffLoading').style.display='flex';
+  document.getElementById('liffLoading').style.justifyContent='center';
+  document.getElementById('emailScreen').style.display='none';
+
+  try{
+    const res=await fetch(`${API_URL}?action=getBookings&email=${encodeURIComponent(email)}&lineId=${encodeURIComponent(lineId)}`);
+    const data=await res.json();
+
+    if(!data.bookings||!data.bookings.length){
+      document.getElementById('liffLoading').innerHTML=`
+        <div style="text-align:center;padding:40px 0">
+          <div style="font-size:32px;margin-bottom:12px">🌱</div>
+          <div style="color:#fff;font-size:15px;font-weight:700;margin-bottom:8px">ยังไม่มีข้อมูล</div>
+          <div style="color:rgba(255,255,255,0.4);font-size:12px">ยังไม่มี booking ในระบบสำหรับอีเมลนี้</div>
+          <button onclick="localStorage.removeItem('pilar_email_${lineId}');showEmailScreen()"
+            style="margin-top:20px;background:rgba(255,255,255,0.1);border:none;border-radius:8px;padding:10px 20px;color:#fff;font-size:13px;cursor:pointer">
+            ใช้อีเมลอื่น
+          </button>
+        </div>`;
+      return;
+    }
+
+    allBookings=data.bookings;
+
+    // Staff check — show member list
+    if(STAFF_EMAILS.includes(email)){
+      allCustomers=[...new Set(allBookings.map(b=>b.contact_name).filter(Boolean))].sort();
+      document.getElementById('liffLoading').style.display='none';
+      document.getElementById('memberListScreen').style.display='block';
+      document.getElementById('cCount').textContent=`${allCustomers.length} คนในระบบ`;
+      renderCList(allCustomers);
+      return;
+    }
+
+    // Member — go directly to their dashboard
+    const name=allBookings[0].contact_name;
+    selC(name);
+
+  }catch(err){
+    document.getElementById('liffLoading').innerHTML=`
+      <div style="text-align:center;padding:40px 0">
+        <div style="font-size:32px;margin-bottom:12px">⚠️</div>
+        <div style="color:#FF453A;font-size:13px">เกิดข้อผิดพลาด กรุณาลองใหม่</div>
+        <button onclick="location.reload()"
+          style="margin-top:16px;background:rgba(255,255,255,0.1);border:none;border-radius:8px;padding:10px 20px;color:#fff;font-size:13px;cursor:pointer">
+          ลองใหม่
+        </button>
+      </div>`;
+  }
+}
+
+/* ── File upload (fallback) ── */
+function handleFile(e){
+  const file=e.target.files[0];
+  if(!file) return;
+  Papa.parse(file,{
+    header:true,skipEmptyLines:true,
+    complete({data}){
+      allBookings=data;
+      allCustomers=[...new Set(allBookings.map(b=>b.contact_name).filter(Boolean))].sort();
+      document.getElementById('cCount').textContent=`${allCustomers.length} คนในระบบ`;
+      renderCList(allCustomers);
+      document.getElementById('liffLoading').style.display='none';
+      document.getElementById('memberListScreen').style.display='block';
+    }
+  });
+}
+
+/* ── Customer list ── */
+function renderCList(list){
+  const el=document.getElementById('cList');
+  if(!list.length){el.innerHTML='<div class="no-res">ไม่พบชื่อนี้</div>';return;}
+  el.innerHTML=list.map(c=>{
+    const cnt=allBookings.filter(b=>b.contact_name===c).length;
+    return `<button class="citem" onclick="selC('${c.replace(/'/g,"\\'")}')">
+      <span>${c}</span>
+      <span class="cbadge">${cnt} sessions</span>
+    </button>`;
+  }).join('');
+}
+function filterC(){
+  const q=document.getElementById('sInput').value.toLowerCase();
+  renderCList(allCustomers.filter(c=>c.toLowerCase().includes(q)));
+}
+function selC(name){
+  currentName=name;
+  currentPeriod=0;
+  document.querySelectorAll('.w-period-btn').forEach((b,i)=>{b.classList.toggle('active',i===3);});
+  const dateEl=document.getElementById('periodDateRange');
+  if(dateEl) dateEl.textContent=getPeriodDateLabel(0);
+  showScr('sd');
+  document.getElementById('sd').scrollTop=0;
+  try{
+    const sessions=allBookings.filter(b=>b.contact_name===name);
+    const filtered=filterByPeriod(sessions,7);
+    renderDash(name,filtered);
+  }catch(e){
+    document.getElementById('ringsRow').innerHTML='<div style="color:#9B3D3D;padding:24px;text-align:center;font-size:13px">เกิดข้อผิดพลาด: '+e.message+'</div>';
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ── Init on load ── */
+window.addEventListener('load',()=>{
+  showScr('ss');
+  initLiff();
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
